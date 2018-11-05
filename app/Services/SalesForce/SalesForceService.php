@@ -1,9 +1,10 @@
-<?php 
-namespace App\Services;
+<?php
+
+namespace App\Services\SalesForce;
 
 use App\Exceptions\SalesforceException;
 
-class Salesforce { 
+class SalesForceService {
     var $client_id;
     var $client_secret;
     var $redirect_uri;

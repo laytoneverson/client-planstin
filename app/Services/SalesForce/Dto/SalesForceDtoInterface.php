@@ -6,8 +6,7 @@
  * YourWeb Solutions
  */
 
-namespace App\Dto;
-
+namespace App\Services\SalesForce\Dto;
 
 interface SalesForceDtoInterface
 {
