@@ -1,5 +1,8 @@
 <?php
 
+use App\Providers\SalesForceServiceProvider;
+use App\Services\SalesForce\ApiCall\AddClientApiCall;
+
 return [
 
     'salesforce' => [
@@ -11,6 +14,10 @@ return [
             'production' => 'https://login.salesforce.com',
             'sandbox'    => 'https://test.salesforce.com',
         ],
+        'version_endpoint_uri' => '/services/data/v43.0',
+        'api_calls' => [
+            AddClientApiCall::class
+        ]
     ],
 
     /*
@@ -24,7 +31,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Planstin'),
 
     /*
     |--------------------------------------------------------------------------
@@ -171,7 +178,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
-
+        SalesForceServiceProvider::class,
     ],
 
     /*
