@@ -17,8 +17,11 @@ class Controller extends LaravelController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     public $template;
+
     public $request;
+
     public $route;
+
     public $includes = [
         'head' => 'includes.head',
         'header' => 'includes.header',
@@ -26,6 +29,7 @@ class Controller extends LaravelController
         'sidebar' => 'includes.sidebar',
         'body' => 'includes.body',
     ];
+
     public function __construct($mvc){
         $this->mvc = $mvc;
         $this->request = $mvc->request;
@@ -94,9 +98,11 @@ class Controller extends LaravelController
             'controller' => $this,
         ];
     }
+
     public function view($path, $args = []){
         return view($path, $this->makeView($args));
     }
+
     public function makeView($args = []){
         return array_merge( (array) $this->view, $args);
     }

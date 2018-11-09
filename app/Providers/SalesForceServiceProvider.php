@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\SalesForce\ApiConnection\SalesForceRestApiConnection;
 use App\Services\SalesForce\SalesForceApiParameters;
 use App\Services\SalesForce\SalesForceService;
 use Illuminate\Support\ServiceProvider;
@@ -27,11 +28,19 @@ class SalesForceServiceProvider extends ServiceProvider
     {
         $this->registerApiParameters();
 
-        //Register the API service
+        //Allows us to register services for different API i.e. REST vs SOAP
+        $this->registerApiConnections();
+
+        //Register the API service (This is nearly depreciated)
         $this->app->singleton(SalesForceService::class);
 
         //Register the calls (Must extend AbstractSalesForceApiCall)
         $this->registerApiCalls();
+    }
+
+    public function registerApiConnections()
+    {
+        $this->app->bind(SalesForceRestApiConnection::class);
     }
 
     private function registerApiParameters()
@@ -42,7 +51,8 @@ class SalesForceServiceProvider extends ServiceProvider
 
             function ($app) {
 
-                $env = config('app.salesforce.env');
+                $env = config('app.env');
+
                 $sfApiParams = new SalesForceApiParameters();
 
                 $sfApiParams
@@ -56,7 +66,10 @@ class SalesForceServiceProvider extends ServiceProvider
                         config('app.salesforce.redirect_uri')
                     )
                     ->setAuthEndpoint(
-                        config("app.salesforce.endpoints.{$env}")
+                        config("app.salesforce.authentication_endpoints.{$env}")
+                    )
+                    ->setApiEndpoint(
+                        config("app.salesforce.api_endpoints.{$env}")
                     )
                     ->setVersion(
                         config('app.salesforce.version_endpoint_uri')

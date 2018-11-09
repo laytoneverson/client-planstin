@@ -6,15 +6,22 @@ use App\Services\SalesForce\ApiCall\AddClientApiCall;
 return [
 
     'salesforce' => [
-        'env' => env('SF_ENV', 'sandbox'), //sandbox
         'client_id' => env('SF_CLIENT_ID', '3MVG9dKFWsESbpkFwS8hOIy6D6EZJOtQj3Txvkh_p7hA.UpOZc5V_jHbRGq0JPQXQsX0Zo6_mNQWNhir2EQAs'),
         'client_secret' => env('SF_CLIENT_SECRET', '3365720014145597268'),
-        'redirect_uri' => env('SF_REDIRECT_URI', 'https://planstin.test/oauth2/success'),
-        'endpoints' => [
+        'redirect_uri' => env('SF_REDIRECT_URI', '/oauth2/success'),
+        'authentication_endpoints' => [
             'production' => 'https://login.salesforce.com',
-            'sandbox'    => 'https://test.salesforce.com',
+            'local' => 'https://test.salesforce.com',
+            'staging' => 'https://test.salesforce.com',
+            'dev' => 'https://test.salesforce.com',
         ],
-        'version_endpoint_uri' => '/services/data/v43.0',
+        'api_endpoints' => [
+            'production' => '',
+            'local' => 'https://planstin--portal1.my.salesforce.com',
+            'staging' => 'https://planstin--portal1.my.salesforce.com',
+            'dev' => 'https://planstin--portal1.my.salesforce.com',
+        ],
+        'version_endpoint_uri' => 'v44.0',
         'api_calls' => [
             AddClientApiCall::class
         ]
@@ -70,7 +77,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'http://planstin.localhost'),
 
     /*
     |--------------------------------------------------------------------------

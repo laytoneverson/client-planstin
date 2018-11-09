@@ -35,9 +35,11 @@ class RegisterController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($mvc)
     {
         $this->middleware('guest');
+
+        parent::__construct($mvc);
     }
 
     /**
