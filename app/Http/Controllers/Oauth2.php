@@ -4,15 +4,18 @@ namespace App\Http\Controllers;
 use App\Services\Salesforce;
 
 class Oauth2 extends Controller {
+
     public function initialize(){
         
     }
+
     public function request(){
         $salesforce = new Salesforce;
 
         header('Location: ' . $salesforce->getAuthUrl());
         die();
     }
+
     public function success(){
         if(!$this->request->has('code')){
            return $this->error('No Code Parameter');

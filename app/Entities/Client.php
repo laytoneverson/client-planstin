@@ -9,7 +9,7 @@
 namespace App\Entities;
 
 
-class GroupClient
+class Client
 {
     /**
      * @var Business
@@ -24,7 +24,10 @@ class GroupClient
 
     protected $groupNumber;
 
-    protected $employees;
+    /**
+     * @var Member[]
+     */
+    protected $members;
 
     protected $affiliateAssigned;
 

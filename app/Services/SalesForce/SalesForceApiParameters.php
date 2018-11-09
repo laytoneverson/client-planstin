@@ -11,6 +11,8 @@ namespace App\Services\SalesForce;
 
 class SalesForceApiParameters
 {
+    protected const REST_API_BASE_URI = 'services/data';
+
     /**
      * @var string
      */
@@ -30,6 +32,11 @@ class SalesForceApiParameters
      * @var string
      */
     protected $authEndpoint;
+
+    /**
+     * @var string
+     */
+    protected $apiEndpoint;
 
     /**
      * @var string
@@ -60,6 +67,23 @@ class SalesForceApiParameters
      * @var bool
      */
     protected $debug = false;
+
+    /**
+     * Returns a url to build an endpoint from. i.e. https://salesforceinstance/services/data/vX.XX
+     *
+     * @return string
+     */
+    public function getRestApiBaseUrl(): string
+    {
+        $format = '/%s/%s/%s';
+
+        return \sprintf(
+            $format,
+            $this->getApiEndpoint(),
+            self::REST_API_BASE_URI,
+            $this->getVersion()
+            );
+    }
 
     /**
      * @return string
@@ -247,6 +271,25 @@ class SalesForceApiParameters
     public function setDebug(bool $debug): SalesForceApiParameters
     {
         $this->debug = $debug;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getApiEndpoint()
+    {
+        return $this->apiEndpoint;
+    }
+
+    /**
+     * @param mixed $apiEndpoint
+     * @return SalesForceApiParameters
+     */
+    public function setApiEndpoint($apiEndpoint): self
+    {
+        $this->apiEndpoint = $apiEndpoint;
 
         return $this;
     }

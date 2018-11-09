@@ -36,6 +36,7 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
     public function forgot_pass(){
         return $this->view('login.recovery-code');
     }

@@ -1,6 +1,6 @@
 <?php
 /**
- * File: Employee.php
+ * File: Memberhp
  * planstin
  * Author: Layton Everson <layton.everson@gmail.com>
  * YourWeb Solutions
@@ -9,7 +9,7 @@
 namespace App\Entities;
 
 
-class Employee
+class Member
 {
     /**
      * @var Contact
@@ -19,7 +19,7 @@ class Employee
     /**
      * @var string
      */
-    protected $employeeRoll;
+    protected $memberRoll;
 
     /**
      * @return Contact
@@ -31,9 +31,9 @@ class Employee
 
     /**
      * @param Contact $contact
-     * @return Employee
+     * @return Member
      */
-    public function setContact(Contact $contact): Employee
+    public function setContact(Contact $contact): Member
     {
         $this->contact = $contact;
 
@@ -43,18 +43,18 @@ class Employee
     /**
      * @return string
      */
-    public function getEmployeeRoll(): string
+    public function getMemberRoll(): string
     {
-        return $this->employeeRoll;
+        return $this->memberRoll;
     }
 
     /**
-     * @param string $employeeRoll
-     * @return Employee
+     * @param string $memberRoll
+     * @return Member
      */
-    public function setEmployeeRoll(string $employeeRoll): Employee
+    public function setMemberRoll(string $memberRoll): Member
     {
-        $this->employeeRoll = $employeeRoll;
+        $this->memberRoll = $memberRoll;
 
         return $this;
     }
