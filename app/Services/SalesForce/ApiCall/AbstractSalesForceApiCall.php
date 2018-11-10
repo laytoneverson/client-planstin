@@ -1,15 +1,27 @@
 <?php
 
+use App\Services\SalesForce\ApiConnection\SalesForceApiConnectionInterface;
 use App\Services\SalesForce\Dto\SalesForceDtoInterface;
 use App\Services\SalesForce\SalesForceApiParameters;
 use App\Services\SalesForce\SalesForceService;
 
+/**
+ * Allows the application to interact with a SaleForce api via this single class. When this class is extended
+ * a SalesForceApiConnectionInterface is type hinted to the class and inject by the service manager.
+ *
+ * Class AbstractSalesForceApiCall
+ */
 abstract class AbstractSalesForceApiCall
 {
+    public const HTTP_METHOD_GET = 'GET';
+    public const HTTP_METHOD_POST = 'POST';
+    public const HTTP_METHOD_PUT = 'PUT';
+    public const HTTP_METHOD_DELETE = 'DELETE';
+
     /**
-     * @var SalesForceService
+     * @var SalesForceApiConnectionInterface
      */
-    protected $salesForce;
+    protected $salesForceApi;
 
     /**
      * @var SalesForceApiParameters
@@ -27,32 +39,28 @@ abstract class AbstractSalesForceApiCall
      * @param SalesForceApiParameters $apiConfig
      * @param SalesForceService $salesForce
      */
-    public function __construct(SalesForceApiParameters $apiConfig, SalesForceService $salesForce)
+    public function __construct(SalesForceApiParameters $apiConfig, SalesForceApiConnectionInterface $salesForceApi)
     {
         $this->apiConfig = $apiConfig;
-        $this->salesForce = $salesForce;
+        $this->salesForceApi = $salesForceApi;
+    }
+
+    public function setData(SalesForceDtoInterface $dto): self
+    {
+        $this->data = $dto;
+
+        return $this;
     }
 
     /**
-     * @return SalesForceService
+     * This function should prepare the request for the applicable api connection (REST, soap, etc) and call
+     * the SalesForceApiConnectionInterface::executeApiCall(AbstractSalesForceApiCall $call) function, passing
+     * itself as a parameter. Extend this function to manipulate data before sending it to the connection class.
      */
-    public function getSalesForce(): SalesForceService
+    public function execute(): void
     {
-        return $this->salesForce;
-    }
-
-    public function setData(SalesForceDtoInterface $dto)
-    {
-        $this->data = $dto;
-    }
-
-    public function execute()
-    {
-        /* TODO:
-         *   1. Take a DTO, grab the data from it
-         *   2. Format it from the request
-         *   3. Send it through to the SalesForce
-         */
+        $result = $this->salesForceApi->executeApiCall($this);
+        $this->data->fromSfObject($result);
     }
 
     /**
@@ -60,14 +68,14 @@ abstract class AbstractSalesForceApiCall
      *
      * @return string
      */
-    abstract protected function getHttpMethod(): string;
+    abstract public function getHttpMethod(): string;
 
     /**
      * Returns the API calls URI
      *
      * @return string
      */
-    abstract protected function getCallUri(): string;
+    abstract public function getCallUri(): string;
 
     /**
      * Returns the DTO FQN to verify that the correct DTO has

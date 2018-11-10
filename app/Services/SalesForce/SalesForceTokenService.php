@@ -8,25 +8,45 @@
 
 namespace App\Services\SalesForce;
 
+use App\Services\SalesForce\ApiCall\RequestAccessToken;
+use App\Services\SalesForce\Dto\RequestAccessTokenDto;
+
 class SalesForceTokenService
 {
+    public const AUTH_URI = '/services/oauth2/authorize';
+    public const TOKEN_URI = '/services/oauth2/token';
+    public const REVOKE_URI = '/services/oauth2/revoke';
+
     /**
      * @var SalesForceApiParameters
      */
     protected $apiParams;
 
+    /**
+     * @var RequestAccessToken
+     */
+    protected $requestAccessTokenApiCall;
 
-    public function __construct(SalesForceApiParameters $apiParams)
-    {
+    public function __construct(
+        SalesForceApiParameters $apiParams,
+        RequestAccessToken $requestAccessToken
+    ) {
         $this->apiParams = $apiParams;
+        $this->requestAccessTokenApiCall = $requestAccessToken;
     }
 
+    /**
+     * Returns a URL the user is sent to to gain an authorization code which will be used
+     * to generate an access token.
+     *
+     * @return string
+     */
     public function getAuthUrl()
     {
         $format = '%s?response_type=code&client_id=%s&redirect_uri=%s&state=mystate';
 
         return \sprintf($format,
-            $this->apiParams->getAuthEndpoint() . '/services/oauth2/authorize',
+            $this->apiParams->getAuthEndpoint() . self::AUTH_URI,
             $this->apiParams->getClientId(),
             $this->apiParams->getRedirectUri()
         );
@@ -49,23 +69,12 @@ class SalesForceTokenService
 
     }
 
-    public function requestAccessToken($code){
-        /**
-         *  POST /services/oauth2/token HTTP/1.1
-         *   Host: login.salesforce.com
-         *   grant_type=authorization_code
-         *   &code=aPrxsmIEeqM9PiQroGEWx1UiMQd95_5JUZVEhsOFhS8EVvbfYBBJli2W5fn3zbo.8hojaNW_1g%3D%3D
-         *   &client_id=3MVG9lKcPoNINVBIPJjdw1J9LLM82HnFVVX19KY1uA5mu0QqEWhqKpoW3svG3XHrXDiCQjK1mdgAvhCscA9GE
-         *   &client_secret=1955279925675241571&
-         *   redirect_uri=https%3A%2F%2Fwww.mysite.com%2Fcode_callback.jsp
-         */
+    public function requestAccessToken($authorizationCode){
 
-        $post = [
-            'grant_type' => 'authorization_code',
-            'code' => $code,
-            'redirect_uri' => $this->redirect_uri,
-        ];
+        $dto = new RequestAccessTokenDto($authorizationCode,'');
 
-        return $this->call('post', 'client', "{$this->auth_endpoint}/services/oauth2/token", $post);
+        $result = $this->requestAccessTokenApiCall
+            ->setData($dto)
+            ->execute();
     }
 }
