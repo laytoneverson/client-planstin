@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Services\SalesForce\ApiCall;
+
 use App\Services\SalesForce\ApiConnection\SalesForceApiConnectionInterface;
 use App\Services\SalesForce\Dto\SalesForceDtoInterface;
 use App\Services\SalesForce\SalesForceApiParameters;

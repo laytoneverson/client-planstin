@@ -2,6 +2,12 @@
 
 namespace App\Services;
 
+/**
+ * Class HttpService
+ *
+ * @deprecated (use guzzle PSR-compliant http client)
+ * @package App\Services
+ */
 class HttpService {
 
 	public static function GET($url, $data = [], $params = []){

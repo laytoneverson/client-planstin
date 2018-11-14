@@ -9,16 +9,14 @@
 namespace App\Services\SalesForce\ApiCall;
 
 
-use AbstractSalesForceApiCall;
-
 class AddClientApiCall extends AbstractSalesForceApiCall
 {
-    protected function getHttpMethod(): string
+    public function getHttpMethod(): string
     {
         // TODO: Implement getHttpMethod() method.
     }
 
-    protected function getCallUri(): string
+    public function getCallUri(): string
     {
         // TODO: Implement getCallUri() method.
     }
