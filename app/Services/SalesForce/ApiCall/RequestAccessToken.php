@@ -11,6 +11,11 @@ use App\Services\SalesForce\SalesForceTokenService;
  * YourWeb Solutions
  */
 
+namespace App\Services\SalesForce\ApiCall;
+
+use App\Services\SalesForce\Dto\RequestAccessTokenDto;
+use App\Services\SalesForce\SalesForceTokenService;
+
 class RequestAccessToken extends AbstractSalesForceApiCall
 {
     public function getHttpMethod(): string

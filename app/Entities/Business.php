@@ -38,6 +38,16 @@ class Business
     protected $physicalAddress;
 
     /**
+     * @var Contact
+     */
+    protected $primaryContact;
+
+    /**
+     * @var Contact
+     */
+    protected $billingContact;
+
+    /**
      * @return mixed
      */
     public function getName()
@@ -49,7 +59,7 @@ class Business
      * @param mixed $name
      * @return Business
      */
-    public function setName($name)
+    public function setName($name): ?Business
     {
         $this->name = $name;
 
@@ -68,7 +78,7 @@ class Business
      * @param mixed $dba
      * @return Business
      */
-    public function setDba($dba)
+    public function setDba($dba): ?Business
     {
         $this->dba = $dba;
 
@@ -87,7 +97,7 @@ class Business
      * @param mixed $website
      * @return Business
      */
-    public function setWebsite($website)
+    public function setWebsite($website): ?Business
     {
         $this->website = $website;
 
@@ -106,7 +116,7 @@ class Business
      * @param mixed $phone
      * @return Business
      */
-    public function setPhone($phone)
+    public function setPhone($phone): ?Business
     {
         $this->phone = $phone;
 
@@ -125,7 +135,7 @@ class Business
      * @param mixed $taxId
      * @return Business
      */
-    public function setTaxId($taxId)
+    public function setTaxId($taxId): ?Business
     {
         $this->taxId = $taxId;
 
@@ -135,7 +145,7 @@ class Business
     /**
      * @return Address
      */
-    public function getMailingAddress(): Address
+    public function getMailingAddress(): ?Address
     {
         return $this->mailingAddress;
     }
@@ -144,7 +154,7 @@ class Business
      * @param Address $mailingAddress
      * @return Business
      */
-    public function setMailingAddress(Address $mailingAddress): Business
+    public function setMailingAddress(Address $mailingAddress):? Business
     {
         $this->mailingAddress = $mailingAddress;
 
@@ -154,7 +164,7 @@ class Business
     /**
      * @return Address
      */
-    public function getPhysicalAddress(): Address
+    public function getPhysicalAddress():? Address
     {
         return $this->physicalAddress;
     }
@@ -163,9 +173,47 @@ class Business
      * @param Address $physicalAddress
      * @return Business
      */
-    public function setPhysicalAddress(Address $physicalAddress): Business
+    public function setPhysicalAddress(Address $physicalAddress):? Business
     {
         $this->physicalAddress = $physicalAddress;
+
+        return $this;
+    }
+
+    /**
+     * @return Contact
+     */
+    public function getPrimaryContact(): ?Contact
+    {
+        return $this->primaryContact;
+    }
+
+    /**
+     * @param Contact $primaryContact
+     * @return Business
+     */
+    public function setPrimaryContact(Contact $primaryContact):? Business
+    {
+        $this->primaryContact = $primaryContact;
+
+        return $this;
+    }
+
+    /**
+     * @return Contact
+     */
+    public function getBillingContact(): ?Contact
+    {
+        return $this->billingContact;
+    }
+
+    /**
+     * @param Contact $billingContact
+     * @return Business
+     */
+    public function setBillingContact(Contact $billingContact):? Business
+    {
+        $this->billingContact = $billingContact;
 
         return $this;
     }

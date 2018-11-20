@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\SalesForce\ApiConnection\SalesForceApiConnectionInterface;
 use App\Services\SalesForce\ApiConnection\SalesForceRestApiConnection;
 use App\Services\SalesForce\SalesForceApiParameters;
 use App\Services\SalesForce\SalesForceService;
@@ -33,6 +34,9 @@ class SalesForceServiceProvider extends ServiceProvider
 
         //Register the API service (This is nearly depreciated)
         $this->app->singleton(SalesForceService::class);
+
+        //Bind the Rest Implementation to the ApiConnection interface
+        $this->app->bind(SalesForceApiConnectionInterface::class,SalesForceRestApiConnection::class);
 
         //Register the calls (Must extend AbstractSalesForceApiCall)
         $this->registerApiCalls();
