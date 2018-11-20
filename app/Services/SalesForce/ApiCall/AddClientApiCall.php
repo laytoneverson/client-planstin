@@ -1,4 +1,6 @@
 <?php
+namespace App\Services\SalesForce\ApiCall;
+
 /**
  * File: AddClientApiCall.php
  * planstin
@@ -8,6 +10,7 @@
 
 namespace App\Services\SalesForce\ApiCall;
 
+use AbstractSalesForceApiCall;
 
 class AddClientApiCall extends AbstractSalesForceApiCall
 {

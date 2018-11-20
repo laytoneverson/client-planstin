@@ -1,4 +1,9 @@
 <?php
+namespace App\Services\SalesForce\ApiCall;
+
+use App\Services\SalesForce\Dto\RequestAccessTokenDto;
+use App\Services\SalesForce\SalesForceTokenService;
+
 /**
  * File: RequestAccessToken.php
  * planstin
