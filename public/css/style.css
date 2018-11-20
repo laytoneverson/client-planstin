@@ -207,9 +207,6 @@ body {
 .navbar-collapse {
     /*! flex-grow: 0!important; */
 }
-.nav-link:hover{
-    color: #5c5c5c;
-}
 /*Login body*/
 .login-container{
     max-width: 771px !important;
@@ -224,6 +221,10 @@ body {
 }
 .login-input-label{
     font-family:BasicSans-l;
+    font-size: 17px;
+}
+.login-input-label2{
+    font-family:sfui-r;
     font-size: 17px;
 }
 .login-body input{
@@ -397,7 +398,7 @@ html, body {
     margin-top: 40px;
 }
 .mgr-b{
-    margin-bottom: 7px;
+    margin-bottom: 0px;
 }
 .isBilling{
     font-family: SEGOEUI-r;
@@ -621,6 +622,7 @@ html, body {
 
 .edit-pro:hover .fa-pencil-square-o{
     color: #000;
+
 }
 
 /*sidebar right body*/
@@ -747,7 +749,7 @@ html, body {
     font-family: Gotham-b;
     font-size: 16px;
     letter-spacing: 2px;
-    padding: 22px 30px;
+    padding: 22px 23px;
     border-radius: 8px;
     width: 206px;
     display: block;
@@ -766,8 +768,8 @@ background-image: linear-gradient(to bottom, #E5E4E4 0%, #C7C7C7 100%);
     
 }
 .dashboard-link i{
-    margin-right: 10px;
-    font-size: 20px;
+    margin-right: 8px;
+    font-size: 16px;
 }
 .dashboard-link:hover{
     text-decoration: none;
@@ -907,6 +909,13 @@ background-image: linear-gradient(to bottom, #E5E4E4 0%, #C7C7C7 100%);
     margin-bottom: 0px;
     margin-top: 7px;
 }
+.emp-n-name2{
+    font-family: SEGOEUI-r;
+    font-size: 14px;
+    margin-bottom: 0px;
+    margin-top: 7px;
+}
+
 .emp-email-m{
     word-break: break-all;
     margin-left: 0;
@@ -914,9 +923,18 @@ background-image: linear-gradient(to bottom, #E5E4E4 0%, #C7C7C7 100%);
 }
 .emp-detail-r{
     float: left;
-    width: 75%;
+    width: 80%;
+}
+.emp-detail-r p{
+    font-size: 14px!important;
+}
+.emp-detail-r a i{
+    color:black;
 }
 
+.emp-detail-r a{
+    color:#707070;
+}
 
 .emp-table tr td{
     padding-bottom: 15px;
@@ -931,6 +949,9 @@ background-image: linear-gradient(to bottom, #E5E4E4 0%, #C7C7C7 100%);
 .emp-table td{
     border-left: 0;
     border-right: 0;
+}
+.benefit-table2 th{
+    border-top: 0;
 }
 .emp-delete{
     background: none;
@@ -1136,10 +1157,10 @@ background-image: linear-gradient(to bottom, #E5E4E4 0%, #C7C7C7 100%);
 }
 .field-edit i{
     position: absolute;
-    top: 10px;
-    right: 8px;
+    top: 15px;
+    right:10px;
     color: #000;
-    font-size: 20px;
+    font-size: 25px;
 }
 .field-edit i:hover{
     color: #000;
@@ -1155,6 +1176,8 @@ background-image: linear-gradient(to bottom, #E5E4E4 0%, #C7C7C7 100%);
     margin-top: 30px;
     margin-bottom: 30px;
 }
+
+
 .vertical-bdr{
     position: relative;
 }
@@ -1343,6 +1366,117 @@ html, body {
 }
 
 
+.navbar-expand-lg .navbar-nav .nav-link:hover{
+    color: #5c5c5c;
+}
+
+#exampleInputEmailsettings{
+    width:650.13px;
+    height:56px;
+}
+.exampleInputNamesettings{
+    width: 100%;
+    height:56px;
+}
+#exampleInputPasswordsettings{
+    width:650.13px;
+    height:56px;
+}
+
+.dependents-n-name{
+    font-family: SEGOEUI-r;
+    font-size: 15px;
+    margin-bottom: 0px;
+    margin-top: 7px;
+}
+#dependentsi{
+    margin-right:20px;
+}
+
+
+#submitEventDate{
+    height: 40px;
+    max-width: 527px;
+    width: 100%;
+    margin-bottom: 20px;
+    box-shadow: 0px 5px 8px #888888;
+}
+#submitEventDes{
+    height: 170px;
+    max-width: 527px;
+    width: 100%;
+    margin-bottom: 20px;
+    box-shadow: 0px 5px 8px #888888;
+}
+#submitEventp{
+    font-family:SEGOEUI-r;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+.report{
+    border: 0;
+}
+.emp-data-2 input::placeholder{
+    font-family: sfui-r!important;
+    text-align: center;
+    font-weight: normal;
+    color: #969696;
+}
+.date-of-h input{
+    text-align: center!important;
+}
+.gnSl{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.adr-info{
+    font-size: 16px;
+    margin-top: 15px;
+    font-family: sfui-r;
+}
+.emp-info-fill{
+    font-size: 22px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    font-family: sfui-r;
+    display: block;
+}
+.coverage{
+    margin-bottom: 5px;
+}
+.coverage-sl{
+    font-family: sfui-r;
+    font: 16px!important;
+}
+.coverage2{
+    display: inline;
+}
+.emp-dpnd{
+    margin-top: 20px;
+}
+.emp-dpnd input:first{
+    margin-left: 20px;
+}
+.emp-dpnd h3{
+    margin-right: 40px;
+}
+.emp-dpnd-3{
+    margin-top: 20px;
+    border: 1px solid #a3a3a3;
+    padding: 15px 15px;
+}
+.mgr-b-4{
+    margin-bottom: 10px;
+}
+
+.emp-add-2{
+    margin-top: 10px;
+    margin-left: 0px;
+}
+.img-upload-1{
+    float: left;
+    margin-top: 20px;
+}
 
 
 
@@ -1352,12 +1486,52 @@ html, body {
 
 
 
+
+
+/*mahin*/
+
+.bottom-txt{
+    font-size: 25px;
+    color: #080808;
+    margin-top:80px;
+    margin-bottom: 50px;
+    font-family: SEGOEUI-r;
+}
+
+.emp-login-field{
+    max-width: 100%!important;
+
+}
+.event-form-page{
+    max-width: 527px;
+}
+
+.event-sub{
+    border: 0;
+    padding: 5px 30px;
+    float: right;
+    font-weight: bold;
+    font-family: OpenSans-r;
+}
+.dend-txt{
+    font-family: SEGOEUI-r;
+    font-size: 22px;
+    color: #080808;
+    margin-top:80px;
+    margin-bottom: 50px;
+    font-weight: bold;
+}
 /*all media*/
 
 
 
 
 @media(max-width: 767px){
+    
+    .dend-txt{
+        margin-left: 15px;
+    }
+    
     .head-logo {
     max-width: 198px;
     }
@@ -1528,6 +1702,8 @@ html, body {
          max-width: 415px;
     }
 }
+
+
 
 
 

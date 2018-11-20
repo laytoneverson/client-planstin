@@ -62,36 +62,36 @@
         </div>
 
         <!-- see invoices -->
-        <h3 class="side-bra-smi-h3 disply-inline"><img class="invoice-icon" src="/images/invoice.png" alt="">See Your Invoices</h3>
+        <h3 class="side-bra-smi-h3 disply-inline"><img class="invoice-icon" src="{{asset('/images/invoice.png')}}" alt="">See Your Invoices</h3>
 
         <ul class="invoice-list">
             <li>
                 <a href="#" class="text-black">
-                    <img class="pdf-img" src="/images/pdf.png" alt="invoice"> <br>
+                    <img class="pdf-img" src="{{asset('/images/pdf.png')}}" alt="invoice"> <br>
                     <span>Current</span>
                 </a>
             </li>
             <li>
                 <a href="#" class="text-black">
-                    <img class="pdf-img" src="/images/pdf.png" alt="invoice"> <br>
+                    <img class="pdf-img" src="{{asset('/images/pdf.png')}}" alt="invoice"> <br>
                     <span>9/1/18</span>
                 </a>
             </li>
             <li>
                 <a href="#" class="text-black">
-                    <img class="pdf-img" src="/images/pdf.png" alt="invoice"> <br>
+                    <img class="pdf-img" src="{{asset('/images/pdf.png')}}" alt="invoice"> <br>
                     <span>9/1/18</span>
                 </a>
             </li>
             <li>
                 <a href="#" class="text-black">
-                    <img class="pdf-img" src="/images/pdf.png" alt="invoice"> <br>
+                    <img class="pdf-img" src="{{asset('/images/pdf.png')}}" alt="invoice"> <br>
                     <span>9/1/18</span>
                 </a>
             </li>
             <li>
                 <a href="#" class="text-black">
-                    <img class="next-img" src="/images/next.png" alt="invoice">
+                    <img class="next-img" src="{{asset('/images/next.png')}}" alt="invoice">
                 </a>
             </li>
 
@@ -102,31 +102,31 @@
         <ul class="invoice-list invoice-list-2">
             <li>
                 <a href="#" class="text-black">
-                    <img class="pdf-img" src="/images/pdf.png" alt="invoice"> <br>
+                    <img class="pdf-img" src="{{asset('/images/pdf.png')}}" alt="invoice"> <br>
                     <span>Current</span>
                 </a>
             </li>
             <li>
                 <a href="#" class="text-black">
-                    <img class="pdf-img" src="/images/pdf.png" alt="invoice"> <br>
+                    <img class="pdf-img" src="{{asset('/images/pdf.png')}}" alt="invoice"> <br>
                     <span>9/1/18</span>
                 </a>
             </li>
             <li>
                 <a href="#" class="text-black">
-                    <img class="pdf-img" src="/images/pdf.png" alt="invoice"> <br>
+                    <img class="pdf-img" src="{{asset('/images/pdf.png')}}" alt="invoice"> <br>
                     <span>9/1/18</span>
                 </a>
             </li>
             <li>
                 <a href="#" class="text-black">
-                    <img class="pdf-img" src="/images/pdf.png" alt="invoice"> <br>
+                    <img class="pdf-img" src="{{asset('/images/pdf.png')}}" alt="invoice"> <br>
                     <span>9/1/18</span>
                 </a>
             </li>
             <li>
                 <a href="#" class="text-black">
-                    <img class="next-img" src="images/next.png" alt="invoice">
+                    <img class="next-img" src="{{asset('/images/next.png')}}" alt="invoice">
                 </a>
             </li>
             <div class="clearfix"></div>
@@ -134,7 +134,7 @@
         </ul>
 
         <!--Payment method-->
-        <h3 class="side-bra-smi-h3 disply-inline"><img class="invoice-icon" src="/images/card-icon.png" alt="">Your Payment method</h3>
+        <h3 class="side-bra-smi-h3 disply-inline"><img class="invoice-icon" src="{{asset('/images/card-icon.png')}}" alt="">Your Payment method</h3>
         <br>
         <a class="paument-type-edit text-black" href="#"><span>ACH Account</span><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
 

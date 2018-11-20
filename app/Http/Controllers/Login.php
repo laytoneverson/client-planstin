@@ -39,8 +39,12 @@ class Login extends Controller {
     public function register($type){
         return $this->view('login.'. $type .'.register');
     }
+    public function passReset($type){
+        return $this->view('login.'. $type .'.pass-reset');
+    }
 
     //from saikat
+    //admin portal
 
     public function createProfile(){
         return $this->view('account.create-profile');
@@ -89,6 +93,49 @@ class Login extends Controller {
     }
     public function settings(){
             return $this->view('account.settings');
+    }
+
+
+    //emp portal
+
+    public function empAccount(){
+        return $this->view('login.emp-account');
+    }
+    public function empForgotPassword($type){
+        return $this->view('login.'. $type .'.empForgot');
+    }
+    public function empPassReset($type){
+        return $this->view('login.'. $type .'.emp-pass-reset');
+    }
+    public function empRecovery($type){
+        return $this->view('login.'. $type .'.emp-recovery-code');
+    }
+    public function empRegister($type){
+        return $this->view('login.'. $type .'.emp-register');
+    }
+    public function empBaseHealth(){
+        return $this->view('account.employee.base-health-agree');
+    }
+    public function empBenefit(){
+        return $this->view('account.employee.emp-benefit');
+    }
+    public function empProfile(){
+        return $this->view('account.employee.emp-profile');
+    }
+    public function empDashboard(){
+        return $this->view('account.employee.emp-dashboard');
+    }
+    public function empDependents(){
+        return $this->view('account.employee.emp-dependents');
+    }
+    public function empEnroll(){
+        return $this->view('account.employee.emp-enroll');
+    }
+    public function empSettings(){
+        return $this->view('account.employee.emp-settings');
+    }
+    public function empEvent(){
+        return $this->view('account.employee.emp-event-submit');
     }
 
 }
