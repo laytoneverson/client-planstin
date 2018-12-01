@@ -4,6 +4,8 @@
 <div class="container">
     <div class="row"> 
         @include($includes->sidebar)
+
+
         <!-- body content -->
         <div class="col-md-9">
             <!-- Benefits -->
@@ -45,11 +47,14 @@
                 </tr>
                 </tbody>
             </table>
-
+            <h3 class="confirm-added"><img class="ok-confirm" src="/images/ok-icon.png" alt=""><span>Your benefits and servics were successfully added. Please Add your employees!</span></h3>
+            <!-- next page -->
+            <a href="#" class="btn btn-primary bg-red add-emp-btn-page">ADD EMPLOYEES</a>
         </div>
     </div>
-    <div class="push"></div>
 </div>
+<div class="push"></div>
+ <!-- service added  end-->
 
 
 @endsection

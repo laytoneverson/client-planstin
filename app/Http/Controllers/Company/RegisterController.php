@@ -9,7 +9,16 @@
 namespace App\Http\Controllers\Company;
 
 
-class RegisterController
-{
+class RegisterController extends BaseController {
 
+    public function createProfileAction(){
+        return $this->view('company.register.create-profile');
+    }
+    public function baseHealthAgreementAction(){
+        return $this->view('company.register.base-health-agree');
+    }
+
+    public function payrollAgreementAction(){
+        return $this->view('company.register.payroll-agree');
+    }
 }

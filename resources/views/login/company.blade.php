@@ -28,8 +28,8 @@
                             <small class="form-text text-muted text-red text-right">Wrong username Or password</small>
                         </div>
                         <button type="submit" class="btn btn-primary btn-block btn-submit bg-red text-white">sign in</button>
-                        <p class="forgot-pass no-mgr-bottom text-black">Forgot password or username? <a class="text-red" href="forgotPassword/account">Click Here</a></p>
-                        <p class="forgot-pass no-mgr-top text-black">Don't have account yet? <a class="text-red" href="register/account">Register</a></p>
+                        <p class="forgot-pass no-mgr-bottom text-black">Forgot password or username? <a class="text-red" href="/login/forgot-password/company">Click Here</a></p>
+                        <p class="forgot-pass no-mgr-top text-black">Don't have account yet? <a class="text-red" href="/login/register/company">Register</a></p>
                     </form>
                 </div>
             </div>

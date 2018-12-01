@@ -1,4 +1,4 @@
-@extends('includes.body-admin')
+@extends($includes->body)
 
 @section('content')
 

@@ -9,7 +9,12 @@
 namespace App\Http\Controllers\Company;
 
 
-class EmployeeController
-{
+class EmployeeController extends BaseController {
 
+    public function addEmployeeAction(){
+        return $this->view('company.employee.add-employee');
+    }
+    public function viewEmployeesAction(){
+        return $this->view('company.employee.view-employees');
+    }
 }

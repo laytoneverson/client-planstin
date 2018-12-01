@@ -10,19 +10,22 @@ class LoginController extends Controller {
 
         $this->includes->body = 'includes.body-login';
         $this->includes->footer = 'includes.footer-login';
+
+        //temporary.  get rid of this
+        $this->includes->sidebar = 'includes.sidebar-company';
     }
     public function memberAction(){
-        if(!session('token') || !session('user.level')){
-            session()->put('user.level', 'member');
-        }
-        $this->authorizeToken();
+        // if(!session('token') || !session('user.level')){
+        //     session()->put('user.level', 'member');
+        // }
+        // $this->authorizeToken();
         return $this->view('login.member');
     }
     public function companyAction(){
-        if(!session('token') || !session('user.level')){
-            session()->put('user.level', 'company');
-        }
-        $this->authorizeToken();
+        // if(!session('token') || !session('user.level')){
+        //     session()->put('user.level', 'company');
+        // }
+        // $this->authorizeToken();
         return $this->view('login.company');
     }
     public function logout(){
@@ -45,97 +48,56 @@ class LoginController extends Controller {
 
     //from saikat
     //admin portal
-
-    public function createProfile(){
-        return $this->view('account.create-profile');
+    public function wellDoneAction(){
+        return $this->view('company.well-done');
     }
-    public function companyBenefit(){
-        return $this->view('account.choose-company-benefit');
+    public function dashboardAction(){
+        return $this->view('company.dashboard');
     }
-    public function yourServices(){
-        return $this->view('account.your-services');
+    public function companyHomeAction(){
+        return $this->view('company.company');
     }
-    public function baseHealth(){
-        return $this->view('account.base-health-agree');
+    public function servicesAction(){
+        return $this->view('company.services');
     }
-    public function payrollAgree(){
-        return $this->view('account.payroll-agree');
+    public function employeesAction(){
+        return $this->view('company.employees');
     }
-    public function serviceAdded(){
-            return $this->view('account.service-added');
+    public function billingAction(){
+        return $this->view('company.billing');
     }
-    public function addEmployee(){
-            return $this->view('account.add-employees');
+    public function documentsAction(){
+        return $this->view('company.documents');
     }
-    public function reviewEmployee(){
-            return $this->view('account.review-employees');
-    }
-    public function wellDone(){
-            return $this->view('account.well-done');
-    }
-    public function dashboard(){
-                return $this->view('account.dashboard');
-    }
-    public function company(){
-                return $this->view('account.company');
-    }
-    public function services(){
-                return $this->view('account.services');
-    }
-    public function employees(){
-                return $this->view('account.employees');
-    }
-    public function billing(){
-            return $this->view('account.billing');
-    }
-    public function documents(){
-            return $this->view('account.documents');
-    }
-    public function settings(){
-            return $this->view('account.settings');
+    public function settingsAction(){
+        return $this->view('company.settings');
     }
 
 
     //emp portal
-
-    public function empAccount(){
-        return $this->view('login.emp-account');
-    }
-    public function empForgotPassword($type){
-        return $this->view('login.'. $type .'.empForgot');
-    }
-    public function empPassReset($type){
-        return $this->view('login.'. $type .'.emp-pass-reset');
-    }
-    public function empRecovery($type){
-        return $this->view('login.'. $type .'.emp-recovery-code');
-    }
-    public function empRegister($type){
-        return $this->view('login.'. $type .'.emp-register');
-    }
     public function empBaseHealth(){
-        return $this->view('account.employee.base-health-agree');
+        return $this->view('member.base-health-agree');
     }
     public function empBenefit(){
-        return $this->view('account.employee.emp-benefit');
+        return $this->view('member.emp-benefit');
     }
     public function empProfile(){
-        return $this->view('account.employee.emp-profile');
+        return $this->view('member.emp-profile');
     }
     public function empDashboard(){
-        return $this->view('account.employee.emp-dashboard');
+        return $this->view('member.emp-dashboard');
     }
     public function empDependents(){
-        return $this->view('account.employee.emp-dependents');
+        return $this->view('member.emp-dependents');
     }
     public function empEnroll(){
-        return $this->view('account.employee.emp-enroll');
+        return $this->view('member.emp-enroll');
     }
     public function empSettings(){
-        return $this->view('account.employee.emp-settings');
+        return $this->view('member.emp-settings');
     }
     public function empEvent(){
-        return $this->view('account.employee.emp-event-submit');
+        return $this->view('member.emp-event-submit');
     }
 
 }
