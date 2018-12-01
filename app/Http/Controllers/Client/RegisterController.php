@@ -20,7 +20,7 @@ class RegisterController extends Controller
         $form = $this->createForm(NewUserType::class, $newUser);
         
         $form->handleRequest($request);
-        
+
         return $this->view(
             'client.register.signup',
             [   
@@ -29,7 +29,7 @@ class RegisterController extends Controller
         );
     }
     public function profile(){
-        echo 'profile works';
+        return $this->view('client.register.profile');
     }
     public function services(){
         echo 'services works';
