@@ -9,44 +9,84 @@
 namespace App\Services\SalesForce\Dto;
 
 use App\Entities\OAuthToken;
+use App\Http\Controllers\Oauth2;
+use App\Services\SalesForce\SalesForceApiParameters;
+use stdClass;
 
 class RequestAccessTokenDto implements SalesForceDtoInterface
 {
+    /**
+     * @var string
+     */
     protected $authorizationCode;
 
-    protected $redirectUri;
-
+    /**
+     * @var string
+     */
     protected $grantType;
 
-    public function __construct($authorizationCode, $redirectUri, $grantType = 'authorization_code')
+    /**
+     * @var SalesForceApiParameters
+     */
+    protected $salesForceApiParams;
+
+    /**
+     * @var stdClass|array
+     */
+    protected $returnData;
+
+    /**
+     * @var OAuthToken
+     */
+    protected $token;
+
+    public function __construct(
+        string $authorizationCode,
+        SalesForceApiParameters $salesForceApiParams,
+        string $grantType = 'authorization_code')
     {
         $this->authorizationCode = $authorizationCode;
-        $this->redirectUri = $redirectUri;
+        $this->salesForceApiParams = $salesForceApiParams;
         $this->grantType = $grantType;
     }
 
     public function toSfObject(): array
     {
-        /**
-         *  POST /services/oauth2/token HTTP/1.1
-         *   Host: login.salesforce.com
-         *   grant_type=authorization_code
-         *   &code=aPrxsmIEeqM9PiQroGEWx1UiMQd95_5JUZVEhsOFhS8EVvbfYBBJli2W5fn3zbo.8hojaNW_1g%3D%3D
-         *   &client_id=3MVG9lKcPoNINVBIPJjdw1J9LLM82HnFVVX19KY1uA5mu0QqEWhqKpoW3svG3XHrXDiCQjK1mdgAvhCscA9GE
-         *   &client_secret=1955279925675241571&
-         *   redirect_uri=https%3A%2F%2Fwww.mysite.com%2Fcode_callback.jsp
-         */
-
         return [
             'grant_type' => $this->grantType,
             'code' => $this->authorizationCode,
-            'redirect_uri' => $this->redirectUri,
+            'redirect_uri' => $this->salesForceApiParams->getRedirectUri(),
+            'client_secret' => $this->salesForceApiParams->getClientSecret(),
+            'client_id' => $this->salesForceApiParams->getClientId(),
         ];
     }
 
+    /**
+     * @param string $data
+     * @return SalesForceDtoInterface
+     *
+     * @throws \Throwable
+     */
     public function fromSfObject(string $data): SalesForceDtoInterface
     {
-        // TODO: Implement fromSfObject() method.
+        try {
+
+            $this->returnData = \GuzzleHttp\json_decode($data);
+            $this->token = new OAuthToken((array)$this->returnData);
+
+        } catch (\Throwable $exception) {
+            throw $exception;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return OAuthToken
+     */
+    public function getToken(): OAuthToken
+    {
+        return $this->token;
     }
 
 }

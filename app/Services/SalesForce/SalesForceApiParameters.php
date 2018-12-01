@@ -9,6 +9,8 @@
 namespace App\Services\SalesForce;
 
 
+use App\Entities\OAuthToken;
+
 class SalesForceApiParameters
 {
     protected const REST_API_BASE_URI = 'services/data';
@@ -59,9 +61,9 @@ class SalesForceApiParameters
     protected $userId;
 
     /**
-     * @var string
+     * @var OAuthToken
      */
-    protected $accessToken;
+    protected $token;
 
     /**
      * @var bool
@@ -238,20 +240,20 @@ class SalesForceApiParameters
     }
 
     /**
-     * @return string
+     * @return OAuthToken
      */
-    public function getAccessToken(): string
+    public function getToken(): OAuthToken
     {
-        return $this->accessToken;
+        return $this->token;
     }
 
     /**
-     * @param string $accessToken
+     * @param OAuthToken $token
      * @return SalesForceApiParameters
      */
-    public function setAccessToken(string $accessToken): SalesForceApiParameters
+    public function setToken(OAuthToken $token): SalesForceApiParameters
     {
-        $this->accessToken = $accessToken;
+        $this->token = $token;
 
         return $this;
     }

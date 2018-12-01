@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Services\SalesForce\SalesForceTokenService;
 use Illuminate\Console\Command;
 
 class SalesForceRefreshAccessToken extends Command
@@ -21,12 +22,21 @@ class SalesForceRefreshAccessToken extends Command
     protected $description = 'Refreshes the current SalesForce access token';
 
     /**
+     * @var SalesForceTokenService
+     */
+    private $tokenService;
+
+
+    /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(SalesForceTokenService $tokenService)
     {
+
+        $this->tokenService = $tokenService;
+
         parent::__construct();
     }
 
@@ -37,6 +47,21 @@ class SalesForceRefreshAccessToken extends Command
      */
     public function handle()
     {
-        //
+        $this->info('Attempting to refresh the Sales Force access token now.');
+
+        try {
+
+            $this->tokenService->refreshAccessToken();
+
+        } catch (\Throwable $exception) {
+
+            $this->error($exception->getMessage());
+
+            if ($this->confirm('Would you like to dump the exception?')) {
+                \dump($exception);
+            }
+        }
+
+        $this->info('New token has been created!');
     }
 }

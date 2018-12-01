@@ -8,11 +8,11 @@ class LoginController extends Controller {
         $this->view->errorMessage = session('error');
         $this->view->successMessage = session('success');
 
-        $this->includes->body = 'includes.body-login';
-        $this->includes->footer = 'includes.footer-login';
+            $this->includes->body = 'includes.body-login';
+            $this->includes->footer = 'includes.footer-login';
 
-        //temporary.  get rid of this
-        $this->includes->sidebar = 'includes.sidebar-company';
+            //temporary.  get rid of this
+            $this->includes->sidebar = 'includes.sidebar-company';
     }
     public function memberAction(){
         // if(!session('token') || !session('user.level')){

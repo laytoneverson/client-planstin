@@ -8,18 +8,14 @@ namespace App\Services\SalesForce\ApiCall;
  * YourWeb Solutions
  */
 
-namespace App\Services\SalesForce\ApiCall;
-
-use AbstractSalesForceApiCall;
-
-class AddClientApiCall extends AbstractSalesForceApiCall
+class AddClientApiCall extends AbstractRestApiCall
 {
-    public function getHttpMethod(): string
+    protected function prepareRequest(): void
     {
-        // TODO: Implement getHttpMethod() method.
+        // TODO: Implement prepareRequest() method.
     }
 
-    public function getCallUri(): string
+    protected function getRequestUrl(): string
     {
         // TODO: Implement getCallUri() method.
     }
@@ -28,4 +24,5 @@ class AddClientApiCall extends AbstractSalesForceApiCall
     {
         // TODO: Implement getDtoObjectType() method.
     }
+
 }
