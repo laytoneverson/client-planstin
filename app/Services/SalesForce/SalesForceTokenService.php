@@ -45,8 +45,12 @@ class SalesForceTokenService
         $this->apiParams = $apiParams;
         $this->requestAccessTokenApiCall = $requestAccessToken;
         $this->entityManager = $entityManager;
-
-        $this->loadAccessToken();
+        
+        try {
+            $this->loadAccessToken();
+        } catch (\Throwable $e) {
+            return;
+        }
     }
 
     private function loadAccessToken(): void

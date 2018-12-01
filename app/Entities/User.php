@@ -111,7 +111,7 @@ class User implements Authenticatable, CanResetPassword
     /**
      * @return string
      */
-    public function getEmail(): string
+    public function getEmail():? string
     {
         return $this->email;
     }
