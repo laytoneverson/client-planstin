@@ -69,10 +69,13 @@ class Controller extends LaravelController
 
         \App\Utils\SocialMarkup::setSiteTags($site_meta);
         
-
+        $this->baseModelSetup();
         $this->initialize();
     }
 
+    public function baseModelSetup(){
+
+    }
     public function initialize(){ }
 
     public function setupParameters(){

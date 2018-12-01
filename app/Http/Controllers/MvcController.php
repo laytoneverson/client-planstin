@@ -16,6 +16,14 @@ class MvcController extends LaravelController {
 
     public $template;
     public $request;
+    public $prefixToNamespace = [
+        'employee' => 'Member',
+        'employeer' => 'Company',
+    ];
+    public $namespaceIndexController = [
+        'Company' => 'Dashboard',
+        'Employeer' => 'Dashboard',
+    ];
 
     public function __construct(Request $request){
         $path = $request->path();
@@ -47,13 +55,17 @@ class MvcController extends LaravelController {
             return implode('', $arr);
         };
 
+        $prefix = trim($request->route()->getPrefix(), '/');
+        $namespace = $prefix && !empty($this->prefixToNamespace[$prefix]) ? $this->prefixToNamespace[$prefix] : false;
+
         $this->route = (object) [
-            'controller' => ucfirst($controller ?: 'main'),
-            'method' => $toCamelCase($method) ?: 'home',
+            'prefix' => $prefix,
+            'namespace' => $namespace,
+            'controller' => (ucfirst($controller) ?: ($namespace && !empty($this->namespaceIndexController[$namespace]) ? $this->namespaceIndexController[$namespace] : 'Index')) . 'Controller',
+            'method' => ($toCamelCase($method) ?: 'index') . 'Action',
             'segments' => array_filter(explode('/', $uri)),
             'uri' => $uri,
         ];
-
         
 
         return $this->makeResponse();
@@ -61,8 +73,8 @@ class MvcController extends LaravelController {
     
     public function makeResponse(){
         
-        $controllerClass = __NAMESPACE__ . '\\' . $this->route->controller;
-
+        $controllerClass = __NAMESPACE__ . '\\' . ($this->route->namespace ? $this->route->namespace . '\\' : '') . $this->route->controller;
+        
         if( !class_exists( $controllerClass ) ){
             return $this->error('Controller {'. $this->route->controller .'} not found.');
         }

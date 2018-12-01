@@ -6,11 +6,12 @@
 
 </head>
 <body>
-@include('includes.header-admin')
+
+@include($includes->header ?: 'includes.header-company')
+
 <div id="content">
     @yield('content')
 </div>
-@include('includes.footer-login')
 
 
 <pre class="hidden session-token">

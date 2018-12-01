@@ -12,8 +12,19 @@
 */
 
 
+Route::prefix('employeer')->group(function(){
+    Route::get('{controller?}/{method?}/{segments?}', 'MvcController@receive')->where([
+        'segments' => '.*',
+    ]);
+});
+Route::prefix('employee')->group(function(){
+    Route::get('{controller?}/{method?}/{segments?}', 'MvcController@receive')->where([
+        'segments' => '.*',
+    ]);
+});
 
 Route::get('{controller?}/{method?}/{segments?}', 'MvcController@receive')->where([
     'segments' => '.*',
 ]);
+
 

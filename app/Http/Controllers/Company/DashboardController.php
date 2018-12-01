@@ -8,8 +8,14 @@
 
 namespace App\Http\Controllers\Company;
 
+class DashboardController extends BaseController {
 
-class DashboardController
-{
+    public function initialize(){
 
+    }
+
+    public function indexAction(){
+    
+        return $this->view('company.dashboard');
+    }
 }
