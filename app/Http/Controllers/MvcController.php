@@ -18,11 +18,11 @@ class MvcController extends LaravelController {
     public $request;
     public $prefixToNamespace = [
         'employee' => 'Member',
-        'employeer' => 'Company',
+        'employer' => 'Company',
     ];
     public $namespaceIndexController = [
         'Company' => 'Dashboard',
-        'Employeer' => 'Dashboard',
+        'Member' => 'Dashboard',
     ];
 
     public function __construct(Request $request){
