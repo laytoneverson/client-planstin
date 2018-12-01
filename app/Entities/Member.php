@@ -9,12 +9,40 @@
 namespace App\Entities;
 
 
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity(repositoryClass="App\Repositories\MemberRepository")
+ * @ORM\Table(name="member")
+ */
 class Member
 {
+    use IsSalesForceObjectTrait;
+
+    /**
+     * @var int
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entities\Client", inversedBy="members")
+     * @var Client
+     */
+    private $client;
+
     /**
      * @var Contact
      */
-    protected $contact;
+    private $contact;
+
+    /**
+     * @var Member
+     * @ORM\OneToOne(targetEntity="App\Entities\User", mappedBy="user")
+     */
+    private $member;
 
     /**
      * @var string

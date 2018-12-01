@@ -8,104 +8,134 @@
 
 namespace App\Entities;
 
+use DateTime;
+use Doctrine\ORM\Mapping AS ORM;
 
+
+/**
+ * Class OAuthToken
+ *
+ * @package App\Entities
+ * @ORM\Entity(repositoryClass="App\Repositories\OAuthTokenRepository")
+ * @ORM\Table(name="token")
+ */
 class OAuthToken
 {
-    /**
-     * @var string
-     */
-    private $grantType;
 
     /**
-     * @var string
+     * @var int
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
      */
-    private $token;
-
-    /**
-     * @var string
-     */
-    private $expirationDate;
+    private $id;
 
     /**
      * @var string
+     * @ORM\Column(type="string")
      */
-    private $scope;
+    private $tokenType;
 
     /**
-     * @return string
+     * @var string
+     * @ORM\Column(type="string")
      */
-    public function getGrantType(): string
+    private $refreshToken;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    private $accessToken;
+
+    /**
+     * @var string
+     * @ORM\Column(type="datetime")
+     */
+    private $issueDate;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    private $idUrl;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    private $instanceUrl;
+
+    public function __construct(array $tokenData)
     {
-        return $this->grantType;
+        $this->accessToken = $tokenData['access_token'];
+        $this->refreshToken = $tokenData['refresh_token'];
+        $this->tokenType = $tokenData['token_type'];
+        $this->instanceUrl = $tokenData['instance_url'];
+        $this->idUrl = $tokenData['id'];
+        $this->issueDate = new \DateTime();
+    }
+
+    public function refresh(array $tokenData)
+    {
+        $this->accessToken = $tokenData['access_token'];
+        $this->instanceUrl = $tokenData['instance_url'];
+        $this->issueDate = new \DateTime();
     }
 
     /**
-     * @param string $grantType
-     * @return OAuthToken
+     * @return int
      */
-    public function setGrantType(string $grantType): OAuthToken
+    public function getId(): int
     {
-        $this->grantType = $grantType;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getToken(): string
-    {
-        return $this->token;
-    }
-
-    /**
-     * @param string $token
-     * @return OAuthToken
-     */
-    public function setToken(string $token): OAuthToken
-    {
-        $this->token = $token;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getExpirationDate(): string
-    {
-        return $this->expirationDate;
-    }
-
-    /**
-     * @param string $expirationDate
-     * @return OAuthToken
-     */
-    public function setExpirationDate(string $expirationDate): OAuthToken
-    {
-        $this->expirationDate = $expirationDate;
-
-        return $this;
+        return $this->id;
     }
 
     /**
      * @return string
      */
-    public function getScope(): string
+    public function getTokenType(): string
     {
-        return $this->scope;
+        return $this->tokenType;
     }
 
     /**
-     * @param string $scope
-     * @return OAuthToken
+     * @return string
      */
-    public function setScope(string $scope): OAuthToken
+    public function getRefreshToken(): string
     {
-        $this->scope = $scope;
-
-        return $this;
+        return $this->refreshToken;
     }
 
+    /**
+     * @return string
+     */
+    public function getAccessToken(): string
+    {
+        return $this->accessToken;
+    }
 
+    /**
+     * @return string
+     */
+    public function getIssueDate(): string
+    {
+        return $this->issueDate;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIdUrl(): string
+    {
+        return $this->idUrl;
+    }
+
+    /**
+     * @return string
+     */
+    public function getInstanceUrl(): string
+    {
+        return $this->instanceUrl;
+    }
 }

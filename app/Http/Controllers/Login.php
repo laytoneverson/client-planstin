@@ -1,45 +1,57 @@
-<?php 
+<?php
+
 namespace App\Http\Controllers;
 
 class Login extends Controller {
 
-    public function initialize(){
+    public function initialize()
+    {
 
-        $this->view->errorMessage = session('error');
-        $this->view->successMessage = session('success');
-
-        $this->includes->body = 'includes.body-login';
-        $this->includes->footer = 'includes.footer-login';
     }
-    public function member(){
+
+    public function member()
+    {
+
         if(!session('token') || !session('user.level')){
             session()->put('user.level', 'member');
         }
-        $this->authorizeToken();
+
         return $this->view('login.member');
     }
-    public function account(){
+
+    public function account()
+    {
         if(!session('token') || !session('user.level')){
             session()->put('user.level', 'account');
         }
-        $this->authorizeToken();
+
         return $this->view('login.account');
     }
-    public function logout(){
+
+    public function logout()
+    {
         session()->forget('token');
+
         return \App\App::redirectToLogin()->with(['success' => 'Logout successful']);
     }
 
-    public function forgotPassword($type){
+    public function forgotPassword($type)
+    {
         return $this->view('login.'. $type .'.forgot');
     }
-    public function recoveryCode($type){
+
+    public function recoveryCode($type)
+    {
         return $this->view('login.'. $type .'.recovery-code');
     }
-    public function register($type){
+
+    public function register($type)
+    {
         return $this->view('login.'. $type .'.register');
     }
-    public function passReset($type){
+
+    public function passReset($type)
+    {
         return $this->view('login.'. $type .'.pass-reset');
     }
 

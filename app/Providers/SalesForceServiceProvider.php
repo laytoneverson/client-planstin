@@ -29,25 +29,12 @@ class SalesForceServiceProvider extends ServiceProvider
     {
         $this->registerApiParameters();
 
-        //Allows us to register services for different API i.e. REST vs SOAP
-        $this->registerApiConnections();
-
-        //Register the API service (This is nearly depreciated)
-        $this->app->singleton(SalesForceService::class);
-
-        //Bind the Rest Implementation to the ApiConnection interface
-        $this->app->bind(SalesForceApiConnectionInterface::class,SalesForceRestApiConnection::class);
-
         //Register the calls (Must extend AbstractSalesForceApiCall)
         $this->registerApiCalls();
     }
 
-    public function registerApiConnections()
-    {
-        $this->app->bind(SalesForceRestApiConnection::class);
-    }
 
-    private function registerApiParameters()
+    private function registerApiParameters(): void
     {
         $this->app->singleton(
 
@@ -87,7 +74,7 @@ class SalesForceServiceProvider extends ServiceProvider
             });
     }
 
-    private function registerApiCalls()
+    private function registerApiCalls(): void
     {
         $apiCalls = config('app.salesforce.api_calls');
 

@@ -8,8 +8,13 @@
 
 namespace App\Services\SalesForce;
 
+use App\Entities\OAuthToken;
 use App\Services\SalesForce\ApiCall\RequestAccessToken;
 use App\Services\SalesForce\Dto\RequestAccessTokenDto;
+use App\Services\SalesForce\Dto\RequestRefreshTokenDto;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 class SalesForceTokenService
 {
@@ -27,12 +32,33 @@ class SalesForceTokenService
      */
     protected $requestAccessTokenApiCall;
 
+    /**
+     * @var EntityManager
+     */
+    protected $entityManager;
+
     public function __construct(
         SalesForceApiParameters $apiParams,
-        RequestAccessToken $requestAccessToken
+        RequestAccessToken $requestAccessToken,
+        EntityManagerInterface $entityManager
     ) {
         $this->apiParams = $apiParams;
         $this->requestAccessTokenApiCall = $requestAccessToken;
+        $this->entityManager = $entityManager;
+
+        $this->loadAccessToken();
+    }
+
+    private function loadAccessToken(): void
+    {
+        /** @var ArrayCollection $tokens */
+        $tokens = new ArrayCollection(
+            $this->entityManager->getRepository(OAuthToken::class)->findAll()
+        );
+
+        if ($token = $tokens->last()) {
+            $this->apiParams->setToken($token);
+        }
     }
 
     /**
@@ -41,7 +67,7 @@ class SalesForceTokenService
      *
      * @return string
      */
-    public function getAuthUrl()
+    public function getAuthUrl(): string
     {
         $format = '%s?response_type=code&client_id=%s&redirect_uri=%s&state=mystate';
 
@@ -52,29 +78,64 @@ class SalesForceTokenService
         );
     }
 
-    public function refreshAccessToken($refresh){
-        /**
-         * POST /services/oath2/token HTTP/1.1
-         * Host: login.salesforce.com
-         * Authorization:  Basic client_id=3MVG9lKcPoNINVBIPJjdw1J9LLM82HnFVVX19KY1uA5mu0QqEWhqKpoW3svG3XHrXDiCQjK1mdgAvhCscA9GE&client_secret=1955279925675241571
-         * grant_type=refresh_token&refresh_token=your token here
-         */
+    /**
+     * @param $authorizationCode
+     * @return bool
+     * @throws \Throwable
+     */
+    public function requestAccessToken($authorizationCode): bool
+    {
+        //@Todo: Add logic to check for an existing access token and refresh it if it exists.
 
-        $post = [
-            'grant_type' => 'refresh_token',
-            'refresh_token' => $refresh,
-        ];
+        $dto = new RequestAccessTokenDto(
+            $authorizationCode,
+            $this->apiParams,
+            'authorization_code'
+        );
 
-        return $this->call('post', 'client', "$this->auth_endpoint/services/oauth2/token", $post);
+        try {
 
+            $result = $this->requestAccessTokenApiCall
+                ->setData($dto)
+                ->execute();
+
+        } catch (\Throwable $exception) {
+            throw $exception;
+        }
+
+        $this->entityManager->persist($dto->getToken());
+        $this->entityManager->flush();
+
+        return true;
     }
 
-    public function requestAccessToken($authorizationCode){
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     *
+     * @throws \Throwable
+     */
+    public function refreshAccessToken()
+    {
+        $dto = new RequestRefreshTokenDto(
+            $this->apiParams
+        );
 
-        $dto = new RequestAccessTokenDto($authorizationCode,'');
+        try {
 
-        $result = $this->requestAccessTokenApiCall
-            ->setData($dto)
-            ->execute();
+            $result = $this->requestAccessTokenApiCall
+                ->setData($dto)
+                ->execute();
+
+        } catch (\Throwable $exception) {
+            throw $exception;
+        }
+
+        $this->entityManager->flush();
+    }
+
+    public function revokeAccessToken()
+    {
+        //@Todo: Revoke token if we need to in the future.
     }
 }

@@ -1,6 +1,8 @@
 <?php
 
 use App\Services\SalesForce\ApiCall\AddClientApiCall;
+use App\Services\SalesForce\ApiCall\RequestAccessToken;
+use App\Services\SalesForce\ApiCall\RequestRefreshToken;
 
 return [
 
@@ -22,7 +24,9 @@ return [
         ],
         'version_endpoint_uri' => 'v44.0',
         'api_calls' => [
-            AddClientApiCall::class
+            AddClientApiCall::class,
+            RequestAccessToken::class,
+            RequestRefreshToken::class,
         ]
     ],
 
@@ -76,7 +80,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://planstin.localhost'),
+    'url' => env('APP_URL', 'https://planstin.test'),
 
     /*
     |--------------------------------------------------------------------------
@@ -160,7 +164,8 @@ return [
         Illuminate\Hashing\HashServiceProvider::class,
         Illuminate\Mail\MailServiceProvider::class,
         Illuminate\Pipeline\PipelineServiceProvider::class,
-        Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
+//        Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
+        Illuminate\Queue\QueueServiceProvider::class,
         Illuminate\Session\SessionServiceProvider::class,
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
@@ -170,6 +175,9 @@ return [
          * Package Service Providers...
          */
         Barryvdh\Form\ServiceProvider::class,
+        LaravelDoctrine\ORM\DoctrineServiceProvider::class,
+        LaravelDoctrine\Migrations\MigrationsServiceProvider::class,
+        LaravelDoctrine\ORM\Auth\Passwords\PasswordResetServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -188,7 +196,6 @@ return [
 //        Illuminate\Notifications\NotificationServiceProvider::class,
 //        Illuminate\Pagination\PaginationServiceProvider::class,
 //        Illuminate\Broadcasting\BroadcastServiceProvider::class,
-//        Illuminate\Queue\QueueServiceProvider::class,
 //        Illuminate\Redis\RedisServiceProvider::class,
     ],
 
