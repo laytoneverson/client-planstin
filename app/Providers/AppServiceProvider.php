@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\PasswordService;
 use GuzzleHttp\Client;
 use Illuminate\Support\ServiceProvider;
 
@@ -24,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        // Register Guzzle HTTP client
         $this->app->bind(Client::class);
     }
 }

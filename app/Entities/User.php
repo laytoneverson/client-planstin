@@ -61,6 +61,10 @@ class User implements Authenticatable, CanResetPassword
      */
     private $email;
 
+    /**
+     * @var string
+     */
+    private $plainPassword;
 
     /**
      * @return int
@@ -82,7 +86,7 @@ class User implements Authenticatable, CanResetPassword
      * @param Client $client
      * @return User
      */
-    public function setClient(Client $client): User
+    public function setClient(Client $client = null): User
     {
         $this->client = $client;
 
@@ -123,6 +127,44 @@ class User implements Authenticatable, CanResetPassword
     public function setEmail(string $email): User
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * @return Client
+     */
+    public function getAdminOf(): Client
+    {
+        return $this->adminOf;
+    }
+
+    /**
+     * @param Client $adminOf
+     * @return User
+     */
+    public function setAdminOf(Client $adminOf): User
+    {
+        $this->adminOf = $adminOf;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPlainPassword():? string
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * @param string $plainPassword
+     * @return User
+     */
+    public function setPlainPassword(string $plainPassword): User
+    {
+        $this->plainPassword = $plainPassword;
 
         return $this;
     }

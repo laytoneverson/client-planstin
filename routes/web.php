@@ -30,28 +30,41 @@ EOHTML;
     );
 });
 
+Route::view('/', "links");
+
 Route::get('login/client', 'Client\LoginController@login');
 Route::get('login/client/forgot-password', 'Client\LoginController@forgotPassword');
 Route::get('login/client/reset-password', 'Client\LoginController@resetPassword');
 Route::get('login/client/recovery-code', 'Client\LoginController@recoveryCode');
 
 
-Route::prefix('register')->group(function(){
-    Route::prefix('client')->group(function(){
-        Route::any('signup', 'Client\RegisterController@signup');
-        Route::any('profile', 'Client\RegisterController@profile');
-        Route::any('services', 'Client\RegisterController@services');
-        Route::any('agreement', 'Client\RegisterController@agreement');
-        Route::any('employees', 'Client\RegisterController@employees');
+Route::prefix('register')->group(function()
+{
+    /*  /register/client/...  */
+    Route::prefix('client')->group(function()
+    {
+        //Todo: Create middleware to make sure the user is on the correct step
+        Route::any('signup', 'Client\RegisterController@createUser')->name('client_register_signup');
+        Route::any('profile', 'Client\RegisterController@profile')->name('client_register_profile');
+        Route::any('services', 'Client\RegisterController@services')->name('client_register_services');
+        Route::any('agreement', 'Client\RegisterController@agreement')->name('client_register_agreements');
+        Route::any('employees', 'Client\RegisterController@employees')->name('client_register_employees');
     });
-    Route::prefix('member')->group(function(){
+
+    /*  /register/member/...  */
+    Route::prefix('member')->group(function()
+    {
         
     });
 });
 
-Route::prefix('company')->group(function(){
-    Route::get('dashboard', 'Company\DashboardController@index');
+
+Route::prefix('portal')->group(function() {
+    Route::prefix('company')->group(function(){
+        Route::get('dashboard', 'Company\DashboardController@index');
+    });
 });
+
 
 // Route::prefix('employer')->group(function(){
 //     Route::get('{controller?}/{method?}/{segments?}', 'MvcController@receive')->where([

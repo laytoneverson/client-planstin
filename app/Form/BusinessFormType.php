@@ -22,18 +22,14 @@ class BusinessFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class)
-            ->add('dba', TextType::class)
-            ->add('website', UrlType::class)
-            ->add('phone', TelType::class)
             ->add('taxId', TextType::class)
+            ->add('dba', TextType::class)
+            ->add('phone', TelType::class)
             ->add('mailingAddress', AddressType::class)
             ->add('physicalAddress', AddressType::class)
-            ->add('primaryContact', ContactType::class)
-            ->add('billingContact', ContactType::class);
+            ->add('primaryContact', ContactType::class);
 
         parent::buildForm($builder, $options);
-
     }
 
     public function configureOptions(OptionsResolver $resolver)
