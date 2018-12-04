@@ -8,7 +8,8 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 
-class Controller extends LaravelController {
+class Controller extends LaravelController
+{
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     public function __construct(){

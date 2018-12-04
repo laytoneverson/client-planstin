@@ -86,4 +86,23 @@ class Member
 
         return $this;
     }
+
+    /**
+     * @return Client
+     */
+    public function getClient(): Client
+    {
+        return $this->client;
+    }
+
+    /**
+     * @param Client $client
+     * @return Member
+     */
+    public function setClient(Client $client): Member
+    {
+        $this->client = $client;
+
+        return $this;
+    }
 }

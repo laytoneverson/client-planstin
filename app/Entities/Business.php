@@ -147,6 +147,10 @@ class Business
      */
     public function getMailingAddress(): ?Address
     {
+        if (null === $this->mailingAddress) {
+            $this->mailingAddress = new Address();
+        }
+
         return $this->mailingAddress;
     }
 
@@ -166,6 +170,11 @@ class Business
      */
     public function getPhysicalAddress():? Address
     {
+
+        if (null === $this->physicalAddress) {
+            $this->physicalAddress = new Address();
+        }
+
         return $this->physicalAddress;
     }
 
@@ -185,6 +194,10 @@ class Business
      */
     public function getPrimaryContact(): ?Contact
     {
+        if (null === $this->primaryContact) {
+            $this->primaryContact = new Contact();
+        }
+
         return $this->primaryContact;
     }
 
@@ -204,6 +217,10 @@ class Business
      */
     public function getBillingContact(): ?Contact
     {
+        if (null === $this->billingContact) {
+            $this->billingContact = new Contact();
+        }
+
         return $this->billingContact;
     }
 

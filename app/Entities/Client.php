@@ -38,20 +38,22 @@ class Client
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entities\Member", mappedBy="client")
+     *
      * @var ArrayCollection|Member[]
      */
     protected $members;
 
     /**
-     * @var ArrayCollection
-     *
      * @ORM\OneToMany(targetEntity="App\Entities\User", mappedBy="adminOf")
+     *
+     * @var ArrayCollection
      */
     protected $adminUsers;
 
     /**
-     * @var string
      * @ORM\Column(type="string", nullable=true)
+     *
+     * @var string
      */
     protected $signupStep = self::ENROLL_STEP_PROFILE;
 
@@ -60,23 +62,12 @@ class Client
      */
     private $business;
 
-    private $accountOwner;
-
-    private $accountName;
-
-    private $parentAccount;
-
+    /**
+     * @var string
+     */
     private $groupNumber;
 
-    protected $affiliateAssigned;
-
     protected $groupBillingMethod;
-
-    protected $groupNotes;
-
-    protected $groupSitusState;
-
-    protected $lagacyGroupNumber;
 
     public function __construct()
     {
@@ -113,8 +104,12 @@ class Client
      *
      * @return  Business
      */ 
-    public function getBusiness()
+    public function getBusiness():? Business
     {
+        if (null === $this->business) {
+            $this->business = new Business();
+        }
+
         return $this->business;
     }
 
@@ -133,22 +128,41 @@ class Client
     }
 
     /**
-     * Get the value of accountOwner
-     */ 
-    public function getAccountOwner()
+     * @param Member $member
+     */
+    public function addMember(Member $member): void
     {
-        return $this->accountOwner;
+        $this->members->add($member);
+        // uncomment if you want to update other side
+        $member->setClient($this);
     }
 
     /**
-     * Set the value of accountOwner
-     *
-     * @return  self
-     */ 
-    public function setAccountOwner($accountOwner)
+     * @param Member $member
+     */
+    public function removeMember(Member $member): void
     {
-        $this->accountOwner = $accountOwner;
+        $this->members->removeElement($member);
+    }
+
+    /**
+     * @param User $adminUser
+     * @return Client
+     */
+    public function addAdminUser(User $adminUser): self
+    {
+        $this->adminUsers->add($adminUser);
+        $adminUser->setAdminOf($this);
 
         return $this;
+    }
+
+    /**
+     * @param User $adminUser
+     */
+    public function removeAdminUser($adminUser): void
+    {
+        $this->adminUsers->removeElement($adminUser);
+        $adminUser->setAdminOf(null);
     }
 }
