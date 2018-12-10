@@ -1,0 +1,164 @@
+Description of the Account (Group Client) Object
+
++----------------------------------+----------------------------+---------------------------------+
+| Child Object                     | Field                      | Relationship Name               |
++----------------------------------+----------------------------+---------------------------------+
+| AcceptedEventRelation            | AccountId                  |                                 |
+| Account                          | ParentId                   | ChildAccounts                   |
+| AccountContactRelation           | AccountId                  | AccountContactRelations         |
+| AccountContactRole               | AccountId                  | AccountContactRoles             |
+| AccountFeed                      | ParentId                   | Feeds                           |
+| AccountHistory                   | AccountId                  | Histories                       |
+| AccountPartner                   | AccountFromId              | AccountPartnersFrom             |
+| AccountPartner                   | AccountToId                | AccountPartnersTo               |
+| AccountShare                     | AccountId                  | Shares                          |
+| ActivityHistory                  | AccountId                  | ActivityHistories               |
+| ActivityHistory                  | PrimaryAccountId           |                                 |
+| Asset                            | AccountId                  | Assets                          |
+| Asset                            | AssetProvidedById          | ProvidedAssets                  |
+| Asset                            | AssetServicedById          | ServicedAssets                  |
+| AttachedContentDocument          | LinkedEntityId             | AttachedContentDocuments        |
+| AttachedContentNote              | LinkedEntityId             | AttachedContentNotes            |
+| Attachment                       | ParentId                   | Attachments                     |
+| Case                             | AccountId                  | Cases                           |
+| ChargentOrders__ChargentOrder__c | ChargentOrders__Account__c | ChargentOrders__Orders__r       |
+| ChargentOrders__Transaction__c   | ChargentOrders__Account__c | ChargentOrders__Transactions__r |
+| Claims__c                        | Group_ID__c                | Claims__r                       |
+| CollaborationGroupRecord         | RecordId                   | RecordAssociatedGroups          |
+| CombinedAttachment               | ParentId                   | CombinedAttachments             |
+| Contact                          | AccountId                  | Contacts                        |
+| ContentDistribution              | RelatedRecordId            |                                 |
+| ContentDocumentLink              | LinkedEntityId             | ContentDocumentLinks            |
+| ContentVersion                   | FirstPublishLocationId     |                                 |
+| Contract                         | AccountId                  | Contracts                       |
+| DeclinedEventRelation            | AccountId                  |                                 |
+| DuplicateRecordItem              | RecordId                   | DuplicateRecordItems            |
+| EmailMessage                     | RelatedToId                | Emails                          |
+| EntitySubscription               | ParentId                   | FeedSubscriptionsForEntity      |
+| Event                            | AccountId                  |                                 |
+| Event                            | WhatId                     | Events                          |
+| EventRelation                    | AccountId                  |                                 |
+| EventRelation                    | RelationId                 | EventRelations                  |
+| EventWhoRelation                 | AccountId                  |                                 |
+| FeedComment                      | ParentId                   |                                 |
+| FeedItem                         | ParentId                   |                                 |
+| FlowRecordRelation               | RelatedRecordId            |                                 |
+| Group_Location_Address__c        | Group__c                   | Group_Location_Address__r       |
+| Lead                             | ConvertedAccountId         |                                 |
+| Member__c                        | Group__c                   | Members__r                      |
+| Note                             | ParentId                   | Notes                           |
+| NoteAndAttachment                | ParentId                   | NotesAndAttachments             |
+| OpenActivity                     | AccountId                  | OpenActivities                  |
+| OpenActivity                     | PrimaryAccountId           |                                 |
+| Opportunity                      | AccountId                  | Opportunities                   |
+| OpportunityPartner               | AccountToId                | OpportunityPartnersTo           |
+| Order                            | AccountId                  | Orders                          |
+| Partner                          | AccountFromId              | PartnersFrom                    |
+| Partner                          | AccountToId                | PartnersTo                      |
+| Payment__c                       | GroupClient__c             | Payments__r                     |
+| ProcessInstance                  | TargetObjectId             | ProcessInstances                |
+| ProcessInstanceHistory           | TargetObjectId             | ProcessSteps                    |
+| Quote                            | AccountId                  |                                 |
+| RecordAction                     | RecordId                   | RecordActions                   |
+| RecordActionHistory              | ParentRecordId             | RecordActionHistories           |
+| SDOC__SDJob__c                   | SDOC__Account__c           | SDOC__S_Docs_Jobs__r            |
+| SDOC__SDRelationship__c          | SDOC__Account__c           | SDOC__SDoc_Relationships__r     |
+| SocialPersona                    | ParentId                   | Personas                        |
+| SocialPost                       | WhoId                      | Posts                           |
+| Task                             | AccountId                  |                                 |
+| Task                             | WhatId                     | Tasks                           |
+| TaskRelation                     | AccountId                  |                                 |
+| TaskRelation                     | RelationId                 | TaskRelations                   |
+| TaskWhoRelation                  | AccountId                  |                                 |
+| TopicAssignment                  | EntityId                   | TopicAssignments                |
+| UndecidedEventRelation           | AccountId                  |                                 |
+| User                             | AccountId                  | Users                           |
+| UserRole                         | PortalAccountId            |                                 |
++----------------------------------+----------------------------+---------------------------------+
++-----------+------------------------------------+---------------------------------+--------+---------------+---------------------------------+--------+--------+
+| Type      | Name                               | Label                           | Length | Default Value | Relationship Name               | Custom | Unique |
++-----------+------------------------------------+---------------------------------+--------+---------------+---------------------------------+--------+--------+
+| id        | Id                                 | Account ID                      | 18     |               |                                 |        |        |
+| boolean   | IsDeleted                          | Deleted                         | 0      |               |                                 |        |        |
+| reference | MasterRecordId                     | Master Record ID                | 18     |               | MasterRecord                    |        |        |
+| string    | Name                               | Account Name                    | 255    |               |                                 |        |        |
+| picklist  | Type                               | Account Type                    | 40     |               |                                 |        |        |
+| reference | ParentId                           | Parent Account ID               | 18     |               | Parent                          |        |        |
+| textarea  | BillingStreet                      | Mailing Street                  | 255    |               |                                 |        |        |
+| string    | BillingCity                        | Mailing City                    | 40     |               |                                 |        |        |
+| string    | BillingState                       | Mailing State/Province          | 80     |               |                                 |        |        |
+| string    | BillingPostalCode                  | Mailing Zip/Postal Code         | 20     |               |                                 |        |        |
+| string    | BillingCountry                     | Mailing Country                 | 80     |               |                                 |        |        |
+| double    | BillingLatitude                    | Mailing Latitude                | 0      |               |                                 |        |        |
+| double    | BillingLongitude                   | Mailing Longitude               | 0      |               |                                 |        |        |
+| picklist  | BillingGeocodeAccuracy             | Billing Geocode Accuracy        | 40     |               |                                 |        |        |
+| address   | BillingAddress                     | Group Mailing Address           | 0      |               |                                 |        |        |
+| textarea  | ShippingStreet                     | Shipping Street                 | 255    |               |                                 |        |        |
+| string    | ShippingCity                       | Shipping City                   | 40     |               |                                 |        |        |
+| string    | ShippingState                      | Shipping State/Province         | 80     |               |                                 |        |        |
+| string    | ShippingPostalCode                 | Shipping Zip/Postal Code        | 20     |               |                                 |        |        |
+| string    | ShippingCountry                    | Shipping Country                | 80     |               |                                 |        |        |
+| double    | ShippingLatitude                   | Shipping Latitude               | 0      |               |                                 |        |        |
+| double    | ShippingLongitude                  | Shipping Longitude              | 0      |               |                                 |        |        |
+| picklist  | ShippingGeocodeAccuracy            | Shipping Geocode Accuracy       | 40     |               |                                 |        |        |
+| address   | ShippingAddress                    | Group Location Address          | 0      |               |                                 |        |        |
+| phone     | Phone                              | Account Phone                   | 40     |               |                                 |        |        |
+| url       | Website                            | Website                         | 255    |               |                                 |        |        |
+| url       | PhotoUrl                           | Photo URL                       | 255    |               |                                 |        |        |
+| picklist  | Industry                           | Industry                        | 40     |               |                                 |        |        |
+| int       | NumberOfEmployees                  | Employees                       | 0      |               |                                 |        |        |
+| textarea  | Description                        | Account Description             | 32000  |               |                                 |        |        |
+| reference | OwnerId                            | Owner ID                        | 18     |               | Owner                           |        |        |
+| datetime  | CreatedDate                        | Created Date                    | 0      |               |                                 |        |        |
+| reference | CreatedById                        | Created By ID                   | 18     |               | CreatedBy                       |        |        |
+| datetime  | LastModifiedDate                   | Last Modified Date              | 0      |               |                                 |        |        |
+| reference | LastModifiedById                   | Last Modified By ID             | 18     |               | LastModifiedBy                  |        |        |
+| datetime  | SystemModstamp                     | System Modstamp                 | 0      |               |                                 |        |        |
+| date      | LastActivityDate                   | Last Activity                   | 0      |               |                                 |        |        |
+| datetime  | LastViewedDate                     | Last Viewed Date                | 0      |               |                                 |        |        |
+| datetime  | LastReferencedDate                 | Last Referenced Date            | 0      |               |                                 |        |        |
+| string    | Jigsaw                             | Data.com Key                    | 20     |               |                                 |        |        |
+| string    | JigsawCompanyId                    | Jigsaw Company ID               | 20     |               | JigsawCompany                   |        |        |
+| picklist  | AccountSource                      | Account Source                  | 40     |               |                                 |        |        |
+| string    | SicDesc                            | SIC Description                 | 80     |               |                                 |        |        |
+| string    | Group_Number__c                    | Group Number                    | 30     |               |                                 | 1      |        |
+| textarea  | Notes_Section__c                   | Notes Section                   | 255    |               |                                 | 1      |        |
+| reference | Affiliate_Assigned__c              | Affiliate Assigned              | 18     |               | Affiliate_Assigned__r           | 1      |        |
+| string    | Employer_Tax_ID_FEIN__c            | Employer Tax ID/FEIN            | 10     |               |                                 | 1      |        |
+| picklist  | Group_Billing__c                   | Group Billing                   | 255    |               |                                 | 1      |        |
+| picklist  | Group_Situs_State__c               | Group Situs State               | 255    |               |                                 | 1      |        |
+| picklist  | pw_cc__BillingAddressStatus__c     | Billing Address Status          | 255    | Not checked   |                                 | 1      |        |
+| reference | pw_cc__BillingCountryLookup__c     | Billing Country Lookup          | 18     |               | pw_cc__BillingCountryLookup__r  | 1      |        |
+| picklist  | pw_cc__BillingLocationAccuracy__c  | Billing Location Accuracy       | 255    | Not checked   |                                 | 1      |        |
+| picklist  | pw_cc__BillingLocationSource__c    | Billing Location Source         | 255    | Default       |                                 | 1      |        |
+| reference | pw_cc__BillingStateLookup__c       | Billing State Lookup            | 18     |               | pw_cc__BillingStateLookup__r    | 1      |        |
+| reference | pw_cc__BillingZipCodeLookup__c     | Billing Zip/Postal Code Lookup  | 18     |               | pw_cc__BillingZipCodeLookup__r  | 1      |        |
+| picklist  | pw_cc__ShippingAddressStatus__c    | Shipping Address Status         | 255    | Not checked   |                                 | 1      |        |
+| reference | pw_cc__ShippingCountryLookup__c    | Shipping Country Lookup         | 18     |               | pw_cc__ShippingCountryLookup__r | 1      |        |
+| picklist  | pw_cc__ShippingLocationAccuracy__c | Shipping Location Accuracy      | 255    | Not checked   |                                 | 1      |        |
+| picklist  | pw_cc__ShippingLocationSource__c   | Shipping Location Source        | 255    | Default       |                                 | 1      |        |
+| reference | pw_cc__ShippingStateLookup__c      | Shipping State Lookup           | 18     |               | pw_cc__ShippingStateLookup__r   | 1      |        |
+| reference | pw_cc__ShippingZipCodeLookup__c    | Shipping Zip/Postal Code Lookup | 18     |               | pw_cc__ShippingZipCodeLookup__r | 1      |        |
+| string    | Legacy_Group_Number__c             | Legacy Group Number             | 20     |               |                                 | 1      | 1      |
+| string    | Company_DBA__c                     | Company DBA                     | 30     |               |                                 | 1      |        |
+| boolean   | Payroll_Client__c                  | Payroll Client                  | 0      | 1             |                                 | 1      |        |
+| boolean   | Benefits_Client__c                 | Benefits Client                 | 0      |               |                                 | 1      |        |
+| date      | Client_Effective__c                | Client Effective                | 0      |               |                                 | 1      |        |
+| date      | Client_Termination__c              | Client Termination              | 0      |               |                                 | 1      |        |
++-----------+------------------------------------+---------------------------------+--------+---------------+---------------------------------+--------+--------+
++------------------+-------------------------------------------------------------------------+
+| Label            | URL                                                                     |
++------------------+-------------------------------------------------------------------------+
+| compactLayouts   | /services/data/v44.0/sobjects/Account/describe/compactLayouts           |
+| rowTemplate      | /services/data/v44.0/sobjects/Account/{ID}                              |
+| approvalLayouts  | /services/data/v44.0/sobjects/Account/describe/approvalLayouts          |
+| uiDetailTemplate | https://planstin--laytondev.my.salesforce.com/{ID}                      |
+| uiEditTemplate   | https://planstin--laytondev.my.salesforce.com/{ID}/e                    |
+| defaultValues    | /services/data/v44.0/sobjects/Account/defaultValues?recordTypeId&fields |
+| listviews        | /services/data/v44.0/sobjects/Account/listviews                         |
+| describe         | /services/data/v44.0/sobjects/Account/describe                          |
+| uiNewRecord      | https://planstin--laytondev.my.salesforce.com/001/e                     |
+| quickActions     | /services/data/v44.0/sobjects/Account/quickActions                      |
+| layouts          | /services/data/v44.0/sobjects/Account/describe/layouts                  |
+| sobject          | /services/data/v44.0/sobjects/Account                                   |
++------------------+-------------------------------------------------------------------------+

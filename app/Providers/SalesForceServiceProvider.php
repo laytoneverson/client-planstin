@@ -2,10 +2,8 @@
 
 namespace App\Providers;
 
-use App\Services\SalesForce\ApiConnection\SalesForceApiConnectionInterface;
-use App\Services\SalesForce\ApiConnection\SalesForceRestApiConnection;
 use App\Services\SalesForce\SalesForceApiParameters;
-use App\Services\SalesForce\SalesForceService;
+use App\Services\SalesForce\SalesForceTokenService;
 use Illuminate\Support\ServiceProvider;
 
 class SalesForceServiceProvider extends ServiceProvider
@@ -17,7 +15,8 @@ class SalesForceServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        //Loading this service populates the ApiParameters class with the current token
+        $tokenService = $this->app->get(SalesForceTokenService::class);
     }
 
     /**

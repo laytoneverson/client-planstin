@@ -9,7 +9,7 @@ namespace App\Repositories;
 
 use Doctrine\ORM\EntityRepository;
 
-class ClientRepository extends EntityRepository
+class GroupClientRepository extends EntityRepository
 {
 
 }

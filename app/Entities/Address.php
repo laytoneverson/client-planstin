@@ -7,7 +7,6 @@
 
 namespace App\Entities;
 
-
 class Address
 {
     protected $label;
@@ -39,6 +38,17 @@ class Address
         $this->label = $label;
 
         return $this;
+    }
+
+    public function getFullStreet()
+    {
+        $street = $this->getStreet1();
+
+        if ($street2 = $this->getStreet2()) {
+            $street .= "\n$street2";
+        }
+
+        return $street;
     }
 
     /**

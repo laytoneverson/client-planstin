@@ -71,17 +71,17 @@ class SalesForceApiParameters
     protected $debug = false;
 
     /**
+     *
      * Returns a url to build an endpoint from. i.e. https://salesforceinstance/services/data/vX.XX
      *
+     * @deprecated Use the AbstractRestApiCall's version of this function.
      * @return string
      */
     public function getRestApiBaseUrl(): string
     {
-        $format = '/%s/%s/%s';
-
         return \sprintf(
-            $format,
-            $this->getApiEndpoint(),
+            '%s/%s/%s',
+            $this->token->getInstanceUrl(),
             self::REST_API_BASE_URI,
             $this->getVersion()
             );

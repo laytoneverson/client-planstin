@@ -688,7 +688,7 @@ html, body {
     margin-bottom: 40px;
 }
 .seo-p{
-    font-family: ;
+    /*font-family: ;*/
 }
 .add-more-btn{
     cursor: pointer;
@@ -1227,7 +1227,7 @@ html, body {
 
 
 
-#upload{
+#upload, .hiddenUploadInput {
     display:none
 }
 
@@ -1446,7 +1446,7 @@ html, body {
 }
 .coverage-sl{
     font-family: sfui-r;
-    font: 16px!important;
+    font-size: 16px !important;
 }
 .coverage2{
     display: inline;

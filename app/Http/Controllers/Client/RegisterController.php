@@ -3,6 +3,8 @@ namespace App\Http\Controllers\Client;
 
 use App\Exceptions\InvalidPasswordException;
 use App\Exceptions\UserAlreadyExistsException;
+use App\Form\GroupClientFormType;
+use App\Services\ClientRegistrationService;
 use App\Services\UserAccountService;
 use Barryvdh\Form\CreatesForms;
 use App\Http\Controllers\Controller;
@@ -15,11 +17,30 @@ class RegisterController extends Controller
     use CreatesForms;
 
     /**
+     * @var ClientRegistrationService
+     */
+
+    private $clientRegistration;
+
+    /**
+     * @var UserAccountService
+     */
+    private $accountService;
+
+    public function __construct(ClientRegistrationService $clientRegistration, UserAccountService $accountService)
+    {
+        $this->clientRegistration = $clientRegistration;
+        $this->accountService = $accountService;
+
+        parent::__construct();
+    }
+
+    /**
      * @param Request $request
      * @param UserAccountService $accountService
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function createUser(Request $request, UserAccountService $accountService)
+    public function createUser(Request $request)
     {
         $newUser = new User();
    
@@ -31,19 +52,19 @@ class RegisterController extends Controller
         if ($form->isValid()) {
             try {
 
-                $accountService->createNewUserAccount($newUser);
+                $this->accountService->createNewUserAccount($newUser);
                 $moveOn = true;
 
             } catch (UserAlreadyExistsException $exception) {
 
                 try {
 
-                    $accountService->authenticateUser($newUser);
+                    $this->accountService->authenticateUser($newUser);
                     $moveOn = true;
 
                 } catch (InvalidPasswordException $exception) {
 
-                    $request->session()->flush(
+                    $request->session()->flash(
                         'A user with this account already exists but the password does not match.'
                     );
                 }
@@ -63,14 +84,34 @@ class RegisterController extends Controller
     }
 
 
-    public function profile()
+    public function profile(Request $request)
     {
-        return $this->view('client.register.profile');
+        $groupClient = $this->clientRegistration->prepareNewClient();
+
+        $form = $this
+            ->createForm(GroupClientFormType::class, $groupClient)
+            ->handleRequest($request);
+
+        if ($form->isValid()) {
+
+            if ($success = $this->clientRegistration->insertSalesForceClient($groupClient)) {
+                return \redirect()->route('client_register_profile');
+            }
+
+            $request->session()->flash('error', $this->clientRegistration->getError());
+        }
+
+        return $this->view(
+            'client.register.profile',
+            [
+                'form' => $form->createView(),
+            ]
+        );
     }
 
     public function services()
     {
-        return $this->view('client.register.profile');
+        return $this->view('client.register.services');
     }
 
     public function agreement()
@@ -80,7 +121,7 @@ class RegisterController extends Controller
 
     public function billing()
     {
-
+        return $this->view('client.register.payment-method');
     }
 
     public function employees()
