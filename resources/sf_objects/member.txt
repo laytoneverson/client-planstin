@@ -1,0 +1,131 @@
+Description of Member__c
+
++--------------------------+------------------------+----------------------------+
+| Child Object             | Field                  | Relationship Name          |
++--------------------------+------------------------+----------------------------+
+| ActivityHistory          | WhatId                 | ActivityHistories          |
+| AttachedContentDocument  | LinkedEntityId         | AttachedContentDocuments   |
+| AttachedContentNote      | LinkedEntityId         | AttachedContentNotes       |
+| Attachment               | ParentId               | Attachments                |
+| Claim_Table__c           | Member__c              | ClaimLines__r              |
+| Claims__c                | Member_ID__c           | Claims__r                  |
+| CollaborationGroupRecord | RecordId               | RecordAssociatedGroups     |
+| CombinedAttachment       | ParentId               | CombinedAttachments        |
+| ContentDistribution      | RelatedRecordId        |                            |
+| ContentDocumentLink      | LinkedEntityId         | ContentDocumentLinks       |
+| ContentVersion           | FirstPublishLocationId |                            |
+| DuplicateRecordItem      | RecordId               | DuplicateRecordItems       |
+| EmailMessage             | RelatedToId            | Emails                     |
+| EntitySubscription       | ParentId               | FeedSubscriptionsForEntity |
+| Event                    | WhatId                 | Events                     |
+| EventRelation            | RelationId             | EventRelations             |
+| FeedComment              | ParentId               |                            |
+| FeedItem                 | ParentId               |                            |
+| FlowRecordRelation       | RelatedRecordId        |                            |
+| Member__History          | ParentId               | Histories                  |
+| Member__c                | Sponsor__c             | Members__r                 |
+| Note                     | ParentId               | Notes                      |
+| NoteAndAttachment        | ParentId               | NotesAndAttachments        |
+| OpenActivity             | WhatId                 | OpenActivities             |
+| Payment__c               | Member__c              | Payments__r                |
+| ProcessInstance          | TargetObjectId         | ProcessInstances           |
+| ProcessInstanceHistory   | TargetObjectId         | ProcessSteps               |
+| RecordAction             | RecordId               | RecordActions              |
+| RecordActionHistory      | ParentRecordId         | RecordActionHistories      |
+| Task                     | WhatId                 | Tasks                      |
+| TaskRelation             | RelationId             | TaskRelations              |
+| TopicAssignment          | EntityId               | TopicAssignments           |
++--------------------------+------------------------+----------------------------+
++-----------+--------------------------------+-----------------------------+--------+---------------+--------------------+--------+--------+
+| Type      | Name                           | Label                       | Length | Default Value | Relationship Name  | Custom | Unique |
++-----------+--------------------------------+-----------------------------+--------+---------------+--------------------+--------+--------+
+| id        | Id                             | Record ID                   | 18     |               |                    |        |        |
+| reference | OwnerId                        | Owner ID                    | 18     |               | Owner              |        |        |
+| boolean   | IsDeleted                      | Deleted                     | 0      |               |                    |        |        |
+| string    | Name                           | Member Number               | 80     |               |                    |        |        |
+| reference | RecordTypeId                   | Record Type ID              | 18     |               | RecordType         |        |        |
+| datetime  | CreatedDate                    | Created Date                | 0      |               |                    |        |        |
+| reference | CreatedById                    | Created By ID               | 18     |               | CreatedBy          |        |        |
+| datetime  | LastModifiedDate               | Last Modified Date          | 0      |               |                    |        |        |
+| reference | LastModifiedById               | Last Modified By ID         | 18     |               | LastModifiedBy     |        |        |
+| datetime  | SystemModstamp                 | System Modstamp             | 0      |               |                    |        |        |
+| date      | LastActivityDate               | Last Activity Date          | 0      |               |                    |        |        |
+| datetime  | LastViewedDate                 | Last Viewed Date            | 0      |               |                    |        |        |
+| datetime  | LastReferencedDate             | Last Referenced Date        | 0      |               |                    |        |        |
+| phone     | Phone__c                       | Phone                       | 40     |               |                    | 1      |        |
+| email     | Email__c                       | Email                       | 80     |               |                    | 1      |        |
+| picklist  | Health_Plan__c                 | Health Plan                 | 255    | Waive         |                    | 1      |        |
+| string    | First_Name__c                  | First Name                  | 20     |               |                    | 1      |        |
+| date      | Health_Plan_Effective__c       | Health Plan Effective       | 0      |               |                    | 1      |        |
+| date      | Health_Plan_Term__c            | Health Plan Term            | 0      |               |                    | 1      |        |
+| picklist  | Catastrophic_Plan__c           | Catastrophic Plan           | 255    | Waive         |                    | 1      |        |
+| date      | Catastrophic_Plan_Effective__c | Catastrophic Plan Effective | 0      |               |                    | 1      |        |
+| date      | Catastrophic_Plan_Term__c      | Catastrophic Plan Term      | 0      |               |                    | 1      |        |
+| string    | Last_Name__c                   | Last Name                   | 20     |               |                    | 1      |        |
+| currency  | Health_Plan_Rate__c            | Health Plan Rate            | 0      |               |                    | 1      |        |
+| currency  | Catastrophic_Rate__c           | Catastrophic Rate           | 0      |               |                    | 1      |        |
+| picklist  | Dental_Plan__c                 | Dental Plan                 | 255    | Waive         |                    | 1      |        |
+| date      | Dental_Effective__c            | Dental Effective            | 0      |               |                    | 1      |        |
+| date      | Dental_Term__c                 | Dental Term                 | 0      |               |                    | 1      |        |
+| picklist  | Vision_Plan__c                 | Vision Plan                 | 255    | Waive         |                    | 1      |        |
+| date      | Vision_Effective__c            | Vision Effective            | 0      |               |                    | 1      |        |
+| date      | Vision_Term__c                 | Vision Term                 | 0      |               |                    | 1      |        |
+| currency  | Dental_Rate__c                 | Dental Rate                 | 0      |               |                    | 1      |        |
+| currency  | Vision_Rate__c                 | Vision Rate                 | 0      |               |                    | 1      |        |
+| picklist  | Health_Tier__c                 | Health Tier                 | 255    |               |                    | 1      |        |
+| picklist  | Catastrophic_Tier__c           | Catastrophic Tier           | 255    |               |                    | 1      |        |
+| picklist  | Dental_Tier__c                 | Dental Tier                 | 255    |               |                    | 1      |        |
+| picklist  | Vision_Tier__c                 | Vision Tier                 | 255    |               |                    | 1      |        |
+| string    | Address_1__c                   | Address 1                   | 35     |               |                    | 1      |        |
+| string    | Address_2__c                   | Address 2                   | 25     |               |                    | 1      |        |
+| string    | Address_3__c                   | Address 3                   | 25     |               |                    | 1      |        |
+| string    | City__c                        | City                        | 20     |               |                    | 1      |        |
+| string    | State__c                       | State                       | 2      |               |                    | 1      |        |
+| string    | Zip_Code__c                    | Zip Code                    | 10     |               |                    | 1      |        |
+| picklist  | Relationship__c                | Relationship                | 255    |               |                    | 1      |        |
+| currency  | Accident_Rate__c               | Accident Rate               | 0      |               |                    | 1      |        |
+| date      | Accident_Effective__c          | Accident Effective          | 0      |               |                    | 1      |        |
+| date      | Accident_Term__c               | Accident Term               | 0      |               |                    | 1      |        |
+| currency  | Rate_Total__c                  | Rate Total                  | 0      |               |                    | 1      |        |
+| reference | Group__c                       | Group                       | 18     |               | Group__r           | 1      |        |
+| reference | Sponsor__c                     | Sponsor                     | 18     |               | Sponsor__r         | 1      |        |
+| textarea  | Notes_Section__c               | Notes Section               | 255    |               |                    | 1      |        |
+| string    | Billing_Method__c              | Billing Method              | 1300   |               |                    | 1      |        |
+| picklist  | Accident_Plan__c               | Accident Plan               | 255    |               |                    | 1      |        |
+| picklist  | Critical_Illness__c            | Critical Illness            | 255    |               |                    | 1      |        |
+| string    | Middle_Initial__c              | Middle Initial              | 18     |               |                    | 1      |        |
+| string    | Name__c                        | Name                        | 1300   |               |                    | 1      |        |
+| date      | DOB__c                         | DOB                         | 0      |               |                    | 1      |        |
+| string    | Street_Address__c              | Street Address 1            | 35     |               |                    | 1      |        |
+| string    | Street_Address_2__c            | Street Address 2            | 25     |               |                    | 1      |        |
+| string    | Street_Address_3__c            | Street Address 3            | 18     |               |                    | 1      |        |
+| string    | Address__c                     | Address                     | 1300   |               |                    | 1      |        |
+| phone     | Secondary_Phone__c             | Secondary Phone             | 40     |               |                    | 1      |        |
+| picklist  | ACH_credit_card_invoice__c     | Payment Mode                | 255    |               |                    | 1      |        |
+| reference | Payment_History__c             | Payment History             | 18     |               | Payment_History__r | 1      |        |
+| currency  | Critical_Illness_Rate__c       | Critical Illness Rate       | 0      |               |                    | 1      |        |
+| picklist  | Gender__c                      | Gender                      | 255    |               |                    | 1      |        |
+| string    | Critical_Illness_Term__c       | Critical Illness Term       | 255    |               |                    | 1      |        |
+| date      | Critical_Illness_Effective__c  | Critical Illness Effective  | 0      |               |                    | 1      |        |
+| string    | Legacy_Number__c               | Legacy Number               | 10     |               |                    | 1      |        |
+| reference | Affiliate__c                   | Affiliate                   | 18     |               | Affiliate__r       | 1      |        |
+| double    | Primary_Visit__c               | Primary Visit               | 0      |               |                    | 1      |        |
+| double    | Specialty_Visit__c             | Specialty Visit             | 0      |               |                    | 1      |        |
+| picklist  | Prefix__c                      | Prefix                      | 255    |               |                    | 1      |        |
+| string    | SSN_TIN__c                     | SSN/TIN                     | 11     |               |                    | 1      |        |
++-----------+--------------------------------+-----------------------------+--------+---------------+--------------------+--------+--------+
++------------------+---------------------------------------------------------------------------+
+| Label            | URL                                                                       |
++------------------+---------------------------------------------------------------------------+
+| compactLayouts   | /services/data/v44.0/sobjects/Member__c/describe/compactLayouts           |
+| rowTemplate      | /services/data/v44.0/sobjects/Member__c/{ID}                              |
+| approvalLayouts  | /services/data/v44.0/sobjects/Member__c/describe/approvalLayouts          |
+| uiDetailTemplate | https://planstin--laytondev.my.salesforce.com/{ID}                        |
+| uiEditTemplate   | https://planstin--laytondev.my.salesforce.com/{ID}/e                      |
+| defaultValues    | /services/data/v44.0/sobjects/Member__c/defaultValues?recordTypeId&fields |
+| describe         | /services/data/v44.0/sobjects/Member__c/describe                          |
+| uiNewRecord      | https://planstin--laytondev.my.salesforce.com/a00/e                       |
+| quickActions     | /services/data/v44.0/sobjects/Member__c/quickActions                      |
+| layouts          | /services/data/v44.0/sobjects/Member__c/describe/layouts                  |
+| sobject          | /services/data/v44.0/sobjects/Member__c                                   |
++------------------+---------------------------------------------------------------------------+

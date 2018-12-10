@@ -4,9 +4,9 @@
 # * 'gtrp' and 'gtr' create a GET request with or without query parameters;
 # * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
 # * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
-GET https://planstin--portal1.my.salesforce.com/services/data
-
+GET https://planstin--laytondev.my.salesforce.com/services/data
 ###
-GET https://planstin--portal1.my.salesforce.com/services/data/v44.0
+GET https://planstin--laytondev.my.salesforce.com/services/data/v44.0/sobjects/Account
+Authorization: Bearer 00DV0000006tdxr!AQoAQA34VJUS8Fq_jfTKLHznLs0FChkdgRZFZTuhDWNNtGhd6hw0qwKmouGZMDEH6JfBmJdylFhxCxh0.NA3J3jtxn8B4c.i
 
 ###

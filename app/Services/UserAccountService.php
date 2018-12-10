@@ -45,7 +45,8 @@ class UserAccountService
             [
                 'email' => $user->getEmail(),
                 'password' => $user->getPlainPassword()
-            ])){
+            ])
+        ) {
             throw new InvalidPasswordException();
         }
 
@@ -56,7 +57,7 @@ class UserAccountService
      * @param User $user
      * @throws UserAlreadyExistsException
      */
-    public function createNewUserAccount(User $user)
+    public function createNewUserAccount(User $user): void
     {
         if ($this->passwordService->checkUserExists($user->getEmail())) {
             throw new UserAlreadyExistsException();
@@ -74,5 +75,16 @@ class UserAccountService
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
+    }
+
+    public function getCurrentUser(): User
+    {
+        $user = Auth::user();
+
+        if (! $user instanceof User) {
+            throw new \LogicException('No user is not authenticated');
+        }
+
+        return $user;
     }
 }

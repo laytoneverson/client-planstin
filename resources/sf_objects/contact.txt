@@ -1,0 +1,146 @@
+Description of Contact
+
++------------------------------------+------------------------------------+-------------------------------------+
+| Child Object                       | Field                              | Relationship Name                   |
++------------------------------------+------------------------------------+-------------------------------------+
+| AcceptedEventRelation              | RelationId                         | AcceptedEventRelations              |
+| AccountContactRelation             | ContactId                          | AccountContactRelations             |
+| AccountContactRole                 | ContactId                          | AccountContactRoles                 |
+| ActivityHistory                    | PrimaryWhoId                       |                                     |
+| ActivityHistory                    | WhoId                              | ActivityHistories                   |
+| Asset                              | ContactId                          | Assets                              |
+| AttachedContentDocument            | LinkedEntityId                     | AttachedContentDocuments            |
+| AttachedContentNote                | LinkedEntityId                     | AttachedContentNotes                |
+| Attachment                         | ParentId                           | Attachments                         |
+| CampaignMember                     | ContactId                          | CampaignMembers                     |
+| CampaignMember                     | LeadOrContactId                    |                                     |
+| Case                               | ContactId                          | Cases                               |
+| CaseContactRole                    | ContactId                          | CaseContactRoles                    |
+| CaseTeamMember                     | MemberId                           |                                     |
+| CaseTeamTemplateMember             | MemberId                           |                                     |
+| ChargentOrders__Payment_Request__c | ChargentOrders__Billing_Contact__c | ChargentOrders__Payment_Requests__r |
+| CollaborationGroupRecord           | RecordId                           | RecordAssociatedGroups              |
+| CombinedAttachment                 | ParentId                           | CombinedAttachments                 |
+| Contact                            | ReportsToId                        |                                     |
+| ContactFeed                        | ParentId                           | Feeds                               |
+| ContactHistory                     | ContactId                          | Histories                           |
+| ContactShare                       | ContactId                          | Shares                              |
+| ContentDistribution                | RelatedRecordId                    |                                     |
+| ContentDocumentLink                | LinkedEntityId                     | ContentDocumentLinks                |
+| ContentVersion                     | FirstPublishLocationId             |                                     |
+| Contract                           | CustomerSignedId                   | ContractsSigned                     |
+| ContractContactRole                | ContactId                          | ContractContactRoles                |
+| DeclinedEventRelation              | RelationId                         | DeclinedEventRelations              |
+| DuplicateRecordItem                | RecordId                           | DuplicateRecordItems                |
+| EmailMessageRelation               | RelationId                         | EmailMessageRelations               |
+| EmailStatus                        | WhoId                              | EmailStatuses                       |
+| EntitySubscription                 | ParentId                           | FeedSubscriptionsForEntity          |
+| Event                              | WhoId                              | Events                              |
+| EventRelation                      | RelationId                         | EventRelations                      |
+| EventWhoRelation                   | RelationId                         | EventWhoRelations                   |
+| FeedComment                        | ParentId                           |                                     |
+| FeedItem                           | ParentId                           |                                     |
+| FlowRecordRelation                 | RelatedRecordId                    |                                     |
+| Lead                               | ConvertedContactId                 |                                     |
+| ListEmailIndividualRecipient       | RecipientId                        | ListEmailIndividualRecipients       |
+| Note                               | ParentId                           | Notes                               |
+| NoteAndAttachment                  | ParentId                           | NotesAndAttachments                 |
+| OpenActivity                       | PrimaryWhoId                       |                                     |
+| OpenActivity                       | WhoId                              | OpenActivities                      |
+| OpportunityContactRole             | ContactId                          | OpportunityContactRoles             |
+| Order                              | CustomerAuthorizedById             |                                     |
+| ProcessInstance                    | TargetObjectId                     | ProcessInstances                    |
+| ProcessInstanceHistory             | TargetObjectId                     | ProcessSteps                        |
+| Quote                              | ContactId                          | Quotes                              |
+| RecordAction                       | RecordId                           | RecordActions                       |
+| RecordActionHistory                | ParentRecordId                     | RecordActionHistories               |
+| SDOC__SDJob__c                     | SDOC__Contact__c                   | SDOC__S_Docs_Jobs__r                |
+| SDOC__SDRelationship__c            | SDOC__Contact__c                   | SDOC__SDoc_Relationships__r         |
+| SocialPersona                      | ParentId                           | Personas                            |
+| SocialPost                         | WhoId                              | Posts                               |
+| Task                               | WhoId                              | Tasks                               |
+| TaskRelation                       | RelationId                         | TaskRelations                       |
+| TaskWhoRelation                    | RelationId                         | TaskWhoRelations                    |
+| TopicAssignment                    | EntityId                           | TopicAssignments                    |
+| UndecidedEventRelation             | RelationId                         | UndecidedEventRelations             |
+| User                               | ContactId                          | Users                               |
+| UserEmailPreferredPerson           | PersonRecordId                     | PersonRecord                        |
++------------------------------------+------------------------------------+-------------------------------------+
++-----------+-----------------------------------+---------------------------------+--------+---------------+--------------------------------+--------+--------+
+| Type      | Name                              | Label                           | Length | Default Value | Relationship Name              | Custom | Unique |
++-----------+-----------------------------------+---------------------------------+--------+---------------+--------------------------------+--------+--------+
+| id        | Id                                | Group Contact ID                | 18     |               |                                |        |        |
+| boolean   | IsDeleted                         | Deleted                         | 0      |               |                                |        |        |
+| reference | MasterRecordId                    | Master Record ID                | 18     |               | MasterRecord                   |        |        |
+| reference | AccountId                         | Account ID                      | 18     |               | Account                        |        |        |
+| string    | LastName                          | Last Name                       | 80     |               |                                |        |        |
+| string    | FirstName                         | First Name                      | 40     |               |                                |        |        |
+| picklist  | Salutation                        | Salutation                      | 40     |               |                                |        |        |
+| string    | MiddleName                        | Middle Name                     | 40     |               |                                |        |        |
+| string    | Suffix                            | Suffix                          | 40     |               |                                |        |        |
+| string    | Name                              | Full Name                       | 121    |               |                                |        |        |
+| textarea  | MailingStreet                     | Mailing Street                  | 255    |               |                                |        |        |
+| string    | MailingCity                       | Mailing City                    | 40     |               |                                |        |        |
+| string    | MailingState                      | Mailing State/Province          | 80     |               |                                |        |        |
+| string    | MailingPostalCode                 | Mailing Zip/Postal Code         | 20     |               |                                |        |        |
+| string    | MailingCountry                    | Mailing Country                 | 80     |               |                                |        |        |
+| double    | MailingLatitude                   | Mailing Latitude                | 0      |               |                                |        |        |
+| double    | MailingLongitude                  | Mailing Longitude               | 0      |               |                                |        |        |
+| picklist  | MailingGeocodeAccuracy            | Mailing Geocode Accuracy        | 40     |               |                                |        |        |
+| address   | MailingAddress                    | Mailing Address                 | 0      |               |                                |        |        |
+| phone     | Phone                             | Business Phone                  | 40     |               |                                |        |        |
+| phone     | Fax                               | Business Fax                    | 40     |               |                                |        |        |
+| phone     | MobilePhone                       | Mobile Phone                    | 40     |               |                                |        |        |
+| reference | ReportsToId                       | Reports To ID                   | 18     |               | ReportsTo                      |        |        |
+| email     | Email                             | Email                           | 80     |               |                                |        |        |
+| string    | Title                             | Title                           | 128    |               |                                |        |        |
+| string    | Department                        | Department                      | 80     |               |                                |        |        |
+| reference | OwnerId                           | Group Contact Owner             | 18     |               | Owner                          |        |        |
+| datetime  | CreatedDate                       | Created Date                    | 0      |               |                                |        |        |
+| reference | CreatedById                       | Created By ID                   | 18     |               | CreatedBy                      |        |        |
+| datetime  | LastModifiedDate                  | Last Modified Date              | 0      |               |                                |        |        |
+| reference | LastModifiedById                  | Last Modified By ID             | 18     |               | LastModifiedBy                 |        |        |
+| datetime  | SystemModstamp                    | System Modstamp                 | 0      |               |                                |        |        |
+| date      | LastActivityDate                  | Last Activity                   | 0      |               |                                |        |        |
+| datetime  | LastCURequestDate                 | Last Stay-in-Touch Request Date | 0      |               |                                |        |        |
+| datetime  | LastCUUpdateDate                  | Last Stay-in-Touch Save Date    | 0      |               |                                |        |        |
+| datetime  | LastViewedDate                    | Last Viewed Date                | 0      |               |                                |        |        |
+| datetime  | LastReferencedDate                | Last Referenced Date            | 0      |               |                                |        |        |
+| string    | EmailBouncedReason                | Email Bounced Reason            | 255    |               |                                |        |        |
+| datetime  | EmailBouncedDate                  | Email Bounced Date              | 0      |               |                                |        |        |
+| boolean   | IsEmailBounced                    | Is Email Bounced                | 0      |               |                                |        |        |
+| url       | PhotoUrl                          | Photo URL                       | 255    |               |                                |        |        |
+| string    | Jigsaw                            | Data.com Key                    | 20     |               |                                |        |        |
+| string    | JigsawContactId                   | Jigsaw Contact ID               | 20     |               | JigsawContact                  |        |        |
+| phone     | rcsfl__SMS_Number__c              | SMS Number                      | 40     |               |                                | 1      |        |
+| textarea  | Notes__c                          | Notes                           | 255    |               |                                | 1      |        |
+| picklist  | Contact_Type__c                   | Contact Type                    | 255    |               |                                | 1      |        |
+| string    | rcsfl__SendSMS__c                 | SendSMS                         | 1300   |               |                                | 1      |        |
+| string    | pw_cc__CountryText__c             | CountryText                     | 255    |               |                                | 1      |        |
+| picklist  | pw_cc__MailingAddressStatus__c    | Mailing Address Status          | 255    | Not checked   |                                | 1      |        |
+| reference | pw_cc__MailingCountryLookup__c    | Mailing Country Lookup          | 18     |               | pw_cc__MailingCountryLookup__r | 1      |        |
+| picklist  | pw_cc__MailingLocationAccuracy__c | Mailing Location Accuracy       | 255    | Not checked   |                                | 1      |        |
+| picklist  | pw_cc__MailingLocationSource__c   | Mailing Location Source         | 255    | Default       |                                | 1      |        |
+| reference | pw_cc__MailingStateLookup__c      | Mailing State Lookup            | 18     |               | pw_cc__MailingStateLookup__r   | 1      |        |
+| reference | pw_cc__MailingZipCodeLookup__c    | Mailing Zip/Postal Code Lookup  | 18     |               | pw_cc__MailingZipCodeLookup__r | 1      |        |
+| picklist  | pw_cc__OtherAddressStatus__c      | Other Address Status            | 255    | Not checked   |                                | 1      |        |
+| picklist  | pw_cc__OtherLocationAccuracy__c   | Other Location Accuracy         | 255    | Not checked   |                                | 1      |        |
+| picklist  | pw_cc__OtherLocationSource__c     | Other Location Source           | 255    | Default       |                                | 1      |        |
+| string    | pw_cc__StateText__c               | StateText                       | 255    |               |                                | 1      |        |
++-----------+-----------------------------------+---------------------------------+--------+---------------+--------------------------------+--------+--------+
++------------------+-------------------------------------------------------------------------+
+| Label            | URL                                                                     |
++------------------+-------------------------------------------------------------------------+
+| compactLayouts   | /services/data/v44.0/sobjects/Contact/describe/compactLayouts           |
+| rowTemplate      | /services/data/v44.0/sobjects/Contact/{ID}                              |
+| approvalLayouts  | /services/data/v44.0/sobjects/Contact/describe/approvalLayouts          |
+| uiDetailTemplate | https://planstin--laytondev.my.salesforce.com/{ID}                      |
+| uiEditTemplate   | https://planstin--laytondev.my.salesforce.com/{ID}/e                    |
+| defaultValues    | /services/data/v44.0/sobjects/Contact/defaultValues?recordTypeId&fields |
+| listviews        | /services/data/v44.0/sobjects/Contact/listviews                         |
+| describe         | /services/data/v44.0/sobjects/Contact/describe                          |
+| uiNewRecord      | https://planstin--laytondev.my.salesforce.com/003/e                     |
+| quickActions     | /services/data/v44.0/sobjects/Contact/quickActions                      |
+| layouts          | /services/data/v44.0/sobjects/Contact/describe/layouts                  |
+| sobject          | /services/data/v44.0/sobjects/Contact                                   |
++------------------+-------------------------------------------------------------------------+

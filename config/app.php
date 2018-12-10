@@ -1,6 +1,7 @@
 <?php
 
-use App\Services\SalesForce\ApiCall\AddClientApiCall;
+use App\Services\SalesForce\ApiCall\AddClient;
+use App\Services\SalesForce\ApiCall\GetObjectMetadata;
 use App\Services\SalesForce\ApiCall\RequestAccessToken;
 use App\Services\SalesForce\ApiCall\RequestRefreshToken;
 
@@ -18,15 +19,16 @@ return [
         ],
         'api_endpoints' => [
             'production' => '',
-            'local' => 'https://planstin--portal1.my.salesforce.com',
             'staging' => 'https://planstin--portal1.my.salesforce.com',
-            'dev' => 'https://planstin--portal1.my.salesforce.com',
+            'local' => env('SF_INSTANCE_URL', ''),
+            'dev' => env('SF_INSTANCE_URL', ''),
         ],
         'version_endpoint_uri' => 'v44.0',
         'api_calls' => [
-            AddClientApiCall::class,
+            AddClient::class,
             RequestAccessToken::class,
             RequestRefreshToken::class,
+            GetObjectMetadata::class,
         ]
     ],
 

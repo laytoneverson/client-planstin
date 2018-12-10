@@ -34,11 +34,11 @@ class User implements Authenticatable, CanResetPassword
     private $id;
 
     /**
-     * @var Client|null
+     * @var GroupClient|null
      *
-     * @ORM\ManyToOne(targetEntity="App\Entities\Client", inversedBy="users")
+     * @ORM\ManyToOne(targetEntity="App\Entities\GroupClient", inversedBy="users")
      */
-    private $client;
+    private $groupClient;
 
     /**
      * @var Member|null
@@ -48,9 +48,9 @@ class User implements Authenticatable, CanResetPassword
     private $member;
 
     /**
-     * @var Client
+     * @var GroupClient
      *
-     * @ORM\ManyToOne(targetEntity="App\Entities\Client", inversedBy="adminUsers")
+     * @ORM\ManyToOne(targetEntity="App\Entities\GroupClient", inversedBy="adminUsers")
      */
     private $adminOf;
 
@@ -75,20 +75,20 @@ class User implements Authenticatable, CanResetPassword
     }
 
     /**
-     * @return Client
+     * @return GroupClient
      */
-    public function getClient():? Client
+    public function getGroupClient():? GroupClient
     {
-        return $this->client;
+        return $this->groupClient;
     }
 
     /**
-     * @param Client $client
+     * @param GroupClient|null $groupClient
      * @return User
      */
-    public function setClient(Client $client = null): User
+    public function setGroupClient(GroupClient $groupClient = null): User
     {
-        $this->client = $client;
+        $this->groupClient = $groupClient;
 
         return $this;
     }
@@ -132,20 +132,21 @@ class User implements Authenticatable, CanResetPassword
     }
 
     /**
-     * @return Client
+     * @return GroupClient
      */
-    public function getAdminOf(): Client
+    public function getAdminOf(): GroupClient
     {
         return $this->adminOf;
     }
 
     /**
-     * @param Client $adminOf
+     * @param GroupClient $adminOf
      * @return User
      */
-    public function setAdminOf(Client $adminOf): User
+    public function setAdminOf(GroupClient $adminOf): User
     {
         $this->adminOf = $adminOf;
+        $adminOf->addAdminUser($this);
 
         return $this;
     }

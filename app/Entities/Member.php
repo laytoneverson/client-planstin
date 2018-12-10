@@ -8,7 +8,6 @@
 
 namespace App\Entities;
 
-
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -19,6 +18,10 @@ class Member
 {
     use IsSalesForceObjectTrait;
 
+    protected static $sfObjectFriendlyName = 'Member';
+
+    protected static $sfObjectApiName = 'Member__c';
+
     /**
      * @var int
      * @ORM\Id
@@ -28,15 +31,17 @@ class Member
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entities\Client", inversedBy="members")
-     * @var Client
+     * @ORM\ManyToOne(targetEntity="GroupClient", inversedBy="members")
+     * @var GroupClient
      */
-    private $client;
+    private $groupClient;
 
     /**
      * @var Contact
+     *
+     * @ORM\OneToOne(targetEntity="Contact", mappedBy="member")
      */
-    private $contact;
+    private $primaryContact;
 
     /**
      * @var Member
@@ -49,24 +54,16 @@ class Member
      */
     protected $memberRoll;
 
-    /**
-     * @return Contact
-     */
-    public function getContact(): Contact
+    public function getSfObjectApiName(): string
     {
-        return $this->contact;
+        return self::$sfObjectApiName;
     }
 
-    /**
-     * @param Contact $contact
-     * @return Member
-     */
-    public function setContact(Contact $contact): Member
+    public function getSfObjectFriendlyName(): string
     {
-        $this->contact = $contact;
-
-        return $this;
+        return self::$sfObjectFriendlyName;
     }
+
 
     /**
      * @return string
@@ -88,20 +85,20 @@ class Member
     }
 
     /**
-     * @return Client
+     * @return GroupClient
      */
-    public function getClient(): Client
+    public function getGroupClient(): GroupClient
     {
-        return $this->client;
+        return $this->groupClient;
     }
 
     /**
-     * @param Client $client
+     * @param GroupClient $groupClient
      * @return Member
      */
-    public function setClient(Client $client): Member
+    public function setGroupClient(GroupClient $groupClient): Member
     {
-        $this->client = $client;
+        $this->groupClient = $groupClient;
 
         return $this;
     }

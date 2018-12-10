@@ -30,6 +30,9 @@ abstract class AbstractRestApiCall implements SalesForceApiCallInterface
     public const CONTENT_TYPE_JSON = 'application/json';
     public const CONTENT_TYPE_FORM = 'application/x-www-form-urlencoded';
 
+    protected const REST_API_BASE_URI = 'services/data';
+
+
     /**
      * @var HttpClient
      */
@@ -58,7 +61,9 @@ abstract class AbstractRestApiCall implements SalesForceApiCallInterface
     /**
      * @var array
      */
-    protected $requestHeaders = [];
+    protected $requestHeaders = [
+//        'Accept-Encoding' => 'gzip, deflate',
+    ];
 
     /**
      * @var array
@@ -220,7 +225,33 @@ abstract class AbstractRestApiCall implements SalesForceApiCallInterface
      */
     protected function authorizeWithToken(): self
     {
-        //@TODO: Add Token Header for requests...
+        $token = $this->apiParameters->getToken()->getAccessToken();
+
+        $this->addHeader('Authorization', "Authorization: Bearer $token");
+
         return $this;
+    }
+
+    /**
+     * Returns a url to build an endpoint from. i.e. https://salesforceinstance/services/data/vX.XX
+     *
+     * @return string
+     */
+    protected function getRestApiBaseUrl(): string
+    {
+        return \sprintf(
+            '%s/%s/%s',
+            $this->apiParameters->getToken()->getInstanceUrl(),
+            self::REST_API_BASE_URI,
+            $this->apiParameters->getVersion()
+        );
+    }
+
+    protected function getObjectBaseUrl(string $objectApiName): string
+    {
+        return \sprintf('%s/sobjects/%s',
+            $this->getRestApiBaseUrl(),
+            $objectApiName
+        );
     }
 }

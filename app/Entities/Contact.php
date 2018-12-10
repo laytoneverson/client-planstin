@@ -8,8 +8,44 @@
 namespace App\Entities;
 
 
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity(repositoryClass="App\Repositories\ContactRepository")
+ * @ORM\Table(name="contact")
+ */
 class Contact
 {
+    use IsSalesForceObjectTrait;
+
+    protected static $sfObjectApiName = 'Contact';
+
+    protected static $sfFriendlyName = 'Contact';
+
+    /**
+     * @var int
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
+     */
+    protected $id;
+
+
+    /**
+     * @var GroupClient
+     *
+     * @ORM\OneToOne(targetEntity="GroupClient", mappedBy="primaryContact", cascade={"persist", "remove"})
+     */
+    protected $groupClient;
+
+    /**
+     * @var Member
+     *
+     * @ORM\OneToOne(targetEntity="Member", inversedBy="primaryContact")
+     */
+    protected $member;
+
     protected $firstName;
 
     protected $lastName;
@@ -17,6 +53,33 @@ class Contact
     protected $phone;
 
     protected $email;
+
+    public function getSfObjectApiName(): string
+    {
+        return self::$sfObjectApiName;
+    }
+
+    public function getSfObjectFriendlyName(): string
+    {
+        return self::$sfFriendlyName;
+    }
+
+    public function getSfMapping(): array
+    {
+        return [
+            //SF => Local
+            'AccountId' => 'groupClient.sfObjectId',
+            'LastName' => 'firstName',
+            'FirstName' => 'lastName',
+            'Phone' => 'phone',
+            'Email' => 'email',
+        ];
+    }
+
+    public function getFullName()
+    {
+        return \sprintf('%s %s', $this->firstName, $this->lastName);
+    }
 
     /**
      * @return mixed
@@ -90,6 +153,44 @@ class Contact
     public function setEmail($email)
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * @return GroupClient
+     */
+    public function getGroupClient():? GroupClient
+    {
+        return $this->groupClient;
+    }
+
+    /**
+     * @param GroupClient $groupClient
+     * @return Contact
+     */
+    public function setGroupClient(GroupClient $groupClient): self
+    {
+        $this->groupClient = $groupClient;
+
+        return $this;
+    }
+
+    /**
+     * @return Member
+     */
+    public function getMember():? Member
+    {
+        return $this->member;
+    }
+
+    /**
+     * @param Member $member
+     * @return Contact
+     */
+    public function setMember(Member $member): self
+    {
+        $this->member = $member;
 
         return $this;
     }
