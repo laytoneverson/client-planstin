@@ -2,6 +2,7 @@
 
 use App\Services\SalesForce\ApiCall\AddClient;
 use App\Services\SalesForce\ApiCall\GetObjectMetadata;
+use App\Services\SalesForce\ApiCall\GetSalesForceObjectData;
 use App\Services\SalesForce\ApiCall\RequestAccessToken;
 use App\Services\SalesForce\ApiCall\RequestRefreshToken;
 
@@ -29,6 +30,7 @@ return [
             RequestAccessToken::class,
             RequestRefreshToken::class,
             GetObjectMetadata::class,
+            GetSalesForceObjectData::class,
         ]
     ],
 

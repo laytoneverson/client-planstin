@@ -1,6 +1,6 @@
 <?php
 /**
- * File: SalesForceObjectTrait.php
+ * File: AbstractSalesForceObjectEntity.php
  * Project: planstin
  * Author: @laytoneverson <layton.everson@gmail.com>
  */
@@ -9,7 +9,7 @@ namespace App\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
 
-trait IsSalesForceObjectTrait
+abstract class AbstractSalesForceObjectEntity
 {
     /**
      * @var string
@@ -40,7 +40,7 @@ trait IsSalesForceObjectTrait
      * @param string $sfObjectId
      * @return self
      */
-    public function setSfObjectId(string $sfObjectId = null): self
+    public function setSfObjectId(string $sfObjectId = null): AbstractSalesForceObjectEntity
     {
         $this->sfObjectId = $sfObjectId;
 

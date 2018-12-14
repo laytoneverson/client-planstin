@@ -15,10 +15,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repositories\GroupClientRepository")
  * @ORM\Table(name="group_client")
  */
-class GroupClient
+class GroupClient extends AbstractSalesForceObjectEntity
 {
-    use IsSalesForceObjectTrait;
-
     protected static $sfObjectApiName = 'Account';
 
     protected static $sfObjectFriendlyName = 'Group Client';
@@ -169,6 +167,14 @@ class GroupClient
             'ShippingPostalCode' => 'shippingAddress.postalCode',
 
         ];
+    }
+
+    /**
+     * @return int
+     */
+    public function getId():? int
+    {
+        return $this->id;
     }
 
     /**

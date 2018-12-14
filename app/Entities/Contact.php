@@ -14,10 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repositories\ContactRepository")
  * @ORM\Table(name="contact")
  */
-class Contact
+class Contact extends AbstractSalesForceObjectEntity
 {
-    use IsSalesForceObjectTrait;
-
     protected static $sfObjectApiName = 'Contact';
 
     protected static $sfFriendlyName = 'Contact';
@@ -30,7 +28,6 @@ class Contact
      * @ORM\Column(type="integer")
      */
     protected $id;
-
 
     /**
      * @var GroupClient
@@ -93,7 +90,7 @@ class Contact
      * @param mixed $firstName
      * @return Contact
      */
-    public function setFirstName($firstName)
+    public function setFirstName($firstName): Contact
     {
         $this->firstName = $firstName;
 
@@ -112,7 +109,7 @@ class Contact
      * @param mixed $lastName
      * @return Contact
      */
-    public function setLastName($lastName)
+    public function setLastName($lastName): Contact
     {
         $this->lastName = $lastName;
 
@@ -131,7 +128,7 @@ class Contact
      * @param mixed $phone
      * @return Contact
      */
-    public function setPhone($phone)
+    public function setPhone($phone): Contact
     {
         $this->phone = $phone;
 
@@ -150,7 +147,7 @@ class Contact
      * @param mixed $email
      * @return Contact
      */
-    public function setEmail($email)
+    public function setEmail($email): Contact
     {
         $this->email = $email;
 
