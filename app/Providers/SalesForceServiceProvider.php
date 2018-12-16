@@ -28,6 +28,8 @@ class SalesForceServiceProvider extends ServiceProvider
     {
         $this->registerApiParameters();
 
+        $this->app->singleton(SalesForceTokenService::class);
+
         //Register the calls (Must extend AbstractSalesForceApiCall)
         $this->registerApiCalls();
     }

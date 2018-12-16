@@ -37,11 +37,13 @@ class GetSalesForceObjectDataDto implements SalesForceDtoInterface
         $data = \GuzzleHttp\json_decode($data);
 
         foreach($dataMap as $sfProperty => $localProperty) {
+
             $propertyAccessor->setValue(
                 $this->salesForceObjectEntity,
                 $localProperty,
                 $data->$sfProperty
             );
+
         }
 
         return $this;

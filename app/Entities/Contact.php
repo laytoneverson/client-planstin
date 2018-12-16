@@ -90,7 +90,7 @@ class Contact extends AbstractSalesForceObjectEntity
      * @param mixed $firstName
      * @return Contact
      */
-    public function setFirstName($firstName): Contact
+    public function setFirstName($firstName)
     {
         $this->firstName = $firstName;
 
@@ -109,7 +109,7 @@ class Contact extends AbstractSalesForceObjectEntity
      * @param mixed $lastName
      * @return Contact
      */
-    public function setLastName($lastName): Contact
+    public function setLastName($lastName)
     {
         $this->lastName = $lastName;
 
@@ -128,7 +128,7 @@ class Contact extends AbstractSalesForceObjectEntity
      * @param mixed $phone
      * @return Contact
      */
-    public function setPhone($phone): Contact
+    public function setPhone($phone)
     {
         $this->phone = $phone;
 
@@ -147,7 +147,7 @@ class Contact extends AbstractSalesForceObjectEntity
      * @param mixed $email
      * @return Contact
      */
-    public function setEmail($email): Contact
+    public function setEmail($email)
     {
         $this->email = $email;
 

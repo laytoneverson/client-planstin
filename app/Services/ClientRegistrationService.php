@@ -80,7 +80,9 @@ class ClientRegistrationService
 
         if (!$client = $currentUser->getGroupClient()) {
             $client = new GroupClient();
-            $currentUser->setAdminOf($client);
+            $currentUser
+                ->setAdminOf($client)
+                ->setGroupClient($client);
         }
 
         return $client;
@@ -97,24 +99,33 @@ class ClientRegistrationService
     {
         //Add GroupClient record to Sales Force
         try {
+
             $newClientDto = new AddClientDto($groupClient);
             $this->addClientApiCall->setData($newClientDto);
             $this->addClientApiCall->execute();
+
         } catch (\Throwable $exception) {
+            report($exception);
+            $this->errorMessage = $exception->getMessage();
+
             throw $exception;
 
-            $this->errorMessage = $exception->getMessage();
             return false;
         }
 
         //Add Contact record to Sales Force
         try {
+
             $newContactDto = new AddContactDto($groupClient->getPrimaryContact());
             $this->addContactCall->setData($newContactDto);
             $this->addContactCall->execute();
+
         } catch (\Throwable $exception) {
-            throw $exception;
+            report($exception);
             $this->errorMessage = $exception->getMessage();
+
+            throw $exception;
+
             return false;
         }
 

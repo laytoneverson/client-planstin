@@ -45,11 +45,11 @@ class RegisterController extends Controller
         $newUser = new User();
    
         $form = $this->createForm(NewUserType::class, $newUser);
-        
         $form->handleRequest($request);
 
         $moveOn = false;
         if ($form->isValid()) {
+
             try {
 
                 $this->accountService->createNewUserAccount($newUser);
@@ -86,7 +86,10 @@ class RegisterController extends Controller
 
     public function profile(Request $request)
     {
-        $groupClient = $this->clientRegistration->prepareNewClient();
+        $user = $this->accountService->getCurrentUser();
+        if (!$groupClient = $user->getGroupClient()) {
+            $groupClient = $this->clientRegistration->prepareNewClient();
+        }
 
         $form = $this
             ->createForm(GroupClientFormType::class, $groupClient)

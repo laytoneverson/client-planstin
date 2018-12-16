@@ -15,12 +15,17 @@ class GetSalesForceObjectData extends AbstractRestApiCall
     protected function prepareRequest(): void
     {
         $this->requestMethod = self::HTTP_METHOD_GET;
-
+        $this->authorizeWithToken();
     }
 
     protected function getRequestUrl(): string
     {
-        // TODO: Implement getRequestUrl() method.
+        $requestData = $this->data->toSfObject();
+
+        return \sprintf('%s/%s',
+            $this->getObjectBaseUrl($requestData['objectApiName']),
+            $requestData['objectId']
+        );
     }
 
     protected function getDtoObjectType(): string

@@ -40,7 +40,7 @@ abstract class AbstractSalesForceObjectEntity
      * @param string $sfObjectId
      * @return self
      */
-    public function setSfObjectId(string $sfObjectId = null): AbstractSalesForceObjectEntity
+    public function setSfObjectId(string $sfObjectId = null)
     {
         $this->sfObjectId = $sfObjectId;
 

@@ -168,7 +168,7 @@ return [
         Illuminate\Hashing\HashServiceProvider::class,
         Illuminate\Mail\MailServiceProvider::class,
         Illuminate\Pipeline\PipelineServiceProvider::class,
-//        Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
+        Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
         Illuminate\Queue\QueueServiceProvider::class,
         Illuminate\Session\SessionServiceProvider::class,
         Illuminate\Translation\TranslationServiceProvider::class,
@@ -196,11 +196,11 @@ return [
         /*
          * Not in use
          */
-//        App\Providers\BroadcastServiceProvider::class,
-//        Illuminate\Notifications\NotificationServiceProvider::class,
-//        Illuminate\Pagination\PaginationServiceProvider::class,
-//        Illuminate\Broadcasting\BroadcastServiceProvider::class,
-//        Illuminate\Redis\RedisServiceProvider::class,
+        App\Providers\BroadcastServiceProvider::class,
+        Illuminate\Notifications\NotificationServiceProvider::class,
+        Illuminate\Pagination\PaginationServiceProvider::class,
+        Illuminate\Broadcasting\BroadcastServiceProvider::class,
+        Illuminate\Redis\RedisServiceProvider::class,
     ],
 
     /*
@@ -251,7 +251,5 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
-
     ],
-
 ];
