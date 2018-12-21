@@ -15,10 +15,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repositories\GroupClientRepository")
  * @ORM\Table(name="group_client")
  */
-class GroupClient
+class GroupClient extends AbstractSalesForceObjectEntity
 {
-    use IsSalesForceObjectTrait;
-
     protected static $sfObjectApiName = 'Account';
 
     protected static $sfObjectFriendlyName = 'Group Client';
@@ -130,25 +128,36 @@ class GroupClient
      */
     protected $profileImageUrl;
 
+    /**
+     * @var bool
+     */
+    protected $isPayrollClient;
+
+    /**
+     * @var bool
+     */
+    protected $isBenefitsClient;
+
+    /**
+     * GroupClient constructor.
+     */
     public function __construct()
     {
         $this->members = new ArrayCollection();
         $this->adminUsers = new ArrayCollection();
-        $this->billingAddress = new Address();
-        $this->shippingAddress = new Address();
     }
 
-    public function getSfObjectApiName(): string
+    public static function getSfObjectApiName(): string
     {
         return self::$sfObjectApiName;
     }
 
-    public function getSfObjectFriendlyName(): string
+    public static function getSfObjectFriendlyName(): string
     {
         return self::$sfObjectFriendlyName;
     }
 
-    public function getSfMapping(): array
+    public static function getSfMapping(): array
     {
         return [
             'Id' => 'sfObjectId',
@@ -172,6 +181,14 @@ class GroupClient
     }
 
     /**
+     * @return int
+     */
+    public function getId():? int
+    {
+        return $this->id;
+    }
+
+    /**
      * Get the value of signupStep
      *
      * @return  string
@@ -188,7 +205,7 @@ class GroupClient
      *
      * @return self
      */ 
-    public function setSignupStep(string $signupStep): self
+    public function setSignupStep(string $signupStep)
     {
         $this->signupStep = $signupStep;
 
@@ -199,7 +216,7 @@ class GroupClient
      * @param Member $member
      * @return GroupClient
      */
-    public function addMember(Member $member): self
+    public function addMember(Member $member)
     {
         $member->setGroupClient($this);
 
@@ -210,7 +227,7 @@ class GroupClient
      * @param Member $member
      * @return GroupClient
      */
-    public function removeMember(Member $member): self
+    public function removeMember(Member $member)
     {
         $this->members->removeElement($member);
 
@@ -221,7 +238,7 @@ class GroupClient
      * @param User $adminUser
      * @return GroupClient
      */
-    public function addAdminUser(User $adminUser): self
+    public function addAdminUser(User $adminUser)
     {
         $this->adminUsers->add($adminUser);
 
@@ -232,7 +249,7 @@ class GroupClient
      * @param User $adminUser
      * @return GroupClient
      */
-    public function removeAdminUser($adminUser): self
+    public function removeAdminUser($adminUser)
     {
         $this->adminUsers->removeElement($adminUser);
         $adminUser->setAdminOf(null);
@@ -252,7 +269,7 @@ class GroupClient
      * @param string $dba
      * @return GroupClient
      */
-    public function setDba(string $dba): GroupClient
+    public function setDba(string $dba = null)
     {
         $this->dba = $dba;
 
@@ -271,7 +288,7 @@ class GroupClient
      * @param string $website
      * @return GroupClient
      */
-    public function setWebsite(string $website): GroupClient
+    public function setWebsite(string $website = null)
     {
         $this->website = $website;
 
@@ -290,7 +307,7 @@ class GroupClient
      * @param string $phone
      * @return GroupClient
      */
-    public function setPhone(string $phone): GroupClient
+    public function setPhone(string $phone = null)
     {
         $this->phone = $phone;
 
@@ -309,7 +326,7 @@ class GroupClient
      * @param string $taxId
      * @return GroupClient
      */
-    public function setTaxId(string $taxId): GroupClient
+    public function setTaxId(string $taxId = null)
     {
         $this->taxId = $taxId;
 
@@ -328,7 +345,7 @@ class GroupClient
      * @param Contact $primaryContact
      * @return GroupClient
      */
-    public function setPrimaryContact(Contact $primaryContact): GroupClient
+    public function setPrimaryContact(Contact $primaryContact)
     {
         $this->primaryContact = $primaryContact;
         $primaryContact->setGroupClient($this);
@@ -348,7 +365,7 @@ class GroupClient
      * @param Contact $billingContact
      * @return GroupClient
      */
-    public function setBillingContact(Contact $billingContact): GroupClient
+    public function setBillingContact(Contact $billingContact)
     {
         $this->billingContact = $billingContact;
 
@@ -367,7 +384,7 @@ class GroupClient
      * @param string $profileImageUpload
      * @return GroupClient
      */
-    public function setProfileImageUpload(string $profileImageUpload): GroupClient
+    public function setProfileImageUpload(string $profileImageUpload = null)
     {
         $this->profileImageUpload = $profileImageUpload;
 
@@ -386,7 +403,7 @@ class GroupClient
      * @param string $profileImagePath
      * @return GroupClient
      */
-    public function setProfileImagePath(string $profileImagePath): GroupClient
+    public function setProfileImagePath(string $profileImagePath = null)
     {
         $this->profileImagePath = $profileImagePath;
 
@@ -396,8 +413,12 @@ class GroupClient
     /**
      * @return Address
      */
-    public function getShippingAddress(): Address
+    public function getShippingAddress():? Address
     {
+        if (null === $this->shippingAddress) {
+            $this->shippingAddress = new Address();
+        }
+
         return $this->shippingAddress;
     }
 
@@ -405,7 +426,7 @@ class GroupClient
      * @param Address $shippingAddress
      * @return GroupClient
      */
-    public function setShippingAddress(Address $shippingAddress): self
+    public function setShippingAddress(Address $shippingAddress)
     {
         $this->shippingAddress = $shippingAddress;
 
@@ -417,6 +438,10 @@ class GroupClient
      */
     public function getBillingAddress(): Address
     {
+        if (null === $this->billingAddress) {
+            $this->billingAddress = new Address();
+        }
+
         return $this->billingAddress;
     }
 
@@ -424,7 +449,7 @@ class GroupClient
      * @param Address $billingAddress
      * @return GroupClient
      */
-    public function setBillingAddress(Address $billingAddress): self
+    public function setBillingAddress(Address $billingAddress)
     {
         $this->billingAddress = $billingAddress;
 
@@ -443,7 +468,7 @@ class GroupClient
      * @param string $profileImageUrl
      * @return GroupClient
      */
-    public function setProfileImageUrl(string $profileImageUrl): self
+    public function setProfileImageUrl(string $profileImageUrl)
     {
         $this->profileImageUrl = $profileImageUrl;
 
@@ -462,9 +487,43 @@ class GroupClient
      * @param string $groupNumber
      * @return GroupClient
      */
-    public function setGroupNumber(string $groupNumber): self
+    public function setGroupNumber(string $groupNumber = null)
     {
         $this->groupNumber = $groupNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPayrollClient(): bool
+    {
+        return $this->isPayrollClient;
+    }
+
+    /**
+     * @param bool $isPayrollClient
+     */
+    public function setIsPayrollClient(bool $isPayrollClient): void
+    {
+        $this->isPayrollClient = $isPayrollClient;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isBenefitsClient(): bool
+    {
+        return $this->isBenefitsClient;
+    }
+
+    /**
+     * @param bool $isBenefitsClient
+     */
+    public function setIsBenefitsClient(bool $isBenefitsClient)
+    {
+        $this->isBenefitsClient = $isBenefitsClient;
 
         return $this;
     }

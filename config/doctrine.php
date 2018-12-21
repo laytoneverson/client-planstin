@@ -1,5 +1,8 @@
 <?php
 
+use App\EventListeners\PostLoadEventSubscriber;
+use Doctrine\ORM\Events;
+
 return [
 
     /*
@@ -46,7 +49,9 @@ return [
             */
             'events'        => [
                 'listeners'   => [],
-                'subscribers' => []
+                'subscribers' => [
+                    PostLoadEventSubscriber::class,
+                ]
             ],
             'filters'       => [],
             /*

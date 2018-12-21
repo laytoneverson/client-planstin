@@ -14,10 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repositories\ContactRepository")
  * @ORM\Table(name="contact")
  */
-class Contact
+class Contact extends AbstractSalesForceObjectEntity
 {
-    use IsSalesForceObjectTrait;
-
     protected static $sfObjectApiName = 'Contact';
 
     protected static $sfFriendlyName = 'Contact';
@@ -30,7 +28,6 @@ class Contact
      * @ORM\Column(type="integer")
      */
     protected $id;
-
 
     /**
      * @var GroupClient
@@ -54,17 +51,17 @@ class Contact
 
     protected $email;
 
-    public function getSfObjectApiName(): string
+    public static function getSfObjectApiName(): string
     {
         return self::$sfObjectApiName;
     }
 
-    public function getSfObjectFriendlyName(): string
+    public static function getSfObjectFriendlyName(): string
     {
         return self::$sfFriendlyName;
     }
 
-    public function getSfMapping(): array
+    public static function getSfMapping(): array
     {
         return [
             //SF => Local

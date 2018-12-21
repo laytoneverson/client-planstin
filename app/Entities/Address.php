@@ -51,6 +51,18 @@ class Address
         return $street;
     }
 
+    public function setFullStreet($fullStreet)
+    {
+        $streets = \explode("\n", $fullStreet);
+
+        $this->setStreet1($streets[0]);
+        if (\count($streets) >= 2) {
+            $this->setStreet2((string)$streets[1]);
+        }
+
+        return $this;
+    }
+
     /**
      * @return mixed
      */

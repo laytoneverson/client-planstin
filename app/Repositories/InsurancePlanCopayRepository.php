@@ -1,6 +1,6 @@
 <?php
 /**
- * File: UserRepository.php
+ * File: InsurancePlanCopayRepository.php
  * Project: planstin
  * Author: @laytoneverson <layton.everson@gmail.com>
  */
@@ -9,7 +9,7 @@ namespace App\Repositories;
 
 use Doctrine\ORM\EntityRepository;
 
-class GroupClientRepository extends EntityRepository
+class InsurancePlanCopayRepository extends EntityRepository
 {
     use SalesForceObjectRepositoryTrait;
 

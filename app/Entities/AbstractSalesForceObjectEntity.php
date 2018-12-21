@@ -1,16 +1,19 @@
 <?php
 /**
- * File: SalesForceObjectTrait.php
+ * File: AbstractSalesForceObjectEntity.php
  * Project: planstin
  * Author: @laytoneverson <layton.everson@gmail.com>
  */
 
 namespace App\Entities;
 
+use App\Repositories\SalesForceObjectRepositoryTrait;
 use Doctrine\ORM\Mapping as ORM;
 
-trait IsSalesForceObjectTrait
+abstract class AbstractSalesForceObjectEntity
 {
+    use SalesForceObjectRepositoryTrait;
+
     /**
      * @var string
      *
@@ -21,12 +24,19 @@ trait IsSalesForceObjectTrait
     /**
      * @return string
      */
-    abstract public function getSfObjectApiName(): string;
+    abstract public static function getSfObjectApiName(): string;
 
     /**
      * @return string
      */
-    abstract public function getSfObjectFriendlyName(): string;
+    abstract public static function getSfObjectFriendlyName(): string;
+
+    /**
+     * Returns an array mapping of field names. sf => local
+     *
+     * @return array
+     */
+    abstract public static function getSfMapping(): array;
 
     /**
      * @return string
@@ -40,20 +50,10 @@ trait IsSalesForceObjectTrait
      * @param string $sfObjectId
      * @return self
      */
-    public function setSfObjectId(string $sfObjectId = null): self
+    public function setSfObjectId(string $sfObjectId = null)
     {
         $this->sfObjectId = $sfObjectId;
 
         return $this;
-    }
-
-    /**
-     * Returns an array mapping of field names. sf => local
-     *
-     * @return array
-     */
-    public function getSfMapping(): array
-    {
-        return [];
     }
 }

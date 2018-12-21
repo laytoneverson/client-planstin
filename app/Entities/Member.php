@@ -14,10 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repositories\MemberRepository")
  * @ORM\Table(name="member")
  */
-class Member
+class Member extends AbstractSalesForceObjectEntity
 {
-    use IsSalesForceObjectTrait;
-
     protected static $sfObjectFriendlyName = 'Member';
 
     protected static $sfObjectApiName = 'Member__c';
@@ -54,14 +52,21 @@ class Member
      */
     protected $memberRoll;
 
-    public function getSfObjectApiName(): string
+    public static function getSfObjectApiName(): string
     {
         return self::$sfObjectApiName;
     }
 
-    public function getSfObjectFriendlyName(): string
+    public static function getSfObjectFriendlyName(): string
     {
         return self::$sfObjectFriendlyName;
+    }
+
+    public static function getSfMapping(): array
+    {
+        return [
+            'Id' => 'sfObjectId',
+        ];
     }
 
 
