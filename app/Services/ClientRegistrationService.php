@@ -97,6 +97,23 @@ class ClientRegistrationService
      */
     public function insertSalesForceClient(GroupClient $groupClient): bool
     {
+        if ($groupClient->getSfObjectId()) {
+
+            try {
+                $groupClient->setForUpdate();
+                $groupClient->getPrimaryContact()->setForUpdate();
+
+                $this->entityManager->flush();
+            } catch (\Throwable $e) {
+                report($e);
+                $this->errorMessage = $e->getMessage();
+
+                return false;
+            }
+
+            return true;
+        }
+
         //Add GroupClient record to Sales Force
         try {
 

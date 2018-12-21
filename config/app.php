@@ -6,6 +6,7 @@ use App\Services\SalesForce\ApiCall\GetSalesForceObjectData;
 use App\Services\SalesForce\ApiCall\RequestAccessToken;
 use App\Services\SalesForce\ApiCall\RequestRefreshToken;
 use App\Services\SalesForce\ApiCall\SOQLQuery;
+use App\Services\SalesForce\ApiCall\UpdateObject;
 
 return [
 
@@ -33,6 +34,7 @@ return [
             GetObjectMetadata::class,
             GetSalesForceObjectData::class,
             SOQLQuery::class,
+            UpdateObject::class,
         ]
     ],
 

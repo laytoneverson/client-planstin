@@ -3,6 +3,7 @@ namespace App\Services\SalesForce\ApiCall;
 
 namespace App\Services\SalesForce\ApiCall;
 
+use App\Entities\AbstractSalesForceObjectEntity;
 use App\Exceptions\SalesForce\SalesForceApiException;
 use App\Services\SalesForce\Dto\SalesForceDtoInterface;
 use App\Services\SalesForce\SalesForceApiParameters;
@@ -21,6 +22,7 @@ abstract class AbstractRestApiCall implements SalesForceApiCallInterface
     public const HTTP_METHOD_GET = 'GET';
     public const HTTP_METHOD_POST = 'POST';
     public const HTTP_METHOD_PUT = 'PUT';
+    public const HTTP_METHOD_PATCH = 'PATCH';
     public const HTTP_METHOD_DELETE = 'DELETE';
 
     public const REQUEST_BODY_RAW = 'raw';
@@ -252,6 +254,15 @@ abstract class AbstractRestApiCall implements SalesForceApiCallInterface
         return \sprintf('%s/sobjects/%s',
             $this->getRestApiBaseUrl(),
             $objectApiName
+        );
+    }
+
+    protected function getObjectFullUrl(AbstractSalesForceObjectEntity $entity)
+    {
+        return \sprintf('%s/sobjects/%s/%s',
+            $this->getRestApiBaseUrl(),
+            $entity::getSfObjectApiName(),
+            $entity->getSfObjectId()
         );
     }
 }

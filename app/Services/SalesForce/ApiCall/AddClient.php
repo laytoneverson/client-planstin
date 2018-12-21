@@ -10,7 +10,6 @@ namespace App\Services\SalesForce\ApiCall;
 
 use App\Services\SalesForce\Dto\AddClientDto;
 
-
 class AddClient extends AbstractRestApiCall
 {
     protected function prepareRequest(): void

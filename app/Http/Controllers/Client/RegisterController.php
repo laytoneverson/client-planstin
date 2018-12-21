@@ -98,10 +98,11 @@ class RegisterController extends Controller
         if ($form->isValid()) {
 
             if ($success = $this->clientRegistration->insertSalesForceClient($groupClient)) {
-                return \redirect()->route('client_register_profile');
+                return \redirect()->route('client_register_services');
             }
 
             $request->session()->flash('error', $this->clientRegistration->getError());
+
         }
 
         return $this->view(

@@ -8,7 +8,6 @@
 namespace App\Utils;
 
 use App\Entities\AbstractSalesForceObjectEntity;
-use stdClass;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 
@@ -39,12 +38,27 @@ trait SalesForceDataExchangeTrait
 
     }
 
-    protected function convertToSalesForceData(AbstractSalesForceObjectEntity $from, array $mapping)
-    {
+    /**
+     * @param AbstractSalesForceObjectEntity $from
+     * @param array $mapping
+     * @param bool $ignoreIdField
+     * @return array
+     */
+    protected function convertToSalesForceData(
+        AbstractSalesForceObjectEntity $from,
+        array $mapping,
+        $ignoreIdField = false
+    ): array {
+
         $accessor = $this->getAccessor();
 
         $return = [];
         foreach ($mapping as $sfProperty => $localProperty) {
+
+            if ($ignoreIdField && $sfProperty === 'Id') {
+                continue;
+            }
+
             $return[$sfProperty] = $accessor->getValue($from, $localProperty);
         }
 

@@ -22,6 +22,12 @@ abstract class AbstractSalesForceObjectEntity
     protected $sfObjectId;
 
     /**
+     * @var \DateTime
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $salesForceUpdate;
+
+    /**
      * @return string
      */
     abstract public static function getSfObjectApiName(): string;
@@ -55,5 +61,14 @@ abstract class AbstractSalesForceObjectEntity
         $this->sfObjectId = $sfObjectId;
 
         return $this;
+    }
+
+    /**
+     * Sets the current time on the salesForceUpdate field to mark the entity dirty which will cause an api update
+     * on doctrine's flush during the postUpdate event.
+     */
+    public function setForUpdate()
+    {
+        $this->salesForceUpdate = new \DateTime();
     }
 }

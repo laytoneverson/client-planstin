@@ -1,6 +1,7 @@
 <?php
 
 use App\EventListeners\PostLoadEventSubscriber;
+use App\EventListeners\PostUpdateEventSubscriber;
 use Doctrine\ORM\Events;
 
 return [
@@ -51,6 +52,7 @@ return [
                 'listeners'   => [],
                 'subscribers' => [
                     PostLoadEventSubscriber::class,
+                    PostUpdateEventSubscriber::class,
                 ]
             ],
             'filters'       => [],
