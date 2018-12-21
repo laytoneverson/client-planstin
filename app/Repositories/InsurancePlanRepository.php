@@ -11,5 +11,5 @@ use Doctrine\ORM\EntityRepository;
 
 class InsurancePlanRepository extends EntityRepository
 {
-
+    use SalesForceObjectRepositoryTrait;
 }

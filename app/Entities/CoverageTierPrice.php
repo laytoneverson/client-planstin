@@ -60,14 +60,33 @@ class CoverageTierPrice extends AbstractSalesForceObjectEntity
      */
     private $employeeFamilyPrice;
 
-    public function getSfObjectApiName(): string
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    private $tierPriceName;
+
+    public static function getSfObjectApiName(): string
     {
         return 'Coverage_Tier_Price__c';
     }
 
-    public function getSfObjectFriendlyName(): string
+    public static function getSfObjectFriendlyName(): string
     {
         return 'Coverage Tier Price';
+    }
+
+    public static function getSfMapping(): array
+    {
+        return [
+            'Id' => 'sfObjectId',
+            'EC__c' => 'employeeChildrenPrice',
+            'EE__c' => 'employeePrice',
+            'EF__c' => 'employeeFamilyPrice',
+            'ES__c' => 'employeeSpousePrice',
+            'Name' => 'tierPriceName',
+            'Tier_Price_Label__c' => 'priceTierLabel',
+        ];
     }
 
     /**
@@ -202,4 +221,25 @@ class CoverageTierPrice extends AbstractSalesForceObjectEntity
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getTierPriceName(): string
+    {
+        return $this->tierPriceName;
+    }
+
+    /**
+     * @param string $tierPriceName
+     * @return CoverageTierPrice
+     */
+    public function setTierPriceName(string $tierPriceName)
+    {
+        $this->tierPriceName = $tierPriceName;
+
+        return $this;
+    }
+
+
 }

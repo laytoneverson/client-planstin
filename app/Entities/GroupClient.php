@@ -147,17 +147,17 @@ class GroupClient extends AbstractSalesForceObjectEntity
         $this->adminUsers = new ArrayCollection();
     }
 
-    public function getSfObjectApiName(): string
+    public static function getSfObjectApiName(): string
     {
         return self::$sfObjectApiName;
     }
 
-    public function getSfObjectFriendlyName(): string
+    public static function getSfObjectFriendlyName(): string
     {
         return self::$sfObjectFriendlyName;
     }
 
-    public function getSfMapping(): array
+    public static function getSfMapping(): array
     {
         return [
             'Id' => 'sfObjectId',

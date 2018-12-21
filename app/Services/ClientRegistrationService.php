@@ -108,8 +108,6 @@ class ClientRegistrationService
             report($exception);
             $this->errorMessage = $exception->getMessage();
 
-            throw $exception;
-
             return false;
         }
 
@@ -123,8 +121,6 @@ class ClientRegistrationService
         } catch (\Throwable $exception) {
             report($exception);
             $this->errorMessage = $exception->getMessage();
-
-            throw $exception;
 
             return false;
         }

@@ -11,5 +11,5 @@ use Doctrine\ORM\EntityRepository;
 
 class CoverageTierPriceRepository extends EntityRepository
 {
-
+    use SalesForceObjectRepositoryTrait;
 }

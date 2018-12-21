@@ -7,7 +7,9 @@
 
 namespace App\Utils;
 
+use App\Entities\InsurancePlan;
 use App\Entities\User;
+use App\Repositories\InsurancePlanRepository;
 use App\Repositories\UserRepository;
 use Doctrine\ORM\EntityManager;
 use LogicException;
@@ -38,5 +40,13 @@ trait UsesEntityManagerTrait
     protected function getUserRepository(): UserRepository
     {
         return $this->getEntityManager()->getRepository(User::class);
+    }
+
+    /**
+     * @return InsurancePlanRepository
+     */
+    protected function getInsurancePlanRepository()
+    {
+        return $this->getEntityManager()->getRepository(InsurancePlan::class);
     }
 }

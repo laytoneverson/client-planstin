@@ -31,36 +31,47 @@ class InsurancePlanCopay extends AbstractSalesForceObjectEntity
 
     /**
      * @var string
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $copayName;
 
     /**
      * @var string
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $serviceName;
 
     /**
      * @var float
-     * @ORM\Column(type="decimal")
+     * @ORM\Column(type="decimal", nullable=true)
      */
     protected $outOfNetworkPrice;
 
     /**
      * @var float
-     * @ORM\Column(type="decimal")
+     * @ORM\Column(type="decimal", nullable=true)
      */
     protected $inNetworkPrice;
 
-    public function getSfObjectApiName(): string
+    public static function getSfObjectApiName(): string
     {
-        return 'Insurance_Plan_Feature__c';
+        return 'Insurance_Plan_Copay__c';
     }
 
-    public function getSfObjectFriendlyName(): string
+    public static function getSfObjectFriendlyName(): string
     {
-        return 'Insurance Plan Feature';
+        return 'Insurance Plan Copay';
+    }
+
+    public static function getSfMapping(): array
+    {
+        return [
+            'Id' => 'sfObjectId',
+            'Name' => 'copayName',
+            'Service__c' => 'serviceName',
+            'In_Network__c' => 'inNetworkPrice',
+            'Out_of_Network__c' => 'outOfNetworkPrice',
+        ];
     }
 
     /**
@@ -113,7 +124,7 @@ class InsurancePlanCopay extends AbstractSalesForceObjectEntity
      * @param string $copayName
      * @return InsurancePlanCopay
      */
-    public function setCopayName(string $copayName)
+    public function setCopayName(?string $copayName)
     {
         $this->copayName = $copayName;
 
@@ -132,7 +143,7 @@ class InsurancePlanCopay extends AbstractSalesForceObjectEntity
      * @param string $serviceName
      * @return InsurancePlanCopay
      */
-    public function setServiceName(string $serviceName)
+    public function setServiceName(?string $serviceName)
     {
         $this->serviceName = $serviceName;
 
@@ -151,7 +162,7 @@ class InsurancePlanCopay extends AbstractSalesForceObjectEntity
      * @param float $outOfNetworkPrice
      * @return InsurancePlanCopay
      */
-    public function setOutOfNetworkPrice(float $outOfNetworkPrice)
+    public function setOutOfNetworkPrice(?float $outOfNetworkPrice)
     {
         $this->outOfNetworkPrice = $outOfNetworkPrice;
 
@@ -170,7 +181,7 @@ class InsurancePlanCopay extends AbstractSalesForceObjectEntity
      * @param float $inNetworkPrice
      * @return InsurancePlanCopay
      */
-    public function setInNetworkPrice(float $inNetworkPrice)
+    public function setInNetworkPrice(?float $inNetworkPrice)
     {
         $this->inNetworkPrice = $inNetworkPrice;
 

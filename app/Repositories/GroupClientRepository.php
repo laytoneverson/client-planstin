@@ -11,5 +11,6 @@ use Doctrine\ORM\EntityRepository;
 
 class GroupClientRepository extends EntityRepository
 {
+    use SalesForceObjectRepositoryTrait;
 
 }

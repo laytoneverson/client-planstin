@@ -26,25 +26,25 @@ class InsurancePlanFeature extends AbstractSalesForceObjectEntity
 
     /**
      * @var string
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $additionalDetailsLink;
 
     /**
      * @var string
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     private $featureDetails;
 
     /**
      * @var string
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $featureName;
 
     /**
      * @var string
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $featureTitle;
 
@@ -54,14 +54,25 @@ class InsurancePlanFeature extends AbstractSalesForceObjectEntity
      */
     private $insurancePlan;
 
-    public function getSfObjectApiName(): string
+    public static function getSfObjectApiName(): string
     {
         return 'Insurance_Plan_Feature__c';
     }
 
-    public function getSfObjectFriendlyName(): string
+    public static function getSfObjectFriendlyName(): string
     {
         return 'Insurance Plan Feature';
+    }
+
+    public static function getSfMapping(): array
+    {
+        return [
+            'Id' => 'sfObjectId',
+            'Additional_Details_Link__c' => 'additionalDetailsLink',
+            'Feature_Details__c' => 'featureDetails',
+            'Name' => 'featureName',
+            'Feature_Title__c' => 'featureTitle',
+        ];
     }
 
     /**
@@ -95,7 +106,7 @@ class InsurancePlanFeature extends AbstractSalesForceObjectEntity
      * @param string $additionalDetailsLink
      * @return InsurancePlanFeature
      */
-    public function setAdditionalDetailsLink(string $additionalDetailsLink)
+    public function setAdditionalDetailsLink(?string $additionalDetailsLink)
     {
         $this->additionalDetailsLink = $additionalDetailsLink;
 
@@ -177,6 +188,4 @@ class InsurancePlanFeature extends AbstractSalesForceObjectEntity
 
         return $this;
     }
-
-
 }

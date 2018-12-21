@@ -52,14 +52,21 @@ class Member extends AbstractSalesForceObjectEntity
      */
     protected $memberRoll;
 
-    public function getSfObjectApiName(): string
+    public static function getSfObjectApiName(): string
     {
         return self::$sfObjectApiName;
     }
 
-    public function getSfObjectFriendlyName(): string
+    public static function getSfObjectFriendlyName(): string
     {
         return self::$sfObjectFriendlyName;
+    }
+
+    public static function getSfMapping(): array
+    {
+        return [
+            'Id' => 'sfObjectId',
+        ];
     }
 
 

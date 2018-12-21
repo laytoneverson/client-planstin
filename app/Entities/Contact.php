@@ -51,17 +51,17 @@ class Contact extends AbstractSalesForceObjectEntity
 
     protected $email;
 
-    public function getSfObjectApiName(): string
+    public static function getSfObjectApiName(): string
     {
         return self::$sfObjectApiName;
     }
 
-    public function getSfObjectFriendlyName(): string
+    public static function getSfObjectFriendlyName(): string
     {
         return self::$sfFriendlyName;
     }
 
-    public function getSfMapping(): array
+    public static function getSfMapping(): array
     {
         return [
             //SF => Local

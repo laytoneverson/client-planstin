@@ -36,6 +36,12 @@ class InsurancePlan extends AbstractSalesForceObjectEntity
     protected $insurancePlanName;
 
     /**
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    protected $active = true;
+
+    /**
      * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="CoverageTierBook", mappedBy="insurancePlan")
      */
@@ -67,19 +73,24 @@ class InsurancePlan extends AbstractSalesForceObjectEntity
         $this->coverageTierBooks = new ArrayCollection();
     }
 
-    public function getSfObjectApiName(): string
+    public static function getSfObjectApiName(): string
     {
         return 'Insurance_Plan__c';
     }
 
-    public function getSfObjectFriendlyName(): string
+    public static function getSfObjectFriendlyName(): string
     {
         return 'Insurance Plan';
     }
 
-    public function getSfMapping(): array
+    public static function getSfMapping(): array
     {
-        return parent::getSfMapping();
+        return [
+            'Id' => 'sfObjectId',
+            'Insurance_Plan_Name__c' => 'insurancePlanDisplayName',
+            'Name' => 'insurancePlanName',
+            'Active__c' => 'active'
+        ];
     }
 
     /**
@@ -211,6 +222,25 @@ class InsurancePlan extends AbstractSalesForceObjectEntity
     public function setPrescriptionCopays(ArrayCollection $prescriptionCopays)
     {
         $this->prescriptionCopays = $prescriptionCopays;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isActive(): bool
+    {
+        return $this->active;
+    }
+
+    /**
+     * @param bool $active
+     * @return InsurancePlan
+     */
+    public function setActive(bool $active)
+    {
+        $this->active = $active;
 
         return $this;
     }

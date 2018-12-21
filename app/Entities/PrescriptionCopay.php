@@ -48,14 +48,24 @@ class PrescriptionCopay extends AbstractSalesForceObjectEntity
      */
     protected $copay;
 
-    public function getSfObjectApiName(): string
+    public static function getSfObjectApiName(): string
     {
         return 'Prescription_Copay__c';
     }
 
-    public function getSfObjectFriendlyName(): string
+    public static function getSfObjectFriendlyName(): string
     {
         return 'Prescription Copay';
+    }
+
+    public static function getSfMapping(): array
+    {
+        return [
+            'Id' => 'sfObjectId',
+            'Name' => 'copayName',
+            'Drug_Tier__c' => 'drugTier',
+            'CoPay__c' => 'copay',
+        ];
     }
 
     /**

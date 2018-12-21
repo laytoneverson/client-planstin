@@ -11,5 +11,6 @@ use Doctrine\ORM\EntityRepository;
 
 class PrescriptionCopayRepository extends EntityRepository
 {
+    use SalesForceObjectRepositoryTrait;
 
 }

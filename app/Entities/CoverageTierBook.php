@@ -43,15 +43,29 @@ class CoverageTierBook extends AbstractSalesForceObjectEntity
      */
     protected $coverageTierPrices;
 
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    protected $coverageTierLabel;
 
-    public function getSfObjectApiName(): string
+    public static function getSfObjectApiName(): string
     {
         return 'Coverage_Tier_Book__c';
     }
 
-    public function getSfObjectFriendlyName(): string
+    public static function getSfObjectFriendlyName(): string
     {
         return 'Coverage Tier Book';
+    }
+
+    public static function getSfMapping(): array
+    {
+        return [
+            'Id' => 'sfObjectId',
+            'Name' => 'coverageTierBookName',
+            'Tier_Book_Label__c' => 'coverageTierLabel',
+        ];
     }
 
     /**
@@ -126,6 +140,25 @@ class CoverageTierBook extends AbstractSalesForceObjectEntity
     public function setCoverageTierPrices(ArrayCollection $coverageTierPrices)
     {
         $this->coverageTierPrices = $coverageTierPrices;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCoverageTierLabel():? string
+    {
+        return $this->coverageTierLabel;
+    }
+
+    /**
+     * @param string $coverageTierLabel
+     * @return CoverageTierBook
+     */
+    public function setCoverageTierLabel(string $coverageTierLabel)
+    {
+        $this->coverageTierLabel = $coverageTierLabel;
 
         return $this;
     }

@@ -7,10 +7,13 @@
 
 namespace App\Entities;
 
+use App\Repositories\SalesForceObjectRepositoryTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 abstract class AbstractSalesForceObjectEntity
 {
+    use SalesForceObjectRepositoryTrait;
+
     /**
      * @var string
      *
@@ -21,12 +24,19 @@ abstract class AbstractSalesForceObjectEntity
     /**
      * @return string
      */
-    abstract public function getSfObjectApiName(): string;
+    abstract public static function getSfObjectApiName(): string;
 
     /**
      * @return string
      */
-    abstract public function getSfObjectFriendlyName(): string;
+    abstract public static function getSfObjectFriendlyName(): string;
+
+    /**
+     * Returns an array mapping of field names. sf => local
+     *
+     * @return array
+     */
+    abstract public static function getSfMapping(): array;
 
     /**
      * @return string
@@ -45,15 +55,5 @@ abstract class AbstractSalesForceObjectEntity
         $this->sfObjectId = $sfObjectId;
 
         return $this;
-    }
-
-    /**
-     * Returns an array mapping of field names. sf => local
-     *
-     * @return array
-     */
-    public function getSfMapping(): array
-    {
-        return [];
     }
 }
