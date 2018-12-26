@@ -58,6 +58,13 @@ class GroupClient extends AbstractSalesForceObjectEntity
     protected $users;
 
     /**
+     * @var Broker
+     *
+     * @ORM\OneToOne(targetEntity="Broker", inversedBy="groupClient")
+     */
+    protected $broker;
+
+    /**
      * @ORM\Column(type="string", nullable=true)
      *
      * @var string
@@ -524,6 +531,25 @@ class GroupClient extends AbstractSalesForceObjectEntity
     public function setIsBenefitsClient(bool $isBenefitsClient)
     {
         $this->isBenefitsClient = $isBenefitsClient;
+
+        return $this;
+    }
+
+    /**
+     * @return Broker
+     */
+    public function getBroker(): Broker
+    {
+        return $this->broker;
+    }
+
+    /**
+     * @param Broker $broker
+     * @return GroupClient
+     */
+    public function setBroker(Broker $broker)
+    {
+        $this->broker = $broker;
 
         return $this;
     }
