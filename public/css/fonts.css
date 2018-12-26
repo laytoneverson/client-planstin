@@ -1,0 +1,76 @@
+
+/*All fonts*/
+@font-face {
+    font-family: CharlevoixPro-M;
+    src:url(../fonts/CharlevoixPro/CharlevoixPro-Medium.otf);
+}
+
+@font-face {
+    font-family: bahnschrift-r;
+    src:url(../fonts/bahnschrift/bahnschrift.ttf);
+}
+
+@font-face {
+    font-family: BasicSans-l;
+    src:url(../fonts/BasicSans/OpenSans-Light.ttf);
+}
+
+@font-face {
+    font-family: OpenSans-r;
+    src:url(../fonts/OpenSans/OpenSans-Regular.ttf);
+}
+
+@font-face {
+    font-family: Montserrat-r;
+    src:url(../fonts/Montserrat/Montserrat-Regular.otf);
+}
+
+@font-face {
+    font-family: Roboto-r;
+    src:url(../fonts/Roboto/Roboto-Regular.ttf);
+}
+@font-face {
+    font-family: Roboto-m;
+    src:url(../fonts/Roboto/Roboto-Medium.ttf);
+}
+
+@font-face {
+    font-family: Roboto-b;
+    src:url(../fonts/Roboto/Roboto-Bold.ttf);
+}
+
+@font-face {
+    font-family: Roboto-l;
+    src:url(../fonts/Roboto/Roboto-Light.ttf);
+}
+
+@font-face {
+    font-family: sfui-r;
+    src:url(../fonts/SFUI/sf-ui-text-regular-58646b56a688c.otf);
+}
+
+@font-face {
+    font-family: segoui-r;
+    src:url(../fonts/SEGOEUI/SEGOEUI.TTF);
+}
+
+@font-face {
+    font-family: Arial-r;
+    src:url(../fonts/Arial/Arialregular.ttf);
+}
+@font-face {
+    font-family: Raleway-semi;
+    src:url(../fonts/raleway/Raleway-SemiBold.ttf);
+}
+
+@font-face {
+    font-family: Gotham-b;
+    src:url(../fonts/Gotham/GothamBold.ttf);
+}
+
+@font-face {
+    font-family: Gotham-m;
+    src:url(../fonts/Gotham/GothamMedium.ttf);
+}
+
+

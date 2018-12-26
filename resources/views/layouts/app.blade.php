@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="/css/font-awesome.min.css">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-patch.css">
+    <link rel="stylesheet" href="/css/fonts.css">
 
     <link rel="stylesheet" href="/css/animate.css">
     <link rel="stylesheet" href="{{asset('skins/flat/_all.css')}}">
@@ -82,16 +83,7 @@
     </div>
 
 
-    @section('footer')
-        <!--footer started-->
-        <section class="footer">
-            <footer class="bg-gray-4">
-                <p class="footer-text text-white no-mgr-bottom">All Rights Reserved 2018 Planstin, Inc.</p>
-            </footer>
-        </section>
-        <!--footer end-->
-    @show
-
+    @yield('footer')
 
 </body>
 </html>

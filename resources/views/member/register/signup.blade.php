@@ -1,4 +1,4 @@
-@extends('includes.body-login')
+@extends('layouts.public')
 
 @section('content')
 

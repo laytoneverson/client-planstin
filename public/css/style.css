@@ -1,15 +1,22 @@
 /*  Color Theme */
 
-/* Login Footer Background */
-.bg-gray-4 {
+.bg-gray,
+.btn-black:hover,
+.btn-black:focus,
+.btn-black.active {
     background: #1A1A1A;
 }
-.text-gray-4 {
+.text-gray {
     color: #1A1A1A;
 }
 
-/* Login Body Background */
-
+.bg-gray-4 {
+    background: #070707;
+}
+.text-gray-4,
+.nav-link {
+    color: #070707;
+}
 .bg-gray-3 {
     background: #707070;
 }
@@ -31,31 +38,71 @@
     color: #A2A2A2;
 }
 
-.bg-black {
+.bg-black,
+.btn-black {
     background: #000000;
 }
-.text-black {
+
+.text-black,
+.btn-link.btn-black,
+.btn-link.btn-black:hover,
+.btn-link.btn-black:focus,
+.btn-link.btn-black.active {
     color: #000000;
 }
 
+
+.bg-blue-dark {
+    background-color: #282C30;
+}
+.text-blue-light,
+.footer p,
+.footer a {
+    color: #9FA4AF;
+}
 .bg-white {
     background: #FFFFFF;
 }
-.text-white {
+.text-white,
+.btn-red,
+.btn-red:focus,
+.btn-red:hover,
+.btn-red.active,
+.footer,
+.footer h4,
+.btn-black,
+.btn-black:hover,
+.btn-black:focus,
+.btn-black.active {
     color: #FFFFFF;
 }
 
-.bg-red {
+.bg-red,
+.btn-red {
     background: #E50D0D;
 }
-.text-red {
-    color: #E50D0D!important;
+.text-red,
+.btn-link.btn-red,
+.nav-link-red,
+.nav-link:hover,
+.nav-link:focus,
+.nav-link:active {
+    color: #E50D0D;
 }
 
-.bg-red-dark {
+.bg-red-dark,
+.btn-red:hover,
+.btn-red:focus,
+.btn-red.active {
     background: #AE2727;
 }
-.text-red-dark {
+.text-red-dark,
+.nav-link-red:hover,
+.nav-link-red:focus,
+.nav-link-red.active,
+.btn-link.btn-red:hover,
+.btn-link.btn-red:focus,
+.btn-link.btn-red.active {
     color: #AE2727;
 }
 .bg-head-gray{
@@ -65,8 +112,13 @@
     text-align: right;
 }
 
-.bg-sidebar{
+.bg-sidebar {
     background: #cbcbcb;
+}
+
+.btn-link.btn-black,
+.btn-link.btn-red {
+    background: transparent !important;
 }
 
 /* General Layout Styling */
@@ -84,26 +136,10 @@ body {
 }
 
 @media(min-width: 992px){
-    .body-main .sidebar {
-        width: 400px;
-    }
+ 
 }
 
-/* Login Body Layout Styling */
-.body-login footer .logo-wrapper {
-    width: 300px;
-}
-.body-login .footer-bottom {
-    border-top: solid 1px #FFF;
-}
-.body-login footer .navbar {
-    padding: 0;
-}
-.body-login #content {
-    min-height: 100%;
-    min-height: 80vh;
-    min-height: calc(100vh - 211px);
-}
+/* Login Body Layout Styling *
 
 
 /*saikat*/
@@ -116,101 +152,25 @@ body {
     margin-bottom: 0px!important;
 }
 
-
-/*All fonts*/
-@font-face {
-    font-family: CharlevoixPro-M;
-    src:url(../fonts/CharlevoixPro/CharlevoixPro-Medium.otf);
-}
-
-@font-face {
-    font-family: bahnschrift-r;
-    src:url(../fonts/bahnschrift/bahnschrift.ttf);
-}
-
-@font-face {
-    font-family: BasicSans-l;
-    src:url(../fonts/BasicSans/OpenSans-Light.ttf);
-}
-
-@font-face {
-    font-family: OpenSans-r;
-    src:url(../fonts/OpenSans/OpenSans-Regular.ttf);
-}
-
-@font-face {
-    font-family: Montserrat-r;
-    src:url(../fonts/Montserrat/Montserrat-Regular.otf);
-}
-
-@font-face {
-    font-family: Roboto-r;
-    src:url(../fonts/Roboto/Roboto-Regular.ttf);
-}
-@font-face {
-    font-family: Roboto-m;
-    src:url(../fonts/Roboto/Roboto-Medium.ttf);
-}
-
-@font-face {
-    font-family: Roboto-b;
-    src:url(../fonts/Roboto/Roboto-Bold.ttf);
-}
-
-@font-face {
-    font-family: Roboto-l;
-    src:url(../fonts/Roboto/Roboto-Light.ttf);
-}
-
-@font-face {
-    font-family: sfui-r;
-    src:url(../fonts/SFUI/sf-ui-text-regular-58646b56a688c.otf);
-}
-
-@font-face {
-    font-family: SEGOEUI-r;
-    src:url(../fonts/SEGOEUI/SEGOEUI.TTF);
-}
-
-@font-face {
-    font-family: Arial-r;
-    src:url(../fonts/Arial/Arialregular.ttf);
-}
-@font-face {
-    font-family: Raleway-semi;
-    src:url(../fonts/raleway/Raleway-SemiBold.ttf);
-}
-
-@font-face {
-    font-family: Gotham-b;
-    src:url(../fonts/Gotham/GothamBold.ttf);
-}
-
-@font-face {
-    font-family: Gotham-m;
-    src:url(../fonts/Gotham/GothamMedium.ttf);
-}
-
-
-
-
 /*head navbar*/
-.navbar li a{
-    color: #fff;
-    font-family: CharlevoixPro-M;
+.navbar.bg-white {
+    border-bottom: solid 2px #ebebeb;
+}
+.navbar-brand {
+    margin-right: 2rem;
+}
+.nav-link {
+    font-family: segoui-r;
     font-size: 16px;
     text-transform: uppercase;
 }
 .head-logo{
     max-width: 230px;
 }
-.navbar-collapse {
-    /*! flex-grow: 0!important; */
-}
+
 /*Login body*/
-.login-container{
-    max-width: 771px !important;
-    margin-top: 40px;
+.login-body {
+    padding: 3rem 0;
 }
 .cmpny-text{
     font-family: bahnschrift-r;
@@ -257,15 +217,51 @@ body {
 }
 
 /*FOOTER CSS*/
+footer{
+    font-size: 0.8rem;
+}
+
+footer .media {
+    margin-bottom: 15px;
+}
+footer .media .icon {
+    padding: 10px;
+    background: #1C1F23;
+    margin-right: 15px;
+}
+footer .media .icon img {
+    width: 35px;
+}
+
+footer .badge {
+    background-color: #1C1F23;
+    color: #9FA4AF;
+    font-size: 90%;
+    padding: .5em 1em;
+}
+
+.footer .links {
+    font-weight: 200;
+}
+.footer .links .fa {
+    font-size: 1.2rem;
+    padding-top: 3px;
+
+}
+
+
+
+
+footer h4 {
+    font-weight: normal;
+    text-transform: uppercase;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
 .footer-text{
     font-family: Roboto-l;
     font-size: 14px;
     text-align: center;
-}
-footer{
-    width: 100%;
-    padding-top: 16px;
-    padding-bottom: 13px;
 }
 
 
@@ -502,9 +498,7 @@ html, body {
     list-style: none;
     border-bottom: 1px solid #707070;
 }
-.plans li{
-    
-}
+
 .plan-check{
     margin-top: -5px;
 }
@@ -687,9 +681,7 @@ html, body {
     margin-top: 40px;
     margin-bottom: 40px;
 }
-.seo-p{
-    /*font-family: ;*/
-}
+
 .add-more-btn{
     cursor: pointer;
     font-family: BasicSans-l;
@@ -749,23 +741,17 @@ html, body {
     font-family: Gotham-b;
     font-size: 16px;
     letter-spacing: 2px;
-    padding: 22px 23px;
+    padding: 25px 15px 18px;
     border-radius: 8px;
-    width: 206px;
     display: block;
-    
+    text-align: center;
     background-image: -ms-linear-gradient(top, #E5E4E4 0%, #C7C7C7 100%);
-
-background-image: -moz-linear-gradient(top, #E5E4E4 0%, #C7C7C7 100%);
-
-background-image: -o-linear-gradient(top, #E5E4E4 0%, #C7C7C7 100%);
-
-background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #E5E4E4), color-stop(100, #C7C7C7));
-
-background-image: -webkit-linear-gradient(top, #E5E4E4 0%, #C7C7C7 100%);
-
-background-image: linear-gradient(to bottom, #E5E4E4 0%, #C7C7C7 100%);
-    
+    background-image: -moz-linear-gradient(top, #E5E4E4 0%, #C7C7C7 100%);
+    background-image: -o-linear-gradient(top, #E5E4E4 0%, #C7C7C7 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #E5E4E4), color-stop(100, #C7C7C7));
+    background-image: -webkit-linear-gradient(top, #E5E4E4 0%, #C7C7C7 100%);
+    background-image: linear-gradient(to bottom, #E5E4E4 0%, #C7C7C7 100%);
+        
 }
 .dashboard-link i{
     margin-right: 8px;
@@ -1088,7 +1074,7 @@ background-image: linear-gradient(to bottom, #E5E4E4 0%, #C7C7C7 100%);
 }
 .account-info li{
     list-style: none;
-    font-family: font-family: sfui-r;
+    font-family: sfui-r;
     font-size: 14px;
     color: #777777;
 }
@@ -1365,11 +1351,6 @@ html, body {
     display: none;
 }
 
-
-.navbar-expand-lg .navbar-nav .nav-link:hover{
-    color: #5c5c5c;
-}
-
 #exampleInputEmailsettings{
     width:650.13px;
     height:56px;
@@ -1430,14 +1411,13 @@ html, body {
     margin-right: 10px;
 }
 .adr-info{
-    font-size: 16px;
+    font-size: 18px;
     margin-top: 15px;
     font-family: sfui-r;
 }
 .emp-info-fill{
     font-size: 22px;
     margin-top: 30px;
-    margin-bottom: 30px;
     font-family: sfui-r;
     display: block;
 }
@@ -1478,6 +1458,28 @@ html, body {
     margin-top: 20px;
 }
 
+.table-lg td {
+    padding: 15px 25px;
+}
+.profile-table tr:first-child > * {
+    border-top: solid 1px;
+}
+.profile-table tr > * {
+    border-bottom: solid 1px;
+}
+.profile-table tr > :first-child {
+    border-right: solid 1px;
+}
+
+.statements p,
+.documents p {
+    line-height: 1.2;
+}
+
+.documents img {
+    max-width: 60px;
+    margin-bottom: 3px;
+}
 
 
 
@@ -1521,11 +1523,15 @@ html, body {
     margin-bottom: 50px;
     font-weight: bold;
 }
+
+.broker-upload-table td,
+.broker-upload-table th {
+    vertical-align: middle;
+}
+
+
+
 /*all media*/
-
-
-
-
 @media(max-width: 767px){
     
     .dend-txt{
@@ -1642,64 +1648,56 @@ html, body {
 
 @media(max-width: 991px){
     .border-btm::after{
-    position: absolute;
-    bottom: -9px;
-    left: 14px;
-    width: 98%;
-    height: 0px;
-    background: #707070;
-    content: '';
+        position: absolute;
+        bottom: -9px;
+        left: 14px;
+        width: 98%;
+        height: 0px;
+        background: #707070;
+        content: '';
     }
     .checkPayMethod li:first-child{
-    margin-left: 30px;
+        margin-left: 30px;
     }
     .btm-bdr{
-     display: none;
+        display: none;
     }
     .invoice-list li {
-    list-style: none;
-    float: left;
-    margin-right: 10px;
+        list-style: none;
+        float: left;
+        margin-right: 10px;
     }
     .pdf-img {
-    width: 50px;
+        width: 50px;
     }
     .next-img {
-
-    width: 27px;
-    margin-top: 16px;
+        width: 27px;
+        margin-top: 16px;
         margin-left: 10px;
-
     }
     .invoice-list li a span {
-    font-size: 14px;
-    margin-top: 6px;
+        font-size: 14px;
+        margin-top: 6px;
     }
 }
 
 @media(min-width: 991px){
-    .navbar{
-    height: 90px;
+    .navbar {
+        height: 90px;
     }
-    .navbar-right{
-    float: right!important;
+    .navbar-expand-lg .navbar-nav .nav-link {
+        padding-left: 1.2rem;
+        padding-right: 1.2rem;
     }
-    /*cuatom conatiner*/
-    .container{
-        max-width: 1024px;
-    }
-    .navbar li{
-    margin-left: 30px;
-    }
-    
+
     .btm-bdr{
-    width: 100%;
-    height: 4px;
-    background: #b6b6b6;
-    border-top: 0;
+        width: 100%;
+        height: 4px;
+        background: #b6b6b6;
+        border-top: 0;
     }
     .img-check{
-         max-width: 415px;
+        max-width: 415px;
     }
 }
 

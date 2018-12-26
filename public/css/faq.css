@@ -17,12 +17,6 @@ body {
 
 ul, li { list-style: none; }
 
-#container {
-  width: 60%;
-  margin: 150px auto;
-  overflow: auto;
-}
-
 h1 {
   text-align: center;
   margin-bottom: 20px;
@@ -39,7 +33,7 @@ h1 {
 .faq li { padding: 10px 0px 10px 10px; }
 
 .faq li.q {
-  background: #4FC2E;
+  background: #4FC2EE;
   font-weight: bold;
   font-size: 120%;
   border-bottom: 1px #ddd solid;

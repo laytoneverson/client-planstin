@@ -1,4 +1,4 @@
-@extends($includes->body)
+@extends('layouts.public')
 
 @section('content')
 

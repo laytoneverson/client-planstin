@@ -40,7 +40,7 @@ class RegisterController extends Controller
      * @param UserAccountService $accountService
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function createUser(Request $request)
+    public function signup(Request $request)
     {
         $newUser = new User();
    
