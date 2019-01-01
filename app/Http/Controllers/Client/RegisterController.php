@@ -1,20 +1,26 @@
 <?php 
 namespace App\Http\Controllers\Client;
 
+use App\Entities\InsurancePlan;
 use App\Exceptions\InvalidPasswordException;
 use App\Exceptions\UserAlreadyExistsException;
+use App\Form\GroupClientAgreementFormType;
 use App\Form\GroupClientFormType;
+use App\Form\GroupClientServicesOfferedFormType;
+use App\Form\Handler\GroupClientServicesOfferedFormHandler;
 use App\Services\ClientRegistrationService;
 use App\Services\UserAccountService;
+use App\Utils\UsesEntityManagerTrait;
 use Barryvdh\Form\CreatesForms;
 use App\Http\Controllers\Controller;
 use App\Entities\User; 
 use App\Form\NewUserType;
+use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Http\Request;
 
 class RegisterController extends Controller 
 {
-    use CreatesForms;
+    use CreatesForms, UsesEntityManagerTrait;
 
     /**
      * @var ClientRegistrationService
@@ -27,10 +33,14 @@ class RegisterController extends Controller
      */
     private $accountService;
 
-    public function __construct(ClientRegistrationService $clientRegistration, UserAccountService $accountService)
-    {
+    public function __construct(
+        ClientRegistrationService $clientRegistration,
+        UserAccountService $accountService,
+        EntityManagerInterface $entityManager
+    ) {
         $this->clientRegistration = $clientRegistration;
         $this->accountService = $accountService;
+        $this->entityManager = $entityManager;
 
         parent::__construct();
     }
@@ -72,7 +82,7 @@ class RegisterController extends Controller
         }
 
         if($moveOn) {
-            return \redirect()->route('client_register_profile');
+            return \redirect()->route('register.client.profile');
         }
 
         return $this->view(
@@ -98,7 +108,7 @@ class RegisterController extends Controller
         if ($form->isValid()) {
 
             if ($success = $this->clientRegistration->insertSalesForceClient($groupClient)) {
-                return \redirect()->route('client_register_services');
+                return \redirect()->route('register.client.services');
             }
 
             $request->session()->flash('error', $this->clientRegistration->getError());
@@ -113,14 +123,87 @@ class RegisterController extends Controller
         );
     }
 
-    public function services()
+    public function services(Request $request)
     {
-        return $this->view('client.register.services');
+        /** @var InsurancePlan[] $plans */
+        $plans = $this->getInsurancePlanRepository()->getActiveInsurancePlans();
+        $client = $this->accountService->getCurrentUser()->getGroupClient();
+
+        $planFamilies = InsurancePlan::getPlanFamilies();
+
+        $viewPlans = [];
+        foreach ($planFamilies as $k => $planFamily) {
+            $viewPlans[$planFamily] = [];
+        }
+
+        foreach ($plans as $plan) {
+            $viewPlans[$plan->getPlanFamily()][] = $plan;
+        }
+
+        /**
+         * @var GroupClientServicesOfferedFormHandler $formHandler
+         */
+        $formHandler = app(GroupClientServicesOfferedFormHandler::class, ['groupClient' => $client]);
+
+        $form = $this->createForm(
+            GroupClientServicesOfferedFormType::class,
+            $formHandler,
+            ['handler' => $formHandler]
+        );
+
+        $form->handleRequest($request);
+
+        if ($form->isValid() && $form->isSubmitted()) {
+            $formHandler->updateSelectedPlans();
+            try {
+                $this->entityManager->flush();
+                return \redirect()->route('register.client.agreements');
+            } catch (\Throwable $exception) {
+
+                $request->session()->flash('error', $exception->getMessage());
+                \report($exception);
+
+                throw $exception;
+            }
+        }
+
+        return $this->view(
+            'client.register.services', [
+                'planCategories' => $viewPlans,
+                'form' => $form->createView(),
+            ]
+        );
     }
 
-    public function agreement()
+    public function agreement(Request $request)
     {
-        return $this->view('client.register.profile');
+        $groupClient = $this->accountService
+            ->getCurrentUser()
+            ->getGroupClient();
+
+        $form = $this->createForm(GroupClientAgreementFormType::class, $groupClient);
+        $form->handleRequest($request);
+
+        if ($form->isValid() && $form->isSubmitted()) {
+
+            $groupClient->setForUpdate();
+            try {
+
+                $this->entityManager->flush();
+
+                return \redirect()->route('register.client.billing');
+            } catch (\Throwable $exception) {
+
+                $request->session()->flash('error', $exception->getMessage());
+                \report($exception);
+
+                throw $exception;
+            }
+        }
+
+        return $this->view('client.register.sign-agreement', [
+            'form' => $form->createView(),
+        ]);
     }
 
     public function billing()

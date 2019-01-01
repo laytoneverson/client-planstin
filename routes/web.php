@@ -64,11 +64,12 @@ Route::prefix('register')->group(function() {
     /*  /register/client/...  */
     Route::prefix('client')->group(function() {
         //Todo: Create middleware to make sure the user is on the correct step
-        Route::any('signup', 'Client\RegisterController@signup')->name('client.signup');
-        Route::any('profile', 'Client\RegisterController@profile')->name('client.profile');
-        Route::any('services', 'Client\RegisterController@services')->name('client.services');
-        Route::any('agreement', 'Client\RegisterController@agreement')->name('client.agreements');
-        Route::any('employees', 'Client\RegisterController@employees')->name('client.employees');
+        Route::any('signup', 'Client\RegisterController@signup')->name('register.client.signup');
+        Route::any('profile', 'Client\RegisterController@profile')->name('register.client.profile');
+        Route::any('services', 'Client\RegisterController@services')->name('register.client.services');
+        Route::any('agreement', 'Client\RegisterController@agreement')->name('register.client.agreements');
+        Route::any('billing', 'Client\RegisterController@billing')->name('register.client.billing');
+        Route::any('employees', 'Client\RegisterController@employees')->name('register.client.employees');
     });
 
     /*  /register/member/...  */

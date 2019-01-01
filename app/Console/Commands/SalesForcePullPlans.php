@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Entities\CoverageTierBook;
+use App\Entities\CoverageTierPrice;
 use App\Entities\InsurancePlan;
 use App\Entities\InsurancePlanCopay;
 use App\Entities\InsurancePlanFeature;
@@ -97,6 +98,15 @@ class SalesForcePullPlans extends Command
 
             }
         }
+
+        $coverageTierBooks = $this->getEntityManager()
+            ->getRepository(CoverageTierBook::class)
+            ->findAll();
+
+        foreach($coverageTierBooks as $priceBook) {
+            $this->pullPriceBookPrices($priceBook);
+        }
+
     }
 
     /**
@@ -106,7 +116,6 @@ class SalesForcePullPlans extends Command
      */
     private function pullChildrenOfPlan(InsurancePlan $insurancePlan, string $childFqn)
     {
-
         $repo = $this->entityManager->getRepository($childFqn);
 
         $where = \sprintf('Insurance_Plan__r.id = \'%s\'', $insurancePlan->getSfObjectId());
@@ -130,8 +139,42 @@ class SalesForcePullPlans extends Command
         }
 
         $this->entityManager->flush();
-
     }
+
+    /**
+     * @param InsurancePlan $insurancePlan
+     * @param string $childFqn
+     * @throws \App\Exceptions\SalesForce\SalesForceApiException
+     */
+    private function pullPriceBookPrices(CoverageTierBook $priceBook)
+    {
+        $childFqn = CoverageTierPrice::class;
+        $repo = $this->entityManager->getRepository($childFqn);
+
+        $where = \sprintf('Coverage_Tier_Book__r.id = \'%s\'', $priceBook->getSfObjectId());
+        $dto = new SOQLQuerySelectObjectRowsDto($childFqn, SOQLQueryDto::RETURN_OBJECT, $where);
+        $this->SOQLQuery->setData($dto);
+        $this->SOQLQuery->execute();
+
+        $return = $dto->getReturnData();
+
+        foreach($return->records as $record) {
+
+            $storedRecord = $repo->findBySalesForceObjectId($record->Id);
+
+            if (null === $storedRecord) {
+                $storedRecord = new $childFqn();
+                $this->entityManager->persist($storedRecord);
+            }
+
+            $storedRecord->setCoverageTierBook($priceBook);
+            $this->populateFromSalesForceData($record, $storedRecord, $childFqn::getSfMapping());
+        }
+
+        $this->entityManager->flush();
+    }
+
+
 
     /**
      * @throws \App\Exceptions\SalesForce\SalesForceApiException

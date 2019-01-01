@@ -13,6 +13,12 @@ use App\Exceptions\SalesForce\SalesForceApiErrorMessageException;
 use App\Exceptions\SalesForce\SalesForceApiException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
+/**
+ * Class AddContactDto
+ *
+ * @deprecated Use the AddObject api call
+ * @package App\Services\SalesForce\Dto
+ */
 class AddContactDto implements SalesForceDtoInterface
 {
     /**
@@ -30,7 +36,7 @@ class AddContactDto implements SalesForceDtoInterface
     public function toSfObject(): array
     {
         $accessor = PropertyAccess::createPropertyAccessor();
-        $arrayMap = $this->contact->getSfMapping();
+        $arrayMap = $this->contact::getSfMapping();
 
         $return = [];
         foreach ($arrayMap as $sf => $localPath) {

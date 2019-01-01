@@ -11,6 +11,11 @@ use App\Entities\GroupClient;
 use App\Exceptions\SalesForce\SalesForceApiErrorMessageException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
+/**
+ * Class AddClientDto
+ * @deprecated use the AddObject api call
+ * @package App\Services\SalesForce\Dto
+ */
 class AddClientDto implements SalesForceDtoInterface
 {
     /**
@@ -28,7 +33,7 @@ class AddClientDto implements SalesForceDtoInterface
     public function toSfObject(): array
     {
         $accessor = PropertyAccess::createPropertyAccessor();
-        $arrayMap = $this->client->getSfMapping();
+        $arrayMap = $this->client::getSfMapping();
 
         $return = [];
         foreach ($arrayMap as $sf => $localPath) {

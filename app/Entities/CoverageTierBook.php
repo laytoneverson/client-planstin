@@ -9,6 +9,7 @@ namespace App\Entities;
 
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -128,7 +129,7 @@ class CoverageTierBook extends AbstractSalesForceObjectEntity
     /**
      * @return ArrayCollection
      */
-    public function getCoverageTierPrices(): ArrayCollection
+    public function getCoverageTierPrices(): Collection
     {
         return $this->coverageTierPrices;
     }

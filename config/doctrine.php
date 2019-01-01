@@ -1,7 +1,9 @@
 <?php
 
 use App\EventListeners\PostLoadEventSubscriber;
-use App\EventListeners\PostUpdateEventSubscriber;
+use App\EventListeners\PreUpdateEventSubscriber;
+use App\EventListeners\PrePersistEventSubscriber;
+use App\EventListeners\PreRemoveEventSubscriber;
 use Doctrine\ORM\Events;
 
 return [
@@ -52,7 +54,9 @@ return [
                 'listeners'   => [],
                 'subscribers' => [
                     PostLoadEventSubscriber::class,
-                    PostUpdateEventSubscriber::class,
+                    PreUpdateEventSubscriber::class,
+                    PreRemoveEventSubscriber::class,
+                    PrePersistEventSubscriber::class,
                 ]
             ],
             'filters'       => [],

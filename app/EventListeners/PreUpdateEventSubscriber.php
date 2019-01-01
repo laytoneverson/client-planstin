@@ -12,9 +12,10 @@ use App\Services\SalesForce\ApiCall\UpdateObject;
 use App\Services\SalesForce\Dto\UpdateObjectDto;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Events;
 
-class PostUpdateEventSubscriber implements EventSubscriber
+class PreUpdateEventSubscriber implements EventSubscriber
 {
     /**
      * @var UpdateObject
@@ -35,11 +36,11 @@ class PostUpdateEventSubscriber implements EventSubscriber
     public function getSubscribedEvents()
     {
         return [
-            Events::postUpdate,
+            Events::preUpdate,
         ];
     }
 
-    public function postUpdate(LifecycleEventArgs $eventArgs)
+    public function preUpdate(PreUpdateEventArgs $eventArgs)
     {
         $object = $eventArgs->getObject();
 

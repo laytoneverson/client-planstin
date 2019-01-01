@@ -8,7 +8,9 @@
 
 namespace App\Entities;
 
+use Carbon\Carbon;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -41,28 +43,35 @@ class GroupClient extends AbstractSalesForceObjectEntity
      *
      * @var ArrayCollection|Member[]
      */
-    protected $members;
+    private $members;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entities\User", mappedBy="adminOf")
      *
      * @var ArrayCollection
      */
-    protected $adminUsers;
+    private $adminUsers;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entities\User", mappedBy="groupClient")
      *
      * @var ArrayCollection
      */
-    protected $users;
+    private $users;
 
     /**
      * @var Broker
      *
      * @ORM\OneToOne(targetEntity="Broker", inversedBy="groupClient")
      */
-    protected $broker;
+    private $broker;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="GroupClientPlanOffered", mappedBy="groupClient")
+     */
+    private $plansOffered;
 
     /**
      * @ORM\Column(type="string", nullable=true)
@@ -79,71 +88,76 @@ class GroupClient extends AbstractSalesForceObjectEntity
     /**
      * @var string
      */
-    protected $dba;
+    private $dba;
 
     /**
      * @var string
      */
-    protected $website;
+    private $website;
 
     /**
      * @var string
      */
-    protected $phone;
+    private $phone;
 
     /**
      * @var string
      */
-    protected $taxId;
+    private $taxId;
 
     /**
      * @var Address
      */
-    protected $shippingAddress;
+    private $shippingAddress;
 
     /**
      * @var Address
      */
-    protected $billingAddress;
+    private $billingAddress;
 
     /**
      * @var Contact
      *
      * @ORM\OneToOne(targetEntity="Contact", inversedBy="groupClient", cascade={"persist", "remove"})
      */
-    protected $primaryContact;
+    private $primaryContact;
 
     /**
      * @var Contact
      */
-    protected $billingContact;
+    private $billingContact;
 
     /**
      * @var string
      */
-    protected $profileImageUpload;
+    private $profileImageUpload;
 
     /**
      * @var string
      */
-    protected $profileImagePath;
+    private $profileImagePath;
 
     /**
      * @var string
      *
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $profileImageUrl;
+    private $profileImageUrl;
 
     /**
      * @var bool
      */
-    protected $isPayrollClient;
+    private $isPayrollClient;
 
     /**
      * @var bool
      */
-    protected $isBenefitsClient;
+    private $isBenefitsClient;
+
+    /**
+     * @var bool
+     */
+    private $agreementComplete = false;
 
     /**
      * GroupClient constructor.
@@ -152,6 +166,7 @@ class GroupClient extends AbstractSalesForceObjectEntity
     {
         $this->members = new ArrayCollection();
         $this->adminUsers = new ArrayCollection();
+        $this->plansOffered = new ArrayCollection();
     }
 
     public static function getSfObjectApiName(): string
@@ -184,6 +199,9 @@ class GroupClient extends AbstractSalesForceObjectEntity
             'ShippingState' => 'shippingAddress.state',
             'ShippingPostalCode' => 'shippingAddress.postalCode',
 
+            'Benefits_Client__c' => 'isBenefitsClient',
+            'Payroll_Client__c' => 'isPayrollClient',
+            'Agreement_Complete__c' => 'agreementComplete',
         ];
     }
 
@@ -552,5 +570,53 @@ class GroupClient extends AbstractSalesForceObjectEntity
         $this->broker = $broker;
 
         return $this;
+    }
+
+    /**
+     * @param GroupClientPlanOffered $plansOffered
+     */
+    public function addPlansOffered($plansOffered)
+    {
+        $this->plansOffered->add($plansOffered);
+        // uncomment if you want to update other side
+        $plansOffered->setGroupClient($this);
+    }
+
+    /**
+     * @param mixed $plansOffered
+     */
+    public function removePlansOffered(GroupClientPlanOffered $plansOffered)
+    {
+        $this->plansOffered->removeElement($plansOffered);
+        // uncomment if you want to update other side
+        $plansOffered->setGroupClient(null);
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getPlansOffered(): Collection
+    {
+        if (null === $this->plansOffered) {
+            $this->plansOffered = new ArrayCollection();
+        }
+
+        return $this->plansOffered;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAgreementComplete(): bool
+    {
+        return $this->agreementComplete;
+    }
+
+    /**
+     * @param bool $agreementComplete
+     */
+    public function setAgreementComplete(bool $agreementComplete = false)
+    {
+        $this->agreementComplete = $agreementComplete;
     }
 }

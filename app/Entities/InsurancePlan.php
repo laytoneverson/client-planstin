@@ -8,6 +8,7 @@
 namespace App\Entities;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -16,54 +17,94 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class InsurancePlan extends AbstractSalesForceObjectEntity
 {
+    public const FAMILY_BASE_HEALTH = 'Base Health';
+    public const FAMILY_CATASTROPHIC = 'Catastrophic';
+    public const FAMILY_DENTAL = 'Dental';
+    public const FAMILY_SUPPLEMENTAL = 'Supplemental';
+    public const FAMILY_HEALTHSHARE = 'HealthShare';
+    public const FAMILY_VISION = 'Vision';
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
-    protected $id;
+    private $id;
 
     /**
      * @var string
      * @ORM\Column(type="string")
      */
-    protected $insurancePlanDisplayName;
+    private $insurancePlanDisplayName;
 
     /**
      * @var string
      * @ORM\Column(type="string")
      */
-    protected $insurancePlanName;
+    private $insurancePlanName;
 
     /**
      * @var bool
      * @ORM\Column(type="boolean")
      */
-    protected $active = true;
+    private $active = true;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $planFamily;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $planDetailsLink;
 
     /**
      * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="CoverageTierBook", mappedBy="insurancePlan")
      */
-    protected $coverageTierBooks;
+    private $coverageTierBooks;
 
     /**
      * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="InsurancePlanFeature", mappedBy="insurancePlan")
      */
-    protected $insurancePlanFeatures;
+    private $insurancePlanFeatures;
 
     /**
      * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="InsurancePlanFeature", mappedBy="insurancePlan")
      */
-    protected $insurancePlanCopays;
+    private $insurancePlanCopays;
 
     /**
      * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="InsurancePlanFeature", mappedBy="insurancePlan")
      */
-    protected $prescriptionCopays;
+    private $prescriptionCopays;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="GroupClientPlanOffered", mappedBy="insurancePlan")
+     */
+     private $offeredByGroupClients;
+
+    public static function getPlanFamilies()
+    {
+        return [
+            self::FAMILY_BASE_HEALTH,
+            self::FAMILY_HEALTHSHARE,
+            self::FAMILY_SUPPLEMENTAL,
+            self::FAMILY_CATASTROPHIC,
+            self::FAMILY_DENTAL,
+            self::FAMILY_VISION,
+        ];
+    }
 
     public function __construct()
     {
@@ -71,6 +112,7 @@ class InsurancePlan extends AbstractSalesForceObjectEntity
         $this->insurancePlanCopays = new ArrayCollection();
         $this->insurancePlanFeatures = new ArrayCollection();
         $this->coverageTierBooks = new ArrayCollection();
+        $this->offeredByGroupClients = new ArrayCollection();
     }
 
     public static function getSfObjectApiName(): string
@@ -89,7 +131,9 @@ class InsurancePlan extends AbstractSalesForceObjectEntity
             'Id' => 'sfObjectId',
             'Insurance_Plan_Name__c' => 'insurancePlanDisplayName',
             'Name' => 'insurancePlanName',
-            'Active__c' => 'active'
+            'Active__c' => 'active',
+            'Plan_Family__c' => 'planFamily',
+            'Plan_Details_Link__c' => 'planDetailsLink',
         ];
     }
 
@@ -153,7 +197,7 @@ class InsurancePlan extends AbstractSalesForceObjectEntity
     /**
      * @return ArrayCollection
      */
-    public function getCoverageTierBooks(): ArrayCollection
+    public function getCoverageTierBooks(): Collection
     {
         return $this->coverageTierBooks;
     }
@@ -172,7 +216,7 @@ class InsurancePlan extends AbstractSalesForceObjectEntity
     /**
      * @return ArrayCollection
      */
-    public function getInsurancePlanFeatures(): ArrayCollection
+    public function getInsurancePlanFeatures(): Collection
     {
         return $this->insurancePlanFeatures;
     }
@@ -191,7 +235,7 @@ class InsurancePlan extends AbstractSalesForceObjectEntity
     /**
      * @return ArrayCollection
      */
-    public function getInsurancePlanCopays(): ArrayCollection
+    public function getInsurancePlanCopays(): Collection
     {
         return $this->insurancePlanCopays;
     }
@@ -210,7 +254,7 @@ class InsurancePlan extends AbstractSalesForceObjectEntity
     /**
      * @return ArrayCollection
      */
-    public function getPrescriptionCopays(): ArrayCollection
+    public function getPrescriptionCopays(): Collection
     {
         return $this->prescriptionCopays;
     }
@@ -241,6 +285,129 @@ class InsurancePlan extends AbstractSalesForceObjectEntity
     public function setActive(bool $active)
     {
         $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * @param mixed $coverageTierBook
+     */
+    public function addCoverageTierBook($coverageTierBook)
+    {
+        $this->coverageTierBooks->add($coverageTierBook);
+    }
+
+    /**
+     * @param mixed $coverageTierBook
+     */
+    public function removeCoverageTierBook($coverageTierBook)
+    {
+        $this->coverageTierBooks->removeElement($coverageTierBook);
+    }
+
+    /**
+     * @param mixed $insurancePlanFeature
+     */
+    public function addInsurancePlanFeature($insurancePlanFeature)
+    {
+        $this->insurancePlanFeatures->add($insurancePlanFeature);
+    }
+
+    /**
+     * @param mixed $insurancePlanFeature
+     */
+    public function removeInsurancePlanFeature($insurancePlanFeature)
+    {
+        $this->insurancePlanFeatures->removeElement($insurancePlanFeature);
+    }
+
+    /**
+     * @param mixed $insurancePlanCopay
+     */
+    public function addInsurancePlanCopay($insurancePlanCopay)
+    {
+        $this->insurancePlanCopays->add($insurancePlanCopay);
+    }
+
+    /**
+     * @param mixed $insurancePlanCopay
+     */
+    public function removeInsurancePlanCopay($insurancePlanCopay)
+    {
+        $this->insurancePlanCopays->removeElement($insurancePlanCopay);
+    }
+
+    /**
+     * @param mixed $prescriptionCopay
+     */
+    public function addPrescriptionCopay($prescriptionCopay)
+    {
+        $this->prescriptionCopays->add($prescriptionCopay);
+    }
+
+    /**
+     * @param mixed $prescriptionCopay
+     */
+    public function removePrescriptionCopay($prescriptionCopay)
+    {
+        $this->prescriptionCopays->removeElement($prescriptionCopay);
+    }
+
+    /**
+     * @param mixed $offeredByGroupClient
+     */
+    public function addOfferedByGroupClient($offeredByGroupClient)
+    {
+        $this->offeredByGroupClients->add($offeredByGroupClient);
+
+        $offeredByGroupClient->setInsurancePlan($this);
+    }
+
+    /**
+     * @param GroupClientPlanOffered $offeredByGroupClient
+     */
+    public function removeOfferedByGroupClient(GroupClientPlanOffered $offeredByGroupClient)
+    {
+        $this->offeredByGroupClients->removeElement($offeredByGroupClient);
+
+        $offeredByGroupClient->setInsurancePlan(null);
+    }
+
+    /**
+     * @return string
+     */
+    public function getPlanFamily(): string
+    {
+        return $this->planFamily;
+    }
+
+    /**
+     * @param string $planFamily
+     *
+     * @return InsurancePlan
+     */
+    public function setPlanFamily(string $planFamily)
+    {
+        $this->planFamily = $planFamily;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPlanDetailsLink():? string
+    {
+        return $this->planDetailsLink;
+    }
+
+    /**
+     * @param string $planDetailsLink
+     * @return InsurancePlan
+     */
+    public function setPlanDetailsLink(?string $planDetailsLink)
+    {
+        $this->planDetailsLink = $planDetailsLink;
 
         return $this;
     }

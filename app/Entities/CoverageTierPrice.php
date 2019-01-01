@@ -240,6 +240,4 @@ class CoverageTierPrice extends AbstractSalesForceObjectEntity
 
         return $this;
     }
-
-
 }

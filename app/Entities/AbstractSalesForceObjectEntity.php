@@ -45,6 +45,17 @@ abstract class AbstractSalesForceObjectEntity
     abstract public static function getSfMapping(): array;
 
     /**
+     * Override and return true to have the application automatically add this entity to salesforce when its persisted
+     * to the database.
+     *
+     * @return bool
+     */
+    public function autoAddToSalesForce(): bool
+    {
+        return false;
+    }
+
+    /**
      * @return string
      */
     public function getSfObjectId():? string
