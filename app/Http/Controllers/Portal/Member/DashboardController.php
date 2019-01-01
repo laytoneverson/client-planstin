@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Member;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Request;
 
-
 class DashboardController extends Controller {
 
     public function home(Request $request){

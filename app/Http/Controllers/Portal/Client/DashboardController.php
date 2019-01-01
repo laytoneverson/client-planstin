@@ -6,9 +6,11 @@
  * YourWeb Solutions
  */
 
-namespace App\Http\Controllers\Company;
+namespace App\Http\Controllers\Client;
 
-class DashboardController extends BaseController {
+use App\Http\Controllers\Controller;
+
+class DashboardController extends Controller {
 
     public function initialize(){
 

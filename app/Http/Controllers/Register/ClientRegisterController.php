@@ -1,5 +1,6 @@
-<?php 
-namespace App\Http\Controllers\Client;
+<?php
+
+namespace App\Http\Controllers\Register;
 
 use App\Entities\InsurancePlan;
 use App\Exceptions\InvalidPasswordException;
@@ -18,7 +19,7 @@ use App\Form\NewUserType;
 use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Http\Request;
 
-class RegisterController extends Controller 
+class ClientRegisterController extends Controller
 {
     use CreatesForms, UsesEntityManagerTrait;
 

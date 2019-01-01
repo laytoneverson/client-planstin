@@ -15,7 +15,6 @@ class Controller extends LaravelController
     public function __construct(){
         $this->setupView();
         $this->initialize();
-
     }
 
     public function initialize(){ }

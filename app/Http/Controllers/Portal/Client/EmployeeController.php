@@ -8,8 +8,9 @@
 
 namespace App\Http\Controllers\Company;
 
+use App\Http\Controllers\Controller;
 
-class EmployeeController extends BaseController {
+class EmployeeController extends Controller {
 
     public function addEmployeeAction(){
         return $this->view('company.employee.add-employee');

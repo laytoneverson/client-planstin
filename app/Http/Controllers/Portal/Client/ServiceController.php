@@ -9,7 +9,7 @@
 namespace App\Http\Controllers\Company;
 
 
-class ServiceController extends BaseController {
+class ServiceController extends Controller {
 
     public function chooseBenefitsAction(){
         return $this->view('company.service.choose-benefits');
