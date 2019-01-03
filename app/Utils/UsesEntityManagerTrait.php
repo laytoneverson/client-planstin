@@ -7,9 +7,13 @@
 
 namespace App\Utils;
 
+use App\Entities\GroupClient;
 use App\Entities\InsurancePlan;
+use App\Entities\Member;
 use App\Entities\User;
+use App\Repositories\GroupClientRepository;
 use App\Repositories\InsurancePlanRepository;
+use App\Repositories\MemberRepository;
 use App\Repositories\UserRepository;
 use Doctrine\ORM\EntityManager;
 use LogicException;
@@ -48,5 +52,21 @@ trait UsesEntityManagerTrait
     protected function getInsurancePlanRepository()
     {
         return $this->getEntityManager()->getRepository(InsurancePlan::class);
+    }
+
+    /**
+     * @return GroupClientRepository
+     */
+    protected function getGroupClientRepository()
+    {
+        return $this->getEntityManager()->getRepository(GroupClient::class);
+    }
+
+    /**
+     * @return MemberRepository
+     */
+    protected function getMemberRepository()
+    {
+        return $this->getEntityManager()->getRepository(Member::class);
     }
 }

@@ -1,7 +1,6 @@
 @extends('layouts.public')
 
 @section('content')
-
     <!-- business body content -->
     <section class="businees-pro-cre">
         <div class="container">
@@ -10,7 +9,7 @@
                 <form action="" class="user-data emp-data-2">
                     <div class="col-md-3">
                         <!-- upload file -->
-                        <input id="upload" type="file"/>
+                        {{--<input id="upload" type="file"/>--}}
                         <a href="" id="upload_link">
                             <div class="img-upload img-upload-1">
                                 <img class="up-plus" src="{{asset('images/up-plus.png')}}" alt="">
@@ -19,105 +18,67 @@
                     </div>
 
                     <div class="clearfix"></div>
+
                     <div class="col-md-12">
+
                         <div class="row">
                             <div class="col-md-12">
                                 <h3 class="emp-info-fill">Employee Information</h3>
                             </div>
                         </div>
+
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <div class="from-group">
-                                            <label class="data-input-label text-black mgr-b" for="exampleInputEmail1">Prefix</label>
-                                            <select name="" id="" class="form-control">
-                                                <option value="">Select</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-9">
-                                        <div class="form-group">
-                                            <label class="data-input-label text-black mgr-b" for="exampleInputEmail1">Name</label>
-                                            <input type="text" class="form-control" placeholder="">
-                                        </div>
-                                    </div>
-                                </div>
+
+                            <div class="col-md-4">
+                                @formRow($form['firstName'], ['label_attr' => ['class' => 'data-input-label text-black mgr-b']])
                             </div>
-                            <div class="col-md-6">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <label class="data-input-label text-black mgr-b" for="exampleInputEmail1">Middle</label>
-                                        <input type="text" class="form-control" placeholder="">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="data-input-label text-black mgr-b" for="exampleInputEmail1">Last</label>
-                                        <input type="text" class="form-control" placeholder="">
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label class="data-input-label text-black mgr-b" for="exampleInputEmail1">Prefix</label>
-                                            <input type="text" class="form-control" placeholder="">
-                                        </div>
-                                    </div>
-                                </div>
+
+                            <div class="col-md-2">
+                                @formRow($form['middleInitial'], ['label_attr' => ['class' => 'data-input-label text-black mgr-b']])
                             </div>
+
+                            <div class="col-md-4">
+                                @formRow($form['lastName'], ['label_attr' => ['class' => 'data-input-label text-black mgr-b']])
+                            </div>
+
+                            <div class="col-md-2">
+                                @formRow($form['prefix'], ['label_attr' => ['class' => 'data-input-label text-black mgr-b']])
+                            </div>
+
                         </div>
+
                         <div class="row">
-                            <div class="col-md-5">
-                                <div class="form-group">
-                                    <label class="data-input-label text-black mgr-b" for="exampleInputEmail1">Social Security Number or tax ID*</label>
-                                    <input type="text" class="form-control" placeholder="">
-                                </div>
-                            </div>
-                            <div class="col-md-1"></div>
-                            <div class="col-md-5">
-                                <label class="data-input-label text-black mgr-b" for="exampleInputEmail1">Date of Hire</label>
+
+                            <div class="col-md-4">
+                                <label class="data-input-label text-black mgr-b">Date Of Birth</label>
                                 <div class="row date-of-h">
                                     <div class="col-md-3 col-3">
                                         <div class="form-group">
-                                            <input type="text" class="form-control"  placeholder="MM">
+                                            @formRow($form['birthDate']['month'], [
+                                                'label' => false,
+                                                'attr' => ['placeholder' => 'MM'],
+                                            ])
                                         </div>
                                     </div>
                                     <div class="col-md-3 col-3">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="DD">
+                                            @formRow($form['birthDate']['day'], ['label' => false, 'attr' => ['placeholder' => 'DD']])
                                         </div>
                                     </div>
-                                    <div class="col-md-4 col-4">
+                                    <div class="col-md-5 col-4">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="YYYY">
+                                            @formRow($form['birthDate']['year'], ['label' => false, 'attr' => ['placeholder' => 'YYYY']])
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-5">
-                                <label class="data-input-label text-black mgr-b" for="exampleInputEmail1">Birth</label>
-                                <div class="row date-of-h">
-                                    <div class="col-md-3 col-3">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control"  placeholder="MM">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 col-3">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="DD">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 col-4">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="YYYY">
-                                        </div>
-                                    </div>
-                                </div>
+
+                            <div class="col-md-4">
+                                @formRow($form['socialSecurityNumber'], ['label_attr' => ['class' => 'data-input-label text-black mgr-b']])
                             </div>
-                            <div class="col-md-1"></div>
-                            <div class="col-md-6">
-                                <label class="data-input-label text-black mgr-b" for="">Gender</label>
-                                <input type="radio" name="gender"><span class="gnSl">Male</span>
-                                <input type="radio" name="gender"><span class="gnSl">Female</span>
+
+                            <div class="col-md-4">
+                                @formRow($form['gender'], ['label_attr' => ['class' => 'data-input-label text-black mgr-b']])
                             </div>
                         </div>
 
@@ -126,145 +87,65 @@
                         <div class="row">
 
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <span class="input-detail text-gray-3">Street Address</span>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="">
-                                </div>
+                                @formRow($form['address']['street1'], ['label_attr' => ['class' => 'input-detail text-gray-3']])
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <span class="input-detail text-gray-3">Address Line 2   </span>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="">
-                                </div>
+                                @formRow($form['address']['street2'], ['label_attr' => ['class' => 'input-detail text-gray-3']])
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <span class="input-detail text-gray-3">City </span>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="">
-                                </div>
+                                @formRow($form['address']['city'], ['label_attr' => ['class' => 'input-detail text-gray-3']])
                             </div>
+
                             <div class="col-md-6">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <div class="form-group">
-                                            <span class="input-detail text-gray-3">Province/State* </span>
-                                            <input type="text" class="form-control" id="exampleInputEmail1" placeholder="">
-                                        </div>
+                                        @formRow($form['address']['state'], ['label_attr' => ['class' => 'input-detail text-gray-3']])
+
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="form-group">
-                                            <span class="input-detail text-gray-3">Postcode/Zip* </span>
-                                            <input type="text" class="form-control" id="exampleInputEmail1" placeholder="">
-                                        </div>
+                                        @formRow($form['address']['postalCode'], ['label_attr' => ['class' => 'input-detail text-gray-3']])
                                     </div>
                                 </div>
                             </div>
 
                             <div class="clearfix"></div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="data-input-label text-black mgr-b" for="exampleInputEmail1">Phone</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="data-input-label text-black mgr-b" for="exampleInputEmail1">Email</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="">
-                                </div>
-                            </div>
 
                             <div class="col-md-4">
-                                <h3 class="emp-info-fill coverage">Coverage Type</h3>
-                                <select name="" id="" class="form-control coverage-sl">
-                                    <option value="">Employee Only</option>
-                                </select>
+                                @formRow($form['phone'], ['label_attr' => ['class' => 'data-input-label text-black mgr-b']])
                             </div>
-
-                            <div class="col-md-12 emp-dpnd">
-                                <h3 class="emp-info-fill coverage coverage2">Employee dependents</h3>
-                                <input type="radio" name="dpnd"><span class="gnSl">Spouse</span>
-                                <input type="radio" name="dpnd"><span class="gnSl">Child</span>
+                            <div class="col-md-4">
+                                @formRow($form['email'], ['label_attr' => ['class' => 'data-input-label text-black mgr-b']])
                             </div>
-
-
-                        </div>
-
-                        <div class="emp-dpnd-3">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="from-group">
-                                                <label class="data-input-label text-black mgr-b" for="exampleInputEmail1">Prefix</label>
-                                                <select name="" id="" class="form-control">
-                                                    <option value="">Select</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-9">
-                                            <div class="form-group">
-                                                <label class="data-input-label text-black mgr-b" for="exampleInputEmail1">Name</label>
-                                                <input type="text" class="form-control" placeholder="">
-                                            </div>
+                            <div class="col-md-4">
+                                <label class="data-input-label text-black mgr-b">Date Of Hire</label>
+                                <div class="row date-of-h">
+                                    <div class="col-md-3 col-3">
+                                        <div class="form-group">
+                                            @formRow($form['hireDate']['month'], [
+                                                'label' => false,
+                                                'attr' => ['placeholder' => 'MM'],
+                                            ])
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <label class="data-input-label text-black mgr-b" for="exampleInputEmail1">Middle</label>
-                                            <input type="text" class="form-control" placeholder="">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="data-input-label text-black mgr-b" for="exampleInputEmail1">Last</label>
-                                            <input type="text" class="form-control" placeholder="">
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label class="data-input-label text-black mgr-b" for="exampleInputEmail1">Prefix</label>
-                                                <input type="text" class="form-control" placeholder="">
-                                            </div>
+                                    <div class="col-md-3 col-3">
+                                        <div class="form-group">
+                                            @formRow($form['hireDate']['day'], ['label' => false, 'attr' => ['placeholder' => 'DD']])
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-5">
-                                    <div class="form-group">
-                                        <label class="data-input-label text-black mgr-b" for="exampleInputEmail1">Social Security Number or tax ID*</label>
-                                        <input type="text" class="form-control" placeholder="">
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <label class="data-input-label text-black mgr-b" for="exampleInputEmail1">Birth</label>
-                                    <div class="row date-of-h">
-                                        <div class="col-md-3 col-4">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control"  placeholder="MM">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3 col-4">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" placeholder="DD">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-4">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" placeholder="YYYY">
-                                            </div>
+                                    <div class="col-md-6 col-4">
+                                        <div class="form-group">
+                                            @formRow($form['hireDate']['year'], ['label' => false, 'attr' => ['placeholder' => 'YYYY']])
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="data-input-label text-black mgr-b mgr-b-4" for="">Gender</label>
-                                    <input type="radio" name="gender"><span class="gnSl">Male</span>
-                                    <input type="radio" name="gender"><span class="gnSl">Female</span>
                                 </div>
                             </div>
                         </div>
 
+                        <div class="mb-2"></div>
+
+                        <h3 class="emp-info-fill coverage coverage2">Employee dependents</h3>
+
+                        @formWidget($form['dependents'])
 
                         <div class="row emp-add-2">
                             <button class="add-more-btn" type="button"><i class="fa fa-plus" aria-hidden="true"></i>Add Employee</button>
@@ -458,32 +339,13 @@
                                     <!-- plan3 ended -->
                                 </ul>
                             </li>
-
-                            <li class="q"><span>Catastrophic</span><img class="arrow-rotate" src="{{asset('images/arrow.png')}}"></li>
-                            <li class="a">
-
-                            </li>
-
-                            <li class="q"><span>Dental</span><img class="arrow-rotate" src="{{asset('images/arrow.png')}}"></li>
-                            <li class="a">
-
-                            </li>
-
-                            <li class="q"><span>Vision</span><img class="arrow-rotate" src="{{asset('images/arrow.png')}}"></li>
-                            <li class="a">
-
-                            </li>
-
-                            <li class="q"><span>Supplemental</span><img class="arrow-rotate" src="{{asset('images/arrow.png')}}"></li>
-                            <li class="a">
-
                             </li>
 
                         </ul>
 
 
                         <div class="col-md-12">
-
+                            @formRest($form)
                             <button type="submit" class="btn btn-primary btn-submit bg-red text-white btn-regis btn-save">save</button>
                         </div>
 

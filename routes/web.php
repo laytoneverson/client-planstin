@@ -77,7 +77,7 @@ Route::prefix('register')->group(function() {
     /*  /register/member/...  */
     Route::prefix('member')->group(function() {
 
-        Route::any('/', 'Register\MemberRegisterController@signup')->name('register.member.signup');
+        Route::any('signup/{groupClientSfObjectId?}', 'Register\MemberRegisterController@signup')->name('register.member.signup');
         Route::any('enrollment', 'Register\MemberRegisterController@enrollment')->name('register.member.enrollment');
         Route::any('agreement', 'Register\MemberRegisterController@agreement')->name('register.member.agreement');
 
@@ -86,7 +86,7 @@ Route::prefix('register')->group(function() {
     /* /register/broker/... */
     Route::prefix('broker')->group(function() {
 
-        Route::any('/', 'Register\BrokerRegisterController@signup')->name('register.broker.signup');
+        Route::any('signup/{groupClientSfObjectId?}', 'Register\BrokerRegisterController@signup')->name('register.broker.signup');
         Route::any('contracting', 'Register\BrokerRegisterController@contracting')->name('register.broker.contracting');
         Route::any('agreement', 'Register\BrokerRegisterController@agreement')->name('register.broker.agreement');
 

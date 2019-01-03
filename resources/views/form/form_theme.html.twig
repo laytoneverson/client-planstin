@@ -1,0 +1,66 @@
+
+{% extends 'bootstrap_4_layout.html.twig' %}
+
+{% form_theme form _self %}
+
+{% block _member_dependents_entry_widget %}
+    <div class="emp-dpnd-3">
+
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(form.dependentRelation, {'label_attr': {'class': 'data-input-label text-black mgr-b'} }) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                {{ form_row(form.firstName, {'label_attr': {'class': 'data-input-label text-black mgr-b'} }) }}
+            </div>
+            <div class="col-md-2">
+                {{ form_row(form.middleName, {'label_attr': {'class': 'data-input-label text-black mgr-b'} }) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.lastName, {'label_attr': {'class': 'data-input-label text-black mgr-b'} }) }}
+            </div>
+            <div class="col-md-2">
+                {{ form_row(form.prefix, {'label_attr': {'class': 'data-input-label text-black mgr-b'} }) }}
+            </div>
+        </div>
+
+
+        <div class="row">
+            {#<div class="col-md-2 emp-dpnd">#}
+                {#<input type="radio" name="dpnd"><span class="gnSl">Spouse</span>#}
+                {#<input type="radio" name="dpnd"><span class="gnSl">Child</span>#}
+            {#</div>#}
+            <div class="col-md-5">
+                {{ form_row(form.socialSecurityNumber, {'label_attr': {'class': 'data-input-label text-black mgr-b'} }) }}
+            </div>
+
+            <div class="col-md-4">
+
+                <label class="data-input-label text-black mgr-b" for="exampleInputEmail1">Birth</label>
+                <div class="row date-of-h">
+                    <div class="col-md-3 col-4">
+                        {{ form_widget(form.dob.month, { 'attr': { 'placeholder': 'MM' } }) }}
+                    </div>
+                    <div class="col-md-3 col-4">
+                        {{ form_widget(form.dob.day, { 'attr': { 'placeholder': 'DD' } }) }}
+                    </div>
+                    <div class="col-md-6 col-4">
+                        {{ form_widget(form.dob.year, { 'attr': { 'placeholder': 'YYYY' } }) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                {{ form_row(form.gender, {'label_attr':{'class': 'data-input-label text-black mgr-b'} } ) }}
+                {#<label class="data-input-label text-black mgr-b mgr-b-4" for="">Gender</label>#}
+                {#<input type="radio" name="gender"><span class="gnSl">Male</span>#}
+                {#<input type="radio" name="gender"><span class="gnSl">Female</span>#}
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+

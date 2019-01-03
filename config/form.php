@@ -16,7 +16,8 @@ return array(
     | 
     | See http://symfony.com/doc/current/cookbook/form/form_customization.html#what-are-form-themes
     */
-    'theme' => 'bootstrap_4_layout.html.twig',
+//    'theme' => 'bootstrap_4_layout.html.twig',
+    'theme' => 'form_theme.html.twig',
 
     /*
     |--------------------------------------------------------------------------
@@ -28,7 +29,7 @@ return array(
     | See http://symfony.com/doc/current/form/form_customization.html
     */
     'template_directories' => [
-        // eg: resource_path('views/form')
+        resource_path('views/form')
     ],
 
     'defaults' => [

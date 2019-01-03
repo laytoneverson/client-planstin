@@ -9,6 +9,7 @@
 namespace App\Entities;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -20,6 +21,11 @@ class Member extends AbstractSalesForceObjectEntity
     protected static $sfObjectFriendlyName = 'Member';
 
     protected static $sfObjectApiName = 'Member__c';
+
+    public const COVERAGE_TIER_EMPLOYEE = 'Employee';
+    public const COVERAGE_TIER_EMPLOYEE_SPOUSE = 'Employee';
+    public const COVERAGE_TIER_EMPLOYEE_CHILDREN = 'Employee';
+    public const COVERAGE_TIER_EMPLOYEE_FAMILY = 'Employee';
 
     /**
      * @var int
@@ -36,18 +42,18 @@ class Member extends AbstractSalesForceObjectEntity
     private $groupClient;
 
     /**
-     * @var Member
-     *
-     * @ORM\ManyToOne(targetEntity="Member", inversedBy="dependents")
-     */
-    private $parent;
-
-    /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Member", mappedBy="parent")
+     * @ORM\OneToMany(targetEntity="MemberDependent", mappedBy="member")
      */
     private $dependents;
+
+    /**
+     * @var MemberPlanEnrollment[]|Collection
+     *
+     * @ORM\OneToMany(targetEntity="MemberPlanEnrollment", mappedBy="member")
+     */
+    private $enrolledPlans;
 
     /**
      * @var string
@@ -111,6 +117,7 @@ class Member extends AbstractSalesForceObjectEntity
      */
     private $coverageType;
 
+
     public function __construct()
     {
         $this->dependents = new ArrayCollection();
@@ -130,6 +137,7 @@ class Member extends AbstractSalesForceObjectEntity
     {
         return [
             'Id' => 'sfObjectId',
+            'Group__c' => 'groupClient.sfObjectId',
             'Prefix__c' => 'prefix',
             'First_Name__c' => 'firstName',
             'Last_Name__c' => 'lastName',
@@ -152,7 +160,7 @@ class Member extends AbstractSalesForceObjectEntity
     /**
      * @return GroupClient
      */
-    public function getGroupClient(): GroupClient
+    public function getGroupClient(): ?GroupClient
     {
         return $this->groupClient;
     }
@@ -179,7 +187,7 @@ class Member extends AbstractSalesForceObjectEntity
     /**
      * @return string
      */
-    public function getPrefix(): string
+    public function getPrefix(): ?string
     {
         return $this->prefix;
     }
@@ -198,7 +206,7 @@ class Member extends AbstractSalesForceObjectEntity
     /**
      * @return string
      */
-    public function getFirstName(): string
+    public function getFirstName(): ?string
     {
         return $this->firstName;
     }
@@ -217,7 +225,7 @@ class Member extends AbstractSalesForceObjectEntity
     /**
      * @return string
      */
-    public function getLastName(): string
+    public function getLastName(): ?string
     {
         return $this->lastName;
     }
@@ -236,7 +244,7 @@ class Member extends AbstractSalesForceObjectEntity
     /**
      * @return string
      */
-    public function getMiddleInitial(): string
+    public function getMiddleInitial(): ?string
     {
         return $this->middleInitial;
     }
@@ -255,7 +263,7 @@ class Member extends AbstractSalesForceObjectEntity
     /**
      * @return string
      */
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
@@ -274,7 +282,7 @@ class Member extends AbstractSalesForceObjectEntity
     /**
      * @return string
      */
-    public function getPhone(): string
+    public function getPhone(): ?string
     {
         return $this->phone;
     }
@@ -293,7 +301,7 @@ class Member extends AbstractSalesForceObjectEntity
     /**
      * @return string
      */
-    public function getSocialSecurityNumber(): string
+    public function getSocialSecurityNumber(): ?string
     {
         return $this->socialSecurityNumber;
     }
@@ -312,7 +320,7 @@ class Member extends AbstractSalesForceObjectEntity
     /**
      * @return string
      */
-    public function getHireDate(): string
+    public function getHireDate(): ?string
     {
         return $this->hireDate;
     }
@@ -331,7 +339,7 @@ class Member extends AbstractSalesForceObjectEntity
     /**
      * @return string
      */
-    public function getBirthDate(): string
+    public function getBirthDate(): ?string
     {
         return $this->birthDate;
     }
@@ -350,7 +358,7 @@ class Member extends AbstractSalesForceObjectEntity
     /**
      * @return string
      */
-    public function getGender(): string
+    public function getGender(): ?string
     {
         return $this->gender;
     }
@@ -394,6 +402,29 @@ class Member extends AbstractSalesForceObjectEntity
      */
     public function getCoverageType(): string
     {
+        $dependents = $this->getDependents();
+
+        $hasSpouse = false;
+        $hasChildren = false;
+        /** @var MemberDependent $dependent */
+        foreach($dependents as $dependent) {
+            if ($dependent->getDependentRelation() === 'Spouse') {
+                $hasSpouse = true;
+            } elseif ($dependent->getDependentRelation() === 'Child') {
+                $hasChildren = true;
+            }
+        }
+
+        if ($hasSpouse && $hasChildren) {
+            $this->coverageType = Member::COVERAGE_TIER_EMPLOYEE_FAMILY;
+        } elseif ($hasSpouse && !$hasChildren) {
+            $this->coverageType = Member::COVERAGE_TIER_EMPLOYEE_SPOUSE;
+        } elseif (!$hasSpouse && $hasChildren) {
+            $this->coverageType = Member::COVERAGE_TIER_EMPLOYEE_CHILDREN;
+        } else {
+            $this->coverageType = Member::COVERAGE_TIER_EMPLOYEE;
+        }
+
         return $this->coverageType;
     }
 
@@ -416,42 +447,85 @@ class Member extends AbstractSalesForceObjectEntity
         return $this->dependents;
     }
 
-    /**
-     * @return Member
-     */
-    public function getParent()
-    {
-        return $this->parent;
-    }
-
-    /**
-     * @param Member $parent
-     * @return self
-     */
-    public function setParent(?Member $parent)
-    {
-        if (null === $this->parent || $parent !== $this->parent) {
-            $this->parent = $parent;
-        }
-
-        return $this;
-    }
 
     /**
      * @param Member $dependent
      */
-    public function addDependent(Member $dependent)
+    public function addDependent(MemberDependent $dependent)
     {
         $this->dependents->add($dependent);
-        $dependent->setParent($this);
+        $dependent->setMember($this);
     }
 
     /**
      * @param Member $dependent
      */
-    public function removeDependent(Member $dependent)
+    public function removeDependent(MemberDependent $dependent)
     {
         $this->dependents->removeElement($dependent);
-        $dependent->setParent(null);
+        $dependent->setMember(null);
+    }
+
+    public function hasSelfDependent(): bool
+    {
+        /** @var MemberDependent $dependent */
+        foreach($this->dependents as $dependent) {
+            if ($dependent->getDependentRelation() === 'Self') {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function createSelfDependent()
+    {
+        if (!$this->hasSelfDependent()) {
+            $selfDependent = new MemberDependent();
+            $selfDependent->setDependentRelation('Self')
+                ->setMember($this)
+                ->setFirstName($this->getFirstName())
+                ->setLastName($this->getLastName())
+                ->setMiddleName($this->getMiddleInitial())
+                ->setDob($this->getBirthDate())
+                ->setGender($this->getGender())
+                ->setSocialSecurityNumber($this->getSocialSecurityNumber());
+        }
+
+        return $selfDependent;
+    }
+
+    /**
+     * @return MemberPlanEnrollment[]|Collection
+     */
+    public function getEnrolledPlans()
+    {
+        return $this->enrolledPlans;
+    }
+
+    /**
+     * @param MemberPlanEnrollment[]|Collection $enrolledPlans
+     */
+    public function setEnrolledPlans($enrolledPlans): void
+    {
+        $this->enrolledPlans = $enrolledPlans;
+    }
+
+    /**
+     * @param MemberPlanEnrollment $enrolledPlan
+     */
+    public function addEnrolledPlan(MemberPlanEnrollment $enrolledPlan)
+    {
+        $this->enrolledPlans->add($enrolledPlan);
+        $enrolledPlan->setMember($this);
+    }
+
+    /**
+     * @param MemberPlanEnrollment $enrolledPlan
+     */
+    public function removeEnrolledPlan(MemberPlanEnrollment $enrolledPlan)
+    {
+        $this->enrolledPlans->removeElement($enrolledPlan);
+        $enrolledPlan->setMember(null);
     }
 }

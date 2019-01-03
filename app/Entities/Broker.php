@@ -55,6 +55,14 @@ class Broker extends AbstractSalesForceObjectEntity
      */
     private $notes;
 
+    private $bankName;
+
+    private $routingNumber;
+
+    private $accountNumber;
+
+    private $accountType;
+
     public static function getSfObjectApiName(): string
     {
         return 'Affiliates__c';
@@ -74,6 +82,10 @@ class Broker extends AbstractSalesForceObjectEntity
             'Email__c' => 'email',
             'Phone__c' => 'phone',
             'Notes_Section__c' => 'notes',
+            'ACH_Account_Number__c' => 'accountNumber',
+            'ACH_Routing_Number__c' => 'routingNumber',
+            'ACH_Account_Type__c' => 'accountType',
+            'ACH_Bank_Name__c' => 'bankName'
         ];
     }
 

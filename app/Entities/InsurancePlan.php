@@ -94,6 +94,13 @@ class InsurancePlan extends AbstractSalesForceObjectEntity
      */
      private $offeredByGroupClients;
 
+    /**
+     * @var MemberPlanEnrollment[]|Collection
+     *
+     * @ORM\OneToMany(targetEntity="MemberPlanEnrollment", mappedBy="insurancePlan")
+     */
+     private $memberEnrollments;
+
     public static function getPlanFamilies()
     {
         return [
@@ -113,6 +120,7 @@ class InsurancePlan extends AbstractSalesForceObjectEntity
         $this->insurancePlanFeatures = new ArrayCollection();
         $this->coverageTierBooks = new ArrayCollection();
         $this->offeredByGroupClients = new ArrayCollection();
+        $this->memberEnrollments = new ArrayCollection();
     }
 
     public static function getSfObjectApiName(): string
@@ -410,5 +418,37 @@ class InsurancePlan extends AbstractSalesForceObjectEntity
         $this->planDetailsLink = $planDetailsLink;
 
         return $this;
+    }
+
+    /**
+     * @return MemberPlanEnrollment[]|Collection
+     */
+    public function getMemberEnrollments()
+    {
+        return $this->memberEnrollments;
+    }
+
+    /**
+     * @param MemberPlanEnrollment[]|Collection $memberEnrollments
+     */
+    public function setMemberEnrollments($memberEnrollments): void
+    {
+        $this->memberEnrollments = $memberEnrollments;
+    }
+
+    /**
+     * @param MemberPlanEnrollment $memberEnrollment
+     */
+    public function addMemberEnrollment(MemberPlanEnrollment $memberEnrollment)
+    {
+        $this->memberEnrollments->add($memberEnrollment);
+    }
+
+    /**
+     * @param MemberPlanEnrollment $memberEnrollment
+     */
+    public function removeMemberEnrollment(MemberPlanEnrollment $memberEnrollment)
+    {
+        $this->memberEnrollments->removeElement($memberEnrollment);
     }
 }
