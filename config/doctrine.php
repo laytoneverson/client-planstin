@@ -55,7 +55,6 @@ return [
                 'subscribers' => [
                     PostLoadEventSubscriber::class,
                     PreUpdateEventSubscriber::class,
-                    PreRemoveEventSubscriber::class,
                     PrePersistEventSubscriber::class,
                 ]
             ],

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Register;
 
-use App\Entities\InsurancePlan;
+use App\Entities\BenefitPlan;
 use App\Exceptions\InvalidPasswordException;
 use App\Exceptions\UserAlreadyExistsException;
 use App\Form\GroupClientAgreementFormType;
@@ -126,11 +126,11 @@ class ClientRegisterController extends Controller
 
     public function services(Request $request)
     {
-        /** @var InsurancePlan[] $plans */
-        $plans = $this->getInsurancePlanRepository()->getActiveInsurancePlans();
+        /** @var BenefitPlan[] $plans */
+        $plans = $this->getBenefitPlanRepository()->getActiveBenefitPlans();
         $client = $this->accountService->getCurrentUser()->getGroupClient();
 
-        $planFamilies = InsurancePlan::getPlanFamilies();
+        $planFamilies = BenefitPlan::getPlanFamilies();
 
         $viewPlans = [];
         foreach ($planFamilies as $k => $planFamily) {

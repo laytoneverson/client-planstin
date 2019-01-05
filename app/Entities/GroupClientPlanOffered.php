@@ -11,7 +11,7 @@ namespace App\Entities;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repositories\GroupClientPlanOfferedRepository")
  * @ORM\Table(name="group_client_plan_offered")
  */
 class GroupClientPlanOffered extends AbstractSalesForceObjectEntity
@@ -26,11 +26,11 @@ class GroupClientPlanOffered extends AbstractSalesForceObjectEntity
     private $id;
 
     /**
-     * @var InsurancePlan
+     * @var BenefitPlan
      *
-     * @ORM\ManyToOne(targetEntity="InsurancePlan", inversedBy="OfferedByGroupClients")
+     * @ORM\ManyToOne(targetEntity="BenefitPlan", inversedBy="OfferedByGroupClients")
      */
-    private $insurancePlan;
+    private $benefitPlan;
 
     /**
      * @var GroupClient
@@ -54,7 +54,7 @@ class GroupClientPlanOffered extends AbstractSalesForceObjectEntity
         return 'Client Plan Offered Join Table';
     }
 
-    public function autoAddToSalesForce(): bool
+    public static function autoAddToSalesForce(): bool
     {
         return true;
     }
@@ -65,7 +65,7 @@ class GroupClientPlanOffered extends AbstractSalesForceObjectEntity
             'Id' => 'sfObjectId',
             'Currently_Offered__c' => 'currentlyOffered',
             'Group_Client__c' => 'groupClient.sfObjectId',
-            'Insurance_Plan__c' => 'insurancePlan.sfObjectId'
+            'Benefit_Plan__c' => 'benefitPlan.sfObjectId'
         ];
     }
 
@@ -89,20 +89,20 @@ class GroupClientPlanOffered extends AbstractSalesForceObjectEntity
     }
 
     /**
-     * @return InsurancePlan
+     * @return BenefitPlan
      */
-    public function getInsurancePlan(): ?InsurancePlan
+    public function getBenefitPlan(): ?BenefitPlan
     {
-        return $this->insurancePlan;
+        return $this->benefitPlan;
     }
 
     /**
-     * @param InsurancePlan $insurancePlan
+     * @param BenefitPlan $benefitPlan
      * @return GroupClientPlanOffered
      */
-    public function setInsurancePlan(InsurancePlan $insurancePlan)
+    public function setBenefitPlan(BenefitPlan $benefitPlan)
     {
-        $this->insurancePlan = $insurancePlan;
+        $this->benefitPlan = $benefitPlan;
 
         return $this;
     }

@@ -8,6 +8,9 @@
 namespace App\Entities;
 
 use App\Repositories\SalesForceObjectRepositoryTrait;
+use App\Services\SalesForce\Persistence\AbstractPersistenceService;
+use App\Services\SalesForce\Persistence\GenericPersistenceService;
+use App\Services\SalesForce\Persistence\SalesForcePersistenceServiceInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 abstract class AbstractSalesForceObjectEntity
@@ -45,14 +48,40 @@ abstract class AbstractSalesForceObjectEntity
     abstract public static function getSfMapping(): array;
 
     /**
+     * @return SalesForceChildRelationship[]
+     */
+    public static function getChildRelationships()
+    {
+        return [];
+    }
+
+    /**
      * Override and return true to have the application automatically add this entity to salesforce when its persisted
      * to the database.
      *
      * @return bool
      */
-    public function autoAddToSalesForce(): bool
+    public static function autoAddToSalesForce(): bool
     {
         return false;
+    }
+
+    public static function autoPullFromSalesForce(): bool
+    {
+        return false;
+    }
+
+    public static function autoUpdateInSalesForce(): bool
+    {
+        return false;
+    }
+
+    /**
+     * @return SalesForcePersistenceServiceInterface
+     */
+    public static function getSalesForcePersistenceService()
+    {
+        return app(GenericPersistenceService::class);
     }
 
     /**
@@ -82,4 +111,6 @@ abstract class AbstractSalesForceObjectEntity
     {
         $this->salesForceUpdate = new \DateTime();
     }
+
+
 }

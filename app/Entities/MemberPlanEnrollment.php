@@ -32,11 +32,11 @@ class MemberPlanEnrollment
     private $member;
 
     /**
-     * @var InsurancePlan
+     * @var BenefitPlan
      *
-     * @ORM\ManyToOne(targetEntity="InsurancePlan", inversedBy="memberEnrollments")
+     * @ORM\ManyToOne(targetEntity="BenefitPlan", inversedBy="memberEnrollments")
      */
-    private $insurancePlan;
+    private $benefitPlan;
 
     private $planeTermEnd;
 
@@ -87,18 +87,18 @@ class MemberPlanEnrollment
     /**
      * @return mixed
      */
-    public function getInsurancePlan()
+    public function getBenefitPlan()
     {
-        return $this->insurancePlan;
+        return $this->benefitPlan;
     }
 
     /**
-     * @param mixed $insurancePlan
+     * @param mixed $benefitPlan
      * @return MemberPlanEnrollment
      */
-    public function setInsurancePlan($insurancePlan)
+    public function setBenefitPlan($benefitPlan)
     {
-        $this->insurancePlan = $insurancePlan;
+        $this->benefitPlan = $benefitPlan;
 
         return $this;
     }

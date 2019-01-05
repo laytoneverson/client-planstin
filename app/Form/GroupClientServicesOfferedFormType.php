@@ -7,7 +7,7 @@
 
 namespace App\Form;
 
-use App\Entities\InsurancePlan;
+use App\Entities\BenefitPlan;
 use App\Form\Handler\GroupClientServicesOfferedFormHandler;
 use LogicException;
 use Symfony\Component\Form\AbstractType;
@@ -34,7 +34,7 @@ class GroupClientServicesOfferedFormType extends AbstractType
         $builder
             ->add('offeredPlans', ChoiceType::class, [
                 'choices' => $handler->getAvailablePlans(),
-                'choice_value' => function(InsurancePlan $entity = null) {
+                'choice_value' => function(BenefitPlan $entity = null) {
                     return $entity ? $entity->getId() : '';
                 },
                 'multiple' => true,

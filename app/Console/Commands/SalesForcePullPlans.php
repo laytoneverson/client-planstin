@@ -4,13 +4,14 @@ namespace App\Console\Commands;
 
 use App\Entities\CoverageTierBook;
 use App\Entities\CoverageTierPrice;
-use App\Entities\InsurancePlan;
-use App\Entities\InsurancePlanCopay;
-use App\Entities\InsurancePlanFeature;
+use App\Entities\BenefitPlan;
+use App\Entities\BenefitPlanCopay;
+use App\Entities\BenefitPlanFeature;
 use App\Entities\PrescriptionCopay;
 use App\Services\SalesForce\ApiCall\SOQLQuery;
 use App\Services\SalesForce\Dto\SOQLQueryDto;
 use App\Services\SalesForce\Dto\SOQLQuerySelectObjectRowsDto;
+use App\Services\SalesForce\Persistence\BenefitPlanPersistenceService;
 use App\Utils\SalesForceDataExchangeTrait;
 use App\Utils\UsesEntityManagerTrait;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,14 +26,14 @@ class SalesForcePullPlans extends Command
      *
      * @var string
      */
-    protected $signature = 'sales-force:api:pull-insurance-plans';
+    protected $signature = 'sales-force:api:pull-benefit-plans';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Pulls insurance plans from Sales Force';
+    protected $description = 'Pulls Planstin benefit plans from SalesForce';
 
     /**
      * @var SOQLQuery
@@ -43,6 +44,10 @@ class SalesForcePullPlans extends Command
      * @var EntityManagerInterface
      */
     protected $entityManager;
+    /**
+     * @var BenefitPlanPersistenceService
+     */
+    private $benefitPlanPersistenceService;
 
 
     /**
@@ -50,12 +55,16 @@ class SalesForcePullPlans extends Command
      *
      * @return void
      */
-    public function __construct(SOQLQuery $SOQLQuery, EntityManagerInterface $entityManager)
+    public function __construct(
+        SOQLQuery $SOQLQuery,
+        EntityManagerInterface $entityManager,
+        BenefitPlanPersistenceService $benefitPlanPersistenceService)
     {
         $this->SOQLQuery = $SOQLQuery;
         $this->entityManager = $entityManager;
 
         parent::__construct();
+        $this->benefitPlanPersistenceService = $benefitPlanPersistenceService;
     }
 
     /**
@@ -67,58 +76,58 @@ class SalesForcePullPlans extends Command
     {
 
         try {
-            $this->pullInsurancePlans();
+            $this->benefitPlanPersistenceService->syncInsurancePlans();
         } catch (\Throwable $exception) {
             report($exception);
             throw $exception;
         }
 
-        $activePlans = $this->getInsurancePlanRepository()
-            ->findBy(['active' => true]);
-
-        $insurancePlanChildren = [
-            CoverageTierBook::class,
-            InsurancePlanFeature::class,
-            InsurancePlanCopay::class,
-            PrescriptionCopay::class,
-        ];
-
-        /**
-         * @var InsurancePlan $activePlan
-         */
-        foreach($activePlans as $activePlan) {
-            foreach ($insurancePlanChildren as $childClassFqn) {
-
-                try {
-                    $this->pullChildrenOfPlan($activePlan, $childClassFqn);
-                } catch (\Throwable $exception) {
-                    report($exception);
-                    throw $exception;
-                }
-
-            }
-        }
-
-        $coverageTierBooks = $this->getEntityManager()
-            ->getRepository(CoverageTierBook::class)
-            ->findAll();
-
-        foreach($coverageTierBooks as $priceBook) {
-            $this->pullPriceBookPrices($priceBook);
-        }
+//        $activePlans = $this->getBenefitPlanRepository()
+//            ->findBy(['active' => true]);
+//
+//        $benefitPlanChildren = [
+//            CoverageTierBook::class,
+//            BenefitPlanFeature::class,
+//            BenefitPlanCopay::class,
+//            PrescriptionCopay::class,
+//        ];
+//
+//        /**
+//         * @var BenefitPlan $activePlan
+//         */
+//        foreach($activePlans as $activePlan) {
+//            foreach ($benefitPlanChildren as $childClassFqn) {
+//
+//                try {
+//                    $this->pullChildrenOfPlan($activePlan, $childClassFqn);
+//                } catch (\Throwable $exception) {
+//                    report($exception);
+//                    throw $exception;
+//                }
+//
+//            }
+//        }
+//
+//        $coverageTierBooks = $this->getEntityManager()
+//            ->getRepository(CoverageTierBook::class)
+//            ->findAll();
+//
+//        foreach($coverageTierBooks as $priceBook) {
+//            $this->pullPriceBookPrices($priceBook);
+//        }
 
     }
 
     /**
-     * @param InsurancePlan $insurancePlan
+     * @param BenefitPlan $benefitPlan
      * @param string $childFqn
      * @throws \App\Exceptions\SalesForce\SalesForceApiException
      */
-    private function pullChildrenOfPlan(InsurancePlan $insurancePlan, string $childFqn)
+    private function pullChildrenOfPlan(BenefitPlan $benefitPlan, string $childFqn)
     {
         $repo = $this->entityManager->getRepository($childFqn);
 
-        $where = \sprintf('Insurance_Plan__r.id = \'%s\'', $insurancePlan->getSfObjectId());
+        $where = \sprintf('Benefit_Plan__r.id = \'%s\'', $benefitPlan->getSfObjectId());
         $dto = new SOQLQuerySelectObjectRowsDto($childFqn, SOQLQueryDto::RETURN_OBJECT, $where);
         $this->SOQLQuery->setData($dto);
         $this->SOQLQuery->execute();
@@ -133,7 +142,7 @@ class SalesForcePullPlans extends Command
                 $storedRecord = new $childFqn();
                 $this->entityManager->persist($storedRecord);
             }
-            $storedRecord->setInsurancePlan($insurancePlan);
+            $storedRecord->setBenefitPlan($benefitPlan);
             $this->populateFromSalesForceData($record, $storedRecord, $childFqn::getSfMapping());
 
         }
@@ -142,7 +151,7 @@ class SalesForcePullPlans extends Command
     }
 
     /**
-     * @param InsurancePlan $insurancePlan
+     * @param BenefitPlan $benefitPlan
      * @param string $childFqn
      * @throws \App\Exceptions\SalesForce\SalesForceApiException
      */
@@ -167,7 +176,6 @@ class SalesForcePullPlans extends Command
                 $this->entityManager->persist($storedRecord);
             }
 
-            $storedRecord->setCoverageTierBook($priceBook);
             $this->populateFromSalesForceData($record, $storedRecord, $childFqn::getSfMapping());
         }
 
@@ -175,35 +183,34 @@ class SalesForcePullPlans extends Command
     }
 
 
-
     /**
      * @throws \App\Exceptions\SalesForce\SalesForceApiException
      */
-    private function pullInsurancePlans()
+    private function pullBenefitPlans()
     {
-        $insuranceDto = new SOQLQuerySelectObjectRowsDto(InsurancePlan::class);
-        $this->SOQLQuery->setData($insuranceDto);
+        $benefitPlanDto = new SOQLQuerySelectObjectRowsDto(BenefitPlan::class);
+        $this->SOQLQuery->setData($benefitPlanDto);
         $this->SOQLQuery->execute();
 
-        $insurancePlans = $insuranceDto->getReturnData();
+        $benefitPlans = $benefitPlanDto->getReturnData();
 
-        $this->updateInsurancePlans($insurancePlans->records);
+        $this->updateBenefitPlans($benefitPlans->records);
     }
 
-    private function updateInsurancePlans(array $plans)
+    private function updateBenefitPlans(array $plans)
     {
-        $insurancePlanRepo = $this->getInsurancePlanRepository();
+        $benefitPlanRepo = $this->getBenefitPlanRepository();
 
         foreach ($plans as $plan) {
 
-            $storedPlan = $insurancePlanRepo->findBySalesForceObjectId($plan->Id);
+            $storedPlan = $benefitPlanRepo->findBySalesForceObjectId($plan->Id);
 
             if (null === $storedPlan) {
-                $storedPlan = new InsurancePlan();
+                $storedPlan = new BenefitPlan();
                 $this->entityManager->persist($storedPlan);
             }
 
-            $this->populateFromSalesForceData($plan, $storedPlan, InsurancePlan::getSfMapping());
+            $this->populateFromSalesForceData($plan, $storedPlan, BenefitPlan::getSfMapping());
         }
 
         $this->entityManager->flush();

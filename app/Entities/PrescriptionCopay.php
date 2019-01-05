@@ -25,10 +25,10 @@ class PrescriptionCopay extends AbstractSalesForceObjectEntity
     private $id;
 
     /**
-     * @var InsurancePlan
-     * @ORM\ManyToOne(targetEntity="InsurancePlan", inversedBy="prescriptionCopays")
+     * @var BenefitPlan
+     * @ORM\ManyToOne(targetEntity="BenefitPlan", inversedBy="prescriptionCopays")
      */
-    protected $insurancePlan;
+    protected $benefitPlan;
 
     /**
      * @var string
@@ -88,20 +88,20 @@ class PrescriptionCopay extends AbstractSalesForceObjectEntity
     }
 
     /**
-     * @return InsurancePlan
+     * @return BenefitPlan
      */
-    public function getInsurancePlan():? InsurancePlan
+    public function getBenefitPlan():? BenefitPlan
     {
-        return $this->insurancePlan;
+        return $this->benefitPlan;
     }
 
     /**
-     * @param InsurancePlan $insurancePlan
+     * @param BenefitPlan $benefitPlan
      * @return PrescriptionCopay
      */
-    public function setInsurancePlan(InsurancePlan $insurancePlan)
+    public function setBenefitPlan(BenefitPlan $benefitPlan)
     {
-        $this->insurancePlan = $insurancePlan;
+        $this->benefitPlan = $benefitPlan;
 
         return $this;
     }

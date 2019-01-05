@@ -33,10 +33,10 @@ class CoverageTierBook extends AbstractSalesForceObjectEntity
     protected $coverageTierBookName;
 
     /**
-     * @var InsurancePlan
-     * @ORM\ManyToOne(targetEntity="InsurancePlan", inversedBy="coverageTierBooks")
+     * @var BenefitPlan
+     * @ORM\ManyToOne(targetEntity="BenefitPlan", inversedBy="coverageTierBooks")
      */
-    protected $insurancePlan;
+    protected $benefitPlan;
 
     /**
      * @var ArrayCollection
@@ -66,6 +66,18 @@ class CoverageTierBook extends AbstractSalesForceObjectEntity
             'Id' => 'sfObjectId',
             'Name' => 'coverageTierBookName',
             'Tier_Book_Label__c' => 'coverageTierLabel',
+        ];
+    }
+
+    public static function getChildRelationships()
+    {
+        return [
+            CoverageTierPrice::class => new SalesForceChildRelationship(
+                CoverageTierPrice::class,
+                'Coverage_Tier_Prices',
+                'coverageTierPrices',
+                'coverageTierBook'
+            ),
         ];
     }
 
@@ -108,20 +120,20 @@ class CoverageTierBook extends AbstractSalesForceObjectEntity
     }
 
     /**
-     * @return InsurancePlan
+     * @return BenefitPlan
      */
-    public function getInsurancePlan(): InsurancePlan
+    public function getBenefitPlan(): BenefitPlan
     {
-        return $this->insurancePlan;
+        return $this->benefitPlan;
     }
 
     /**
-     * @param InsurancePlan $insurancePlan
+     * @param BenefitPlan $benefitPlan
      * @return CoverageTierBook
      */
-    public function setInsurancePlan(InsurancePlan $insurancePlan)
+    public function setBenefitPlan(BenefitPlan $benefitPlan)
     {
-        $this->insurancePlan = $insurancePlan;
+        $this->benefitPlan = $benefitPlan;
 
         return $this;
     }

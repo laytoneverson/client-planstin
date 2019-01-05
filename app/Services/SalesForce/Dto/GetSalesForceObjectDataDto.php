@@ -25,14 +25,14 @@ class GetSalesForceObjectDataDto implements SalesForceDtoInterface
     public function toSfObject(): array
     {
         return [
-            'objectApiName' => $this->salesForceObjectEntity->getSfObjectApiName(),
+            'objectApiName' => $this->salesForceObjectEntity::getSfObjectApiName(),
             'objectId' => $this->salesForceObjectEntity->getSfObjectId(),
         ];
     }
 
     public function fromSfObject(string $data): SalesForceDtoInterface
     {
-        $dataMap = $this->salesForceObjectEntity->getSfMapping();
+        $dataMap = $this->salesForceObjectEntity::getSfMapping();
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
         $data = \GuzzleHttp\json_decode($data);
 

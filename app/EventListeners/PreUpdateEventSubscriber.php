@@ -8,30 +8,12 @@
 namespace App\EventListeners;
 
 use App\Entities\AbstractSalesForceObjectEntity;
-use App\Services\SalesForce\ApiCall\UpdateObject;
-use App\Services\SalesForce\Dto\UpdateObjectDto;
 use Doctrine\Common\EventSubscriber;
-use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Events;
 
 class PreUpdateEventSubscriber implements EventSubscriber
 {
-    /**
-     * @var UpdateObject
-     */
-    private $updateObject;
-
-
-    /**
-     * PostUpdateEventSubscriber constructor.
-     *
-     * @param UpdateObject $updateObject
-     */
-    public function __construct(UpdateObject $updateObject)
-    {
-        $this->updateObject = $updateObject;
-    }
 
     public function getSubscribedEvents()
     {
@@ -42,17 +24,15 @@ class PreUpdateEventSubscriber implements EventSubscriber
 
     public function preUpdate(PreUpdateEventArgs $eventArgs)
     {
-        $object = $eventArgs->getObject();
+        $entity = $eventArgs->getObject();
 
-        if ($object instanceof AbstractSalesForceObjectEntity) {
-            $dto = new UpdateObjectDto($object);
-            $this->updateObject->setData($dto);
-
-            try {
-                $this->updateObject->execute();
-            } catch (\Throwable $exception) {
-                \report($exception);
-            }
+        if (
+            $entity instanceof AbstractSalesForceObjectEntity
+            && $entity::autoUpdateInSalesForce()
+            && null !== $entity->getSfObjectId()
+        ) {
+            $persistenceManager = $entity::getSalesForcePersistenceService();
+            $persistenceManager->updateObject($entity);
         }
     }
 }

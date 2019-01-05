@@ -1,6 +1,6 @@
 <?php
 /**
- * File: InsurancePlanRepository.php
+ * File: BenefitPlanRepositoryhp
  * Project: planstin
  * Author: @laytoneverson <layton.everson@gmail.com>
  */
@@ -9,22 +9,22 @@ namespace App\Repositories;
 
 use Doctrine\ORM\EntityRepository;
 
-class InsurancePlanRepository extends EntityRepository
+class BenefitPlanRepository extends EntityRepository
 {
     use SalesForceObjectRepositoryTrait;
 
     /**
      * @return mixed
      */
-    public function getActiveInsurancePlans()
+    public function getActiveBenefitPlans()
     {
         $query = $this->createQueryBuilder('p')
             ->select('p, ctb, ctp, ipf, ipc, pc')
             ->where('p.active = 1')
             ->leftJoin('p.coverageTierBooks', 'ctb')
             ->leftJoin('ctb.coverageTierPrices', 'ctp')
-            ->leftJoin('p.insurancePlanFeatures', 'ipf')
-            ->leftJoin('p.insurancePlanCopays', 'ipc')
+            ->leftJoin('p.benefitPlanFeatures', 'ipf')
+            ->leftJoin('p.benefitPlanCopays', 'ipc')
             ->leftJoin('p.prescriptionCopays', 'pc')
             ->getQuery();
 

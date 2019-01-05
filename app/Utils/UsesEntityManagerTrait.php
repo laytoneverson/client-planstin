@@ -7,15 +7,20 @@
 
 namespace App\Utils;
 
+use App\Entities\BenefitPlanFamily;
+use App\Entities\CoverageTierBook;
 use App\Entities\GroupClient;
-use App\Entities\InsurancePlan;
+use App\Entities\BenefitPlan;
 use App\Entities\Member;
 use App\Entities\User;
+use App\Repositories\BenefitPlanFamilyRepository;
+use App\Repositories\CoverageTierBookRepository;
 use App\Repositories\GroupClientRepository;
-use App\Repositories\InsurancePlanRepository;
+use App\Repositories\BenefitPlanRepository;
 use App\Repositories\MemberRepository;
 use App\Repositories\UserRepository;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
 
 trait UsesEntityManagerTrait
@@ -32,7 +37,7 @@ trait UsesEntityManagerTrait
     protected function getEntityManager()
     {
         if (null === $this->entityManager) {
-            throw new \LogicException('This class must have access to the self::entityManager');
+            $this->entityManager = app(EntityManagerInterface::class);
         }
 
         return $this->entityManager;
@@ -47,11 +52,11 @@ trait UsesEntityManagerTrait
     }
 
     /**
-     * @return InsurancePlanRepository
+     * @return BenefitPlanRepository
      */
-    protected function getInsurancePlanRepository()
+    protected function getBenefitPlanRepository()
     {
-        return $this->getEntityManager()->getRepository(InsurancePlan::class);
+        return $this->getEntityManager()->getRepository(BenefitPlan::class);
     }
 
     /**
@@ -68,5 +73,21 @@ trait UsesEntityManagerTrait
     protected function getMemberRepository()
     {
         return $this->getEntityManager()->getRepository(Member::class);
+    }
+
+    /**
+     * @return BenefitPlanFamilyRepository
+     */
+    protected function getBenefitPlanFamilyRepository()
+    {
+        return $this->getEntityManager()->getRepository(BenefitPlanFamily::class);
+    }
+
+    /**
+     * @return CoverageTierBookRepository
+     */
+    protected function getCoverageTierBookRepository()
+    {
+        return $this->getEntityManager()->getRepository(CoverageTierBook::class);
     }
 }

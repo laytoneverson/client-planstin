@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Register;
 
 use App\Entities\GroupClient;
-use App\Entities\InsurancePlan;
+use App\Entities\BenefitPlan;
 use App\Entities\Member;
 use App\Entities\MemberDependent;
 use App\Entities\User;

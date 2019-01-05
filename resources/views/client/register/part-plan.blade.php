@@ -1,7 +1,7 @@
 <?php
 
-use App\Entities\InsurancePlan;
-/** @var InsurancePlan $plan */
+use App\Entities\BenefitPlan;
+/** @var BenefitPlan $plan */
 
 ?>
 <li>

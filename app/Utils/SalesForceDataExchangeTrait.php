@@ -24,16 +24,21 @@ trait SalesForceDataExchangeTrait
      */
     public function populateFromSalesForceData($fromData, AbstractSalesForceObjectEntity $toObject, array $mapping)
     {
+        /**
+         * @var PropertyAccessor $accessor
+         */
         $accessor = $this->getAccessor();
 
         $fromData = \is_array($fromData) ?: (object)$fromData;
 
         foreach($mapping as $sfProperty => $localProperty) {
-            $accessor->setValue(
-                $toObject,
-                $localProperty,
-                $accessor->getValue($fromData, $sfProperty)
-            );
+            if ($accessor->isWritable($toObject, $localProperty)) {
+                $accessor->setValue(
+                    $toObject,
+                    $localProperty,
+                    $accessor->getValue($fromData, $sfProperty)
+                );
+            }
         }
 
     }
@@ -59,7 +64,9 @@ trait SalesForceDataExchangeTrait
                 continue;
             }
 
-            $return[$sfProperty] = $accessor->getValue($from, $localProperty);
+            if ($accessor->isReadable($from, $localProperty)) {
+                $return[$sfProperty] = $accessor->getValue($from, $localProperty);
+            }
         }
 
         return $return;

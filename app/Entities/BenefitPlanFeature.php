@@ -1,6 +1,6 @@
 <?php
 /**
- * File: InsurancePlanFeature.php
+ * File: BenefitPlanFeaturehp
  * Project: planstin
  * Author: @laytoneverson <layton.everson@gmail.com>
  */
@@ -11,10 +11,10 @@ namespace App\Entities;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repositories\InsurancePlanFeatureRepository")
- * @ORM\Table(name="insurance_plan_feature")
+ * @ORM\Entity(repositoryClass="App\Repositories\BenefitPlanFeatureRepository")
+ * @ORM\Table(name="benefit_plan_feature")
  */
-class InsurancePlanFeature extends AbstractSalesForceObjectEntity
+class BenefitPlanFeature extends AbstractSalesForceObjectEntity
 {
     /**
      * @var int
@@ -49,19 +49,19 @@ class InsurancePlanFeature extends AbstractSalesForceObjectEntity
     private $featureTitle;
 
     /**
-     * @var InsurancePlan
-     * @ORM\ManyToOne(targetEntity="InsurancePlan", inversedBy="insurancePlanFeatures")
+     * @var BenefitPlan
+     * @ORM\ManyToOne(targetEntity="BenefitPlan", inversedBy="benefitPlanFeatures")
      */
-    private $insurancePlan;
+    private $benefitPlan;
 
     public static function getSfObjectApiName(): string
     {
-        return 'Insurance_Plan_Feature__c';
+        return 'Benefit_Plan_Feature__c';
     }
 
     public static function getSfObjectFriendlyName(): string
     {
-        return 'Insurance Plan Feature';
+        return 'Benefit Plan Feature';
     }
 
     public static function getSfMapping(): array
@@ -85,7 +85,7 @@ class InsurancePlanFeature extends AbstractSalesForceObjectEntity
 
     /**
      * @param int $id
-     * @return InsurancePlanFeature
+     * @return BenefitPlanFeature
      */
     public function setId(int $id)
     {
@@ -104,7 +104,7 @@ class InsurancePlanFeature extends AbstractSalesForceObjectEntity
 
     /**
      * @param string $additionalDetailsLink
-     * @return InsurancePlanFeature
+     * @return BenefitPlanFeature
      */
     public function setAdditionalDetailsLink(?string $additionalDetailsLink)
     {
@@ -123,7 +123,7 @@ class InsurancePlanFeature extends AbstractSalesForceObjectEntity
 
     /**
      * @param string $featureDetails
-     * @return InsurancePlanFeature
+     * @return BenefitPlanFeature
      */
     public function setFeatureDetails(string $featureDetails)
     {
@@ -142,7 +142,7 @@ class InsurancePlanFeature extends AbstractSalesForceObjectEntity
 
     /**
      * @param string $featureName
-     * @return InsurancePlanFeature
+     * @return BenefitPlanFeature
      */
     public function setFeatureName(string $featureName)
     {
@@ -161,7 +161,7 @@ class InsurancePlanFeature extends AbstractSalesForceObjectEntity
 
     /**
      * @param string $featureTitle
-     * @return InsurancePlanFeature
+     * @return BenefitPlanFeature
      */
     public function setFeatureTitle(string $featureTitle)
     {
@@ -171,20 +171,20 @@ class InsurancePlanFeature extends AbstractSalesForceObjectEntity
     }
 
     /**
-     * @return InsurancePlan
+     * @return BenefitPlan
      */
-    public function getInsurancePlan():? InsurancePlan
+    public function getBenefitPlan():? BenefitPlan
     {
-        return $this->insurancePlan;
+        return $this->benefitPlan;
     }
 
     /**
-     * @param InsurancePlan $insurancePlan
-     * @return InsurancePlanFeature
+     * @param BenefitPlan $benefitPlan
+     * @return BenefitPlanFeature
      */
-    public function setInsurancePlan(InsurancePlan $insurancePlan)
+    public function setBenefitPlan(BenefitPlan $benefitPlan)
     {
-        $this->insurancePlan = $insurancePlan;
+        $this->benefitPlan = $benefitPlan;
 
         return $this;
     }

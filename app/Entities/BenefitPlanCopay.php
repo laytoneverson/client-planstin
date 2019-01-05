@@ -1,6 +1,6 @@
 <?php
 /**
- * File: InsurancePlanCoPay.php
+ * File: BenefitPlanCoPay.php
  * Project: planstin
  * Author: @laytoneverson <layton.everson@gmail.com>
  */
@@ -11,10 +11,10 @@ namespace App\Entities;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repositories\InsurancePlanCopayRepository")
- * @ORM\Table(name="insurance_plan_copay")
+ * @ORM\Entity(repositoryClass="App\Repositories\BenefitPlanCopayRepository")
+ * @ORM\Table(name="benefit_plan_copay")
  */
-class InsurancePlanCopay extends AbstractSalesForceObjectEntity
+class BenefitPlanCopay extends AbstractSalesForceObjectEntity
 {
     /**
      * @ORM\Id
@@ -24,10 +24,10 @@ class InsurancePlanCopay extends AbstractSalesForceObjectEntity
     private $id;
 
     /**
-     * @var InsurancePlan
-     * @ORM\ManyToOne(targetEntity="InsurancePlan", inversedBy="insurancePlanCopays")
+     * @var BenefitPlan
+     * @ORM\ManyToOne(targetEntity="BenefitPlan", inversedBy="benefitPlanCopays")
      */
-    protected $insurancePlan;
+    protected $benefitPlan;
 
     /**
      * @var string
@@ -55,12 +55,12 @@ class InsurancePlanCopay extends AbstractSalesForceObjectEntity
 
     public static function getSfObjectApiName(): string
     {
-        return 'Insurance_Plan_Copay__c';
+        return 'Benefit_Plan_Copay__c';
     }
 
     public static function getSfObjectFriendlyName(): string
     {
-        return 'Insurance Plan Copay';
+        return 'Benefit Plan Copay';
     }
 
     public static function getSfMapping(): array
@@ -84,7 +84,7 @@ class InsurancePlanCopay extends AbstractSalesForceObjectEntity
 
     /**
      * @param int $id
-     * @return InsurancePlanCopay
+     * @return BenefitPlanCopay
      */
     public function setId($id)
     {
@@ -94,20 +94,20 @@ class InsurancePlanCopay extends AbstractSalesForceObjectEntity
     }
 
     /**
-     * @return InsurancePlan
+     * @return BenefitPlan
      */
-    public function getInsurancePlan(): InsurancePlan
+    public function getBenefitPlan(): BenefitPlan
     {
-        return $this->insurancePlan;
+        return $this->benefitPlan;
     }
 
     /**
-     * @param InsurancePlan $insurancePlan
-     * @return InsurancePlanCopay
+     * @param BenefitPlan $benefitPlan
+     * @return BenefitPlanCopay
      */
-    public function setInsurancePlan(InsurancePlan $insurancePlan)
+    public function setBenefitPlan(BenefitPlan $benefitPlan)
     {
-        $this->insurancePlan = $insurancePlan;
+        $this->benefitPlan = $benefitPlan;
 
         return $this;
     }
@@ -122,7 +122,7 @@ class InsurancePlanCopay extends AbstractSalesForceObjectEntity
 
     /**
      * @param string $copayName
-     * @return InsurancePlanCopay
+     * @return BenefitPlanCopay
      */
     public function setCopayName(?string $copayName)
     {
@@ -141,7 +141,7 @@ class InsurancePlanCopay extends AbstractSalesForceObjectEntity
 
     /**
      * @param string $serviceName
-     * @return InsurancePlanCopay
+     * @return BenefitPlanCopay
      */
     public function setServiceName(?string $serviceName)
     {
@@ -160,7 +160,7 @@ class InsurancePlanCopay extends AbstractSalesForceObjectEntity
 
     /**
      * @param float $outOfNetworkPrice
-     * @return InsurancePlanCopay
+     * @return BenefitPlanCopay
      */
     public function setOutOfNetworkPrice(?float $outOfNetworkPrice)
     {
@@ -179,7 +179,7 @@ class InsurancePlanCopay extends AbstractSalesForceObjectEntity
 
     /**
      * @param float $inNetworkPrice
-     * @return InsurancePlanCopay
+     * @return BenefitPlanCopay
      */
     public function setInNetworkPrice(?float $inNetworkPrice)
     {

@@ -9,7 +9,7 @@ namespace App\Form\Handler;
 
 use App\Entities\GroupClient;
 use App\Entities\GroupClientPlanOffered;
-use App\Entities\InsurancePlan;
+use App\Entities\BenefitPlan;
 use App\Utils\UsesEntityManagerTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -24,12 +24,12 @@ class GroupClientServicesOfferedFormHandler
     private $groupClient;
 
     /**
-     * @var InsurancePlan[]
+     * @var BenefitPlan[]
      */
     private $availablePlans;
 
     /**
-     * @var InsurancePlan[]
+     * @var BenefitPlan[]
      */
     private $offeredPlans = [];
 
@@ -37,8 +37,8 @@ class GroupClientServicesOfferedFormHandler
     {
         $this->entityManager = $entityManager;
         $this->groupClient = $groupClient;
-        $this->availablePlans = $this->getInsurancePlanRepository()
-            ->getActiveInsurancePlans();
+        $this->availablePlans = $this->getBenefitPlanRepository()
+            ->getActiveBenefitPlans();
 
         /**
          * @var GroupClientPlanOffered[] $plansOffered
@@ -47,7 +47,7 @@ class GroupClientServicesOfferedFormHandler
 
         foreach ($plansOffered as $planOffered) {
             if ($planOffered->isCurrentlyOffered()) {
-                $this->offeredPlans[] = $planOffered->getInsurancePlan();
+                $this->offeredPlans[] = $planOffered->getBenefitPlan();
             }
         }
     }
@@ -73,7 +73,7 @@ class GroupClientServicesOfferedFormHandler
         // Remove plans that are no longer offered.
         foreach($currentPlans as $currentPlan) {
 
-            if (!\in_array($currentPlan->getInsurancePlan()->getId(), $this->offeredPlans, false)) {
+            if (!\in_array($currentPlan->getBenefitPlan()->getId(), $this->offeredPlans, false)) {
                 $currentPlan->setCurrentlyOffered(false);
             }
 
@@ -86,7 +86,7 @@ class GroupClientServicesOfferedFormHandler
             $groupClientPlanOffered = $this->entityManager
                 ->getRepository(GroupClientPlanOffered::class)
                 ->findOneBy([
-                    'insurancePlan' => $plan,
+                    'benefitPlan' => $plan,
                     'groupClient' => $this->groupClient
                 ]);
 
@@ -95,7 +95,7 @@ class GroupClientServicesOfferedFormHandler
             } else {
 
                 $groupClientPlanOffered = new GroupClientPlanOffered();
-                $groupClientPlanOffered->setInsurancePlan($plan)
+                $groupClientPlanOffered->setBenefitPlan($plan)
                     ->setGroupClient($this->groupClient);
 
                 $this->entityManager->persist($groupClientPlanOffered);
@@ -134,17 +134,17 @@ class GroupClientServicesOfferedFormHandler
     }
 
     /**
-     * @param InsurancePlan $availablePlan
+     * @param BenefitPlan $availablePlan
      */
-    public function addAvailablePlan(InsurancePlan $availablePlan)
+    public function addAvailablePlan(BenefitPlan $availablePlan)
     {
         $this->availablePlans[] = $availablePlan;
     }
 
     /**
-     * @param InsurancePlan $availablePlan
+     * @param BenefitPlan $availablePlan
      */
-    public function removeAvailablePlan(InsurancePlan $availablePlan)
+    public function removeAvailablePlan(BenefitPlan $availablePlan)
     {
         if (false !== $key = array_search($availablePlan, $this->availablePlans, true)) {
             array_splice($this->availablePlans, $key, 1);
@@ -170,7 +170,7 @@ class GroupClientServicesOfferedFormHandler
     }
 
     /**
-     * @return InsurancePlan[]
+     * @return BenefitPlan[]
      */
     public function getAvailablePlans():? array
     {
