@@ -25,7 +25,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // Register Guzzle HTTP client
         $this->app->bind(Client::class);
     }
 }

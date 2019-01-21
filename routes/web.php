@@ -35,26 +35,26 @@ Route::prefix('login')->group(function(){
 
     /*  /login/client/...  */
     Route::prefix('client')->group(function(){
-        Route::get('/', 'Portal\Client\LoginController@login')->name('login.client');
-        Route::get('/forgot-password', 'Portal\Client\LoginController@forgotPassword')->name('login.client.forgot');
-        Route::get('/reset-password', 'Portal\Client\LoginController@resetPassword')->name('login.client.reset');
-        Route::get('/recovery-code', 'Portal\Client\LoginController@recoveryCode')->name('login.client.recovery');
+        Route::any('/', 'Portal\Client\LoginController@login')->name('login.client');
+        Route::any('/forgot-password', 'Portal\Client\LoginController@forgotPassword')->name('login.client.forgot');
+        Route::any('/reset-password', 'Portal\Client\LoginController@resetPassword')->name('login.client.reset');
+        Route::any('/recovery-code', 'Portal\Client\LoginController@recoveryCode')->name('login.client.recovery');
     });
 
     /*  /login/member/...  */
     Route::prefix('member')->group(function(){
-        Route::get('/', 'Portal\Member\LoginController@login')->name('login.member');
-        Route::get('/forgot-password', 'Portal\Member\LoginController@forgotPassword')->name('login.member.forgot');
-        Route::get('/reset-password', 'Portal\Member\LoginController@resetPassword')->name('login.member.reset');
-        Route::get('/recovery-code', 'Portal\Member\LoginController@recoveryCode')->name('login.member.recovery');
+        Route::any('/', 'Portal\Member\LoginController@login')->name('login.member');
+        Route::any('/forgot-password', 'Portal\Member\LoginController@forgotPassword')->name('login.member.forgot');
+        Route::any('/reset-password', 'Portal\Member\LoginController@resetPassword')->name('login.member.reset');
+        Route::any('/recovery-code', 'Portal\Member\LoginController@recoveryCode')->name('login.member.recovery');
     });
 
     /*  /login/member/...  */
     Route::prefix('broker')->group(function(){
-        Route::get('/', 'Portal\Broker\LoginController@login')->name('login.broker');
-        Route::get('/forgot-password', 'Portal\Broker\LoginController@forgotPassword')->name('login.broker.forgot');
-        Route::get('/reset-password', 'Portal\Broker\LoginController@resetPassword')->name('login.broker.reset');
-        Route::get('/recovery-code', 'Portal\Broker\LoginController@recoveryCode')->name('login.broker.recovery');
+        Route::any('/', 'Portal\Broker\LoginController@login')->name('login.broker');
+        Route::any('/forgot-password', 'Portal\Broker\LoginController@forgotPassword')->name('login.broker.forgot');
+        Route::any('/reset-password', 'Portal\Broker\LoginController@resetPassword')->name('login.broker.reset');
+        Route::any('/recovery-code', 'Portal\Broker\LoginController@recoveryCode')->name('login.broker.recovery');
     });
 
 });

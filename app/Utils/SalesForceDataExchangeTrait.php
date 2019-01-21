@@ -32,35 +32,45 @@ trait SalesForceDataExchangeTrait
         $fromData = \is_array($fromData) ?: (object)$fromData;
 
         foreach($mapping as $sfProperty => $localProperty) {
+
             if ($accessor->isWritable($toObject, $localProperty)) {
+
                 $accessor->setValue(
                     $toObject,
                     $localProperty,
                     $accessor->getValue($fromData, $sfProperty)
                 );
+
             }
         }
-
     }
 
     /**
      * @param AbstractSalesForceObjectEntity $from
      * @param array $mapping
-     * @param bool $ignoreIdField
+     * @param array|bool $skipColumns  If true is passed the Id field will be skipped for BC compatibility.
      * @return array
      */
     protected function convertToSalesForceData(
         AbstractSalesForceObjectEntity $from,
         array $mapping,
-        $ignoreIdField = false
+        $skipColumns = []
     ): array {
+
+        if (\is_bool($skipColumns)) {
+            $skipColumns = $skipColumns ? ['Id'] : [];
+        }
+
+        if (!\is_array($skipColumns)) {
+            $skipColumns = [];
+        }
 
         $accessor = $this->getAccessor();
 
         $return = [];
         foreach ($mapping as $sfProperty => $localProperty) {
 
-            if ($ignoreIdField && $sfProperty === 'Id') {
+            if (\in_array($sfProperty, $skipColumns, false)) {
                 continue;
             }
 

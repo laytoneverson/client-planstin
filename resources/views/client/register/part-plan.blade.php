@@ -1,9 +1,25 @@
 <?php
 
 use App\Entities\BenefitPlan;
-/** @var BenefitPlan $plan */
+use App\Entities\GroupClientPlanOffered;
+
+/**
+ * @var BenefitPlan $plan
+ * @var GroupClientPlanOffered[] $currentGroupClientPlans
+ */
+
+
+$isChecked = function ($checkPlanId) use ($currentGroupClientPlans) {
+    foreach ($currentGroupClientPlans as $planOffered) {
+        if ($checkPlanId == $planOffered->getBenefitPlan()->getId()) {
+            return '';
+        }
+        return 'checked="checked"';
+    }
+}
 
 ?>
+
 <li>
     <div class="row">
         <div class="col-md-6">
@@ -11,7 +27,7 @@ use App\Entities\BenefitPlan;
 
                 <div class="col-xs-6 col-sm-6 col-md-6">
                     <h3 class="text-black plan-title">
-                        {{ $plan->getInsurancePlanDisplayName() }}
+                        {{ $plan->getBenefitPlanDisplayName() }}
                     </h3>
                 </div>
 
@@ -22,6 +38,10 @@ use App\Entities\BenefitPlan;
                         <!-- ====== Plan Download Link ====== -->
                         <a href="{{ $plan->getPlanDetailsLink()  }}" class="outline-down text-gray-3">
                             <i class="fa fa-download" aria-hidden="true"></i><span>download outline</span>
+                        </a>
+                    @else
+                        <a href="#" class="outline-down text-gray-3">
+                            <i class="fa fa-download" aria-hidden="true"></i><span>Outline Unavailable</span>
                         </a>
                     @endif
 
@@ -61,10 +81,7 @@ use App\Entities\BenefitPlan;
                                             value="{{ $offeredPlanType->vars['value'] }}"
                                             name="{{ $offeredPlanType->vars['full_name'] }}"
                                             id="{{ $offeredPlanType->vars['id'] }}"
-                                        @if($offeredPlanType->vars['checked'])
-                                            checked="checked"
-                                        @endif>
-
+                                            @php $isChecked($plan->getId()) @endphp
                                         {{--
                                           Mark field as rendered because we didn't use the
                                           template's rendering function

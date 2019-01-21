@@ -53,6 +53,11 @@ class UserAccountService
         return $success;
     }
 
+    public function checkUserExists(User $user)
+    {
+        return $this->passwordService->checkUserExists($user->getEmail());
+    }
+
     /**
      * @param User $user
      * @throws UserAlreadyExistsException
@@ -67,14 +72,13 @@ class UserAccountService
 
         $user->setPassword(Hash::make($user->getPlainPassword()));
 
-        // Trigger new user event
         event(new Registered($user));
 
         // Login new user
-        Auth::guard()->login($user);
+//        Auth::guard()->login($user);
 
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
+//        $this->entityManager->persist($user);
+//        $this->entityManager->flush();
     }
 
     public function getCurrentUser(): User
@@ -86,5 +90,19 @@ class UserAccountService
         }
 
         return $user;
+    }
+
+    public function generatePassword($passwordLength = 8)
+    {
+        $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $charsLength = strlen($characters) -1;
+        $password = '';
+
+        for($i=0; $i < $passwordLength; $i++) {
+            $randNum = random_int(0, $charsLength);
+            $password .= $characters[$randNum];
+        }
+
+        return $password;
     }
 }

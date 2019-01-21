@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "07eb1856a866bd35cb7a34b70b6574c1",
+    "content-hash": "680f78a0b75e9f6c5e96026758c44ced",
     "packages": [
         {
             "name": "barryvdh/laravel-form-bridge",
@@ -802,12 +802,12 @@
             "version": "v2.6.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/doctrine/doctrine2.git",
+                "url": "https://github.com/doctrine/orm.git",
                 "reference": "434820973cadf2da2d66e7184be370084cc32ca8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/434820973cadf2da2d66e7184be370084cc32ca8",
+                "url": "https://api.github.com/repos/doctrine/orm/zipball/434820973cadf2da2d66e7184be370084cc32ca8",
                 "reference": "434820973cadf2da2d66e7184be370084cc32ca8",
                 "shasum": ""
             },
@@ -2310,6 +2310,50 @@
                 "storage"
             ],
             "time": "2018-11-23T23:41:29+00:00"
+        },
+        {
+            "name": "maxbrokman/safe-queue",
+            "version": "v0.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/maxbrokman/SafeQueue.git",
+                "reference": "21744ad28dce46576628920d3962e23381492355"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/maxbrokman/SafeQueue/zipball/21744ad28dce46576628920d3962e23381492355",
+                "reference": "21744ad28dce46576628920d3962e23381492355",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/queue": "^5.4.9",
+                "laravel-doctrine/orm": "^1.0",
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "fabpot/php-cs-fixer": "^1.11",
+                "mockery/mockery": "^0.9.4",
+                "phpunit/phpunit": "^5.3",
+                "satooshi/php-coveralls": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MaxBrokman\\SafeQueue\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Max Brokman",
+                    "email": "max.brokman@vice.com"
+                }
+            ],
+            "description": "A Laravel Doctrine friendly daemonising queue worker for Laravel 5",
+            "time": "2017-02-17T15:50:43+00:00"
         },
         {
             "name": "monolog/monolog",

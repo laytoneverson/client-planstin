@@ -6,8 +6,10 @@ namespace App\Services\SalesForce\ApiCall;
 use App\Entities\AbstractSalesForceObjectEntity;
 use App\Exceptions\SalesForce\SalesForceApiException;
 use App\Services\SalesForce\Dto\SalesForceDtoInterface;
+use App\Services\SalesForce\SalesForceApiError;
 use App\Services\SalesForce\SalesForceApiParameters;
 use GuzzleHttp\Client as HttpClient;
+use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
 
@@ -157,7 +159,14 @@ abstract class AbstractRestApiCall implements SalesForceApiCallInterface
             );
 
         } catch (GuzzleException $exception) {
-            throw new SalesForceApiException($this, $exception->getMessage(), $exception->getCode(), $exception);
+
+            /** @var BadResponseException $exception */
+            $apiError = new SalesForceApiError(
+                $exception->getResponse(),
+                $exception->getRequest()
+            );
+
+            throw new SalesForceApiException($this, $apiError, $exception);
         }
 
         $this->handleResult($result);

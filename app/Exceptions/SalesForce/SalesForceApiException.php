@@ -10,7 +10,9 @@ namespace App\Exceptions\SalesForce;
 
 use AbstractSalesForceApiCall;
 use App\Services\SalesForce\ApiCall\AbstractRestApiCall;
+use App\Services\SalesForce\SalesForceApiError;
 use Exception;
+use GuzzleHttp\Psr7\Response;
 
 class SalesForceApiException extends Exception
 {
@@ -20,17 +22,20 @@ class SalesForceApiException extends Exception
 
     protected $errorMessage;
 
+    /**
+     * @var SalesForceApiError
+     */
+    protected $apiError;
+
     public function __construct(
         AbstractRestApiCall $apiCall,
-        $errorMessage = '',
-        $code = 0,
+        SalesForceApiError $apiError,
         \Throwable $previous = null
     ) {
-
         $this->apiCall = $apiCall;
-        $this->errorMessage = $errorMessage;
+        $this->apiError = $apiError;
 
-        parent::__construct(\sprintf($this->format, \get_class($apiCall), $errorMessage), $code, $previous);
+        parent::__construct(\sprintf($this->format, \get_class($apiCall), $apiError->getError()), $apiError, $previous);
     }
 
     /**
@@ -46,6 +51,11 @@ class SalesForceApiException extends Exception
      */
     public function getErrorMessage(): string
     {
-        return $this->errorMessage;
+        return $this->apiError->getError();
+    }
+
+    public function getErrorCode()
+    {
+        return $this->apiError->getError();
     }
 }

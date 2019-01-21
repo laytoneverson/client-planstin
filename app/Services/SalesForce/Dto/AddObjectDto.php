@@ -23,14 +23,24 @@ class AddObjectDto implements SalesForceDtoInterface
 
     private $returnData;
 
-    public function __construct(AbstractSalesForceObjectEntity $entity)
+    /**
+     * @var array
+     */
+    private $skipColumns = ['Id'];
+
+    public function __construct(AbstractSalesForceObjectEntity $entity, $skipColumns = null)
     {
         $this->entity = $entity;
+        if ($skipColumns) {
+            $this->skipColumns = $skipColumns;
+        }
     }
 
     public function toSfObject(): array
     {
-        return $this->convertToSalesForceData($this->entity, $this->entity::getSfMapping(), true);
+        $data = $this->convertToSalesForceData($this->entity, $this->entity::getSfMapping(), $this->skipColumns);
+
+        return $data;
     }
 
     public function fromSfObject(string $data): SalesForceDtoInterface

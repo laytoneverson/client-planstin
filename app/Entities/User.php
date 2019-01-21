@@ -34,30 +34,37 @@ class User implements Authenticatable, CanResetPassword
     private $id;
 
     /**
-     * @var GroupClient|null
-     *
      * @ORM\ManyToOne(targetEntity="App\Entities\GroupClient", inversedBy="users")
+     *
+     * @var GroupClient|null
      */
     private $groupClient;
 
     /**
-     * @var Member|null
-     *
      * @ORM\OneToOne(targetEntity="App\Entities\Member", inversedBy="user")
+     *
+     * @var Member|null
      */
     private $member;
 
     /**
-     * @var GroupClient
+     * @ORM\ManyToOne(targetEntity="App\Entities\Broker", inversedBy="users")
      *
+     * @var Broker
+     */
+    private $broker;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entities\GroupClient", inversedBy="adminUsers")
+     *
+     * @var GroupClient
      */
     private $adminOf;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string")
+     *
+     * @var string
      */
     private $email;
 
@@ -166,6 +173,26 @@ class User implements Authenticatable, CanResetPassword
     public function setPlainPassword(string $plainPassword): User
     {
         $this->plainPassword = $plainPassword;
+
+        return $this;
+    }
+
+    /**
+     * @return Broker
+     */
+    public function getBroker():? Broker
+    {
+        return $this->broker;
+    }
+
+    /**
+     * @param Broker $broker
+     *
+     * @return User
+     */
+    public function setBroker(Broker $broker)
+    {
+        $this->broker = $broker;
 
         return $this;
     }

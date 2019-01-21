@@ -8,6 +8,8 @@
 namespace App\Entities;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -25,18 +27,25 @@ class MemberPlanEnrollment
     private $id;
 
     /**
-     * @var Member
-     *
      * @ORM\ManyToOne(targetEntity="Member", inversedBy="enrolledPlans")
+     *
+     * @var Member
      */
     private $member;
 
     /**
-     * @var BenefitPlan
-     *
      * @ORM\ManyToOne(targetEntity="BenefitPlan", inversedBy="memberEnrollments")
+     *
+     * @var BenefitPlan
      */
     private $benefitPlan;
+
+    /**
+     * @ORM\OneToMany(targetEntity="DependentPlanEnrollment", mappedBy="memberPlanEnrollment")
+     *
+     * @var DependentPlanEnrollment[]|Collection
+     */
+    private $dependentPlanEnrollments;
 
     private $planeTermEnd;
 
@@ -45,6 +54,11 @@ class MemberPlanEnrollment
     private $planRate;
 
     private $coverageTier;
+
+    public function __construct()
+    {
+        $this->dependentPlanEnrollments = new ArrayCollection();
+    }
 
     /**
      * @return mixed
@@ -177,5 +191,21 @@ class MemberPlanEnrollment
         $this->coverageTier = $coverageTier;
 
         return $this;
+    }
+
+    /**
+     * @param DependentPlanEnrollment $dependentPlanEnrollment
+     */
+    public function addDependentPlanEnrollment(DependentPlanEnrollment $dependentPlanEnrollment)
+    {
+        $this->dependentPlanEnrollments->add($dependentPlanEnrollment);
+    }
+
+    /**
+     * @param DependentPlanEnrollment $dependentPlanEnrollment
+     */
+    public function removeDependentPlanEnrollment(DependentPlanEnrollment $dependentPlanEnrollment)
+    {
+        $this->dependentPlanEnrollments->removeElement($dependentPlanEnrollment);
     }
 }

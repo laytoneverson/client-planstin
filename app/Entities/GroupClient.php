@@ -8,10 +8,12 @@
 
 namespace App\Entities;
 
+use App\Services\SalesForce\Persistence\GroupClientPersistenceService;
 use Carbon\Carbon;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Illuminate\Support\Arr;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repositories\GroupClientRepository")
@@ -19,10 +21,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class GroupClient extends AbstractSalesForceObjectEntity
 {
-    protected static $sfObjectApiName = 'Account';
-
-    protected static $sfObjectFriendlyName = 'Group Client';
-
     public const ENROLL_STEP_PROFILE = 'profile';
     public const ENROLL_STEP_SERVICES = 'services';
     public const ENROLL_STEP_AGREEMENT = 'agreement';
@@ -60,18 +58,37 @@ class GroupClient extends AbstractSalesForceObjectEntity
     private $users;
 
     /**
-     * @var Broker
+     * @var PaymentMethod[]|Collection
      *
-     * @ORM\OneToOne(targetEntity="Broker", inversedBy="groupClient")
+     * @ORM\OneToMany(targetEntity="PaymentMethod", mappedBy="groupclient")
+     */
+    private $paymentMethods;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Broker", inversedBy="groupClients")
+     *
+     * @var Broker
      */
     private $broker;
 
     /**
-     * @var ArrayCollection
+     * @var string
+     */
+    private $sfBrokerId;
+
+    /**
+     * @var GroupClientPlanOffered[]|ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="GroupClientPlanOffered", mappedBy="groupClient")
      */
     private $plansOffered;
+
+    /**
+     * @var ProductSubscription[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="ProductSubscription", mappedBy="groupClient")
+     */
+    private $productSubscriptions;
 
     /**
      * @ORM\Column(type="string", nullable=true)
@@ -147,17 +164,22 @@ class GroupClient extends AbstractSalesForceObjectEntity
     /**
      * @var bool
      */
-    private $isPayrollClient;
+    private $isPayrollClient = false;
 
     /**
      * @var bool
      */
-    private $isBenefitsClient;
+    private $isBenefitsClient = false;
 
     /**
      * @var bool
      */
     private $agreementComplete = false;
+
+    /**
+     * @var string
+     */
+    private $terminationDate = '';
 
     /**
      * GroupClient constructor.
@@ -167,16 +189,52 @@ class GroupClient extends AbstractSalesForceObjectEntity
         $this->members = new ArrayCollection();
         $this->adminUsers = new ArrayCollection();
         $this->plansOffered = new ArrayCollection();
+        $this->productSubscriptions = new ArrayCollection();
     }
 
     public static function getSfObjectApiName(): string
     {
-        return self::$sfObjectApiName;
+        return 'Account';
     }
 
     public static function getSfObjectFriendlyName(): string
     {
-        return self::$sfObjectFriendlyName;
+        return 'Group Client';
+    }
+
+    public static function autoPullFromSalesForce(): bool
+    {
+        return true;
+    }
+
+    public static function getChildRelationships()
+    {
+        return [
+            PaymentMethod::class => new SalesForceChildRelationship(
+                PaymentMethod::class,
+                'Payment_Methods',
+                'paymentMethods',
+                'groupClient'
+            ),
+            Member::class => new SalesForceChildRelationship(
+                Member::class,
+                'Members',
+                'members',
+                'groupClient'
+            ),
+            GroupClientPlanOffered::class => new SalesForceChildRelationship(
+                GroupClientPlanOffered::class,
+                'Client_Plans_Offered',
+                'plansOffered',
+                'groupClient'
+            ),
+            ProductSubscription::class => new SalesForceChildRelationship(
+                ProductSubscription::class,
+                'Product_Subscriptions',
+                'productSubscriptions',
+                'groupClient'
+            ),
+        ];
     }
 
     public static function getSfMapping(): array
@@ -202,7 +260,18 @@ class GroupClient extends AbstractSalesForceObjectEntity
             'Benefits_Client__c' => 'isBenefitsClient',
             'Payroll_Client__c' => 'isPayrollClient',
             'Agreement_Complete__c' => 'agreementComplete',
+
+            'Affiliate_Assigned__c' => 'sfBrokerId',
+            'Client_Termination__c' => 'terminationDate',
         ];
+    }
+
+    /**
+     * @return GroupClientPersistenceService
+     */
+    public static function getSalesForcePersistenceService()
+    {
+        return app(GroupClientPersistenceService::class);
     }
 
     /**
@@ -556,7 +625,7 @@ class GroupClient extends AbstractSalesForceObjectEntity
     /**
      * @return Broker
      */
-    public function getBroker(): Broker
+    public function getBroker(): ?Broker
     {
         return $this->broker;
     }
@@ -578,7 +647,6 @@ class GroupClient extends AbstractSalesForceObjectEntity
     public function addPlansOffered($plansOffered)
     {
         $this->plansOffered->add($plansOffered);
-        // uncomment if you want to update other side
         $plansOffered->setGroupClient($this);
     }
 
@@ -588,7 +656,6 @@ class GroupClient extends AbstractSalesForceObjectEntity
     public function removePlansOffered(GroupClientPlanOffered $plansOffered)
     {
         $this->plansOffered->removeElement($plansOffered);
-        // uncomment if you want to update other side
         $plansOffered->setGroupClient(null);
     }
 
@@ -618,5 +685,65 @@ class GroupClient extends AbstractSalesForceObjectEntity
     public function setAgreementComplete(bool $agreementComplete = false)
     {
         $this->agreementComplete = $agreementComplete;
+    }
+
+    /**
+     * @return PaymentMethod[]|Collection
+     */
+    public function getPaymentMethods()
+    {
+        return $this->paymentMethods;
+    }
+
+    /**
+     * @param PaymentMethod $paymentMethod
+     */
+    public function addPaymentMethod(PaymentMethod $paymentMethod)
+    {
+        $this->paymentMethods->add($paymentMethod);
+    }
+
+    /**
+     * @param PaymentMethod $paymentMethod
+     */
+    public function removePaymentMethod(PaymentMethod $paymentMethod)
+    {
+        $this->paymentMethods->removeElement($paymentMethod);
+    }
+
+    /**
+     * @return string
+     */
+    public function getSfBrokerId():? string
+    {
+        return $this->sfBrokerId;
+    }
+
+    /**
+     * @param string $sfBrokerId
+     */
+    public function setSfBrokerId(string $sfBrokerId)
+    {
+        $this->sfBrokerId = $sfBrokerId;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTerminationDate(): string
+    {
+        return $this->terminationDate;
+    }
+
+    /**
+     * @param string $terminationDate
+     */
+    public function setTerminationDate(string $terminationDate)
+    {
+        $this->terminationDate = $terminationDate;
+
+        return $this;
     }
 }

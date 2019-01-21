@@ -18,42 +18,52 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Member extends AbstractSalesForceObjectEntity
 {
-    protected static $sfObjectFriendlyName = 'Member';
-
-    protected static $sfObjectApiName = 'Member__c';
-
-    public const COVERAGE_TIER_EMPLOYEE = 'Employee';
-    public const COVERAGE_TIER_EMPLOYEE_SPOUSE = 'Employee';
-    public const COVERAGE_TIER_EMPLOYEE_CHILDREN = 'Employee';
-    public const COVERAGE_TIER_EMPLOYEE_FAMILY = 'Employee';
+    public const COVERAGE_TIER_EMPLOYEE = 'EE';
+    public const COVERAGE_TIER_EMPLOYEE_SPOUSE = 'ES';
+    public const COVERAGE_TIER_EMPLOYEE_CHILDREN = 'EC';
+    public const COVERAGE_TIER_EMPLOYEE_FAMILY = 'EF';
 
     /**
-     * @var int
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
+     *
+     * @var int
      */
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity="GroupClient", inversedBy="members")
+     *
      * @var GroupClient
      */
     private $groupClient;
 
     /**
-     * @var ArrayCollection
-     *
+     * @var string
+     */
+    private $groupSfId;
+
+    /**
      * @ORM\OneToMany(targetEntity="MemberDependent", mappedBy="member")
+     *
+     * @var ArrayCollection
      */
     private $dependents;
 
     /**
-     * @var MemberPlanEnrollment[]|Collection
-     *
      * @ORM\OneToMany(targetEntity="MemberPlanEnrollment", mappedBy="member")
+     *
+     * @var MemberPlanEnrollment[]|Collection
      */
     private $enrolledPlans;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     *
+     * @var string
+     */
+    private $memberNumber;
 
     /**
      * @var string
@@ -102,7 +112,6 @@ class Member extends AbstractSalesForceObjectEntity
 
     /**
      * @var string
-     * @ORM\Column(type="string")
      */
     private $gender;
 
@@ -113,7 +122,6 @@ class Member extends AbstractSalesForceObjectEntity
 
     /**
      * @var string
-     * @ORM\Column(type="string")
      */
     private $coverageType;
 
@@ -125,19 +133,36 @@ class Member extends AbstractSalesForceObjectEntity
 
     public static function getSfObjectApiName(): string
     {
-        return self::$sfObjectApiName;
+        return 'Member__c';
     }
 
     public static function getSfObjectFriendlyName(): string
     {
-        return self::$sfObjectFriendlyName;
+        return 'Member';
+    }
+
+    public static function getChildRelationships()
+    {
+        return [
+            MemberDependent::class => new SalesForceChildRelationship(
+                MemberDependent::class,
+                'Member_Dependents',
+                'dependents',
+                'member'
+            ),
+            MemberPlanEnrollment::class => new SalesForceChildRelationship(
+                MemberPlanEnrollment::class,
+                'Member_Plan_Enrollments',
+                'enrolledPlans',
+                'benefitPlan')
+        ];
     }
 
     public static function getSfMapping(): array
     {
         return [
             'Id' => 'sfObjectId',
-            'Group__c' => 'groupClient.sfObjectId',
+            'Group__c' => 'groupSfId',
             'Prefix__c' => 'prefix',
             'First_Name__c' => 'firstName',
             'Last_Name__c' => 'lastName',
@@ -154,6 +179,43 @@ class Member extends AbstractSalesForceObjectEntity
             'Coverage_Tier__c' => 'coverageType',
             'Email__c' => 'email',
             'Phone__c' => 'phone',
+            'Name' => 'memberNumber',
+
+            //Unmapped
+            'Accident_Effective__c' => 'Accident_Effective__c',
+            'Accident_Plan__c' => 'Accident_Plan__c',
+            'Accident_Rate__c' => 'Accident_Rate__c',
+            'Accident_Term__c' => 'Accident_Term__c',
+            'Catastrophic_Plan__c' => 'Catastrophic_Plan__c',
+            'Catastrophic_Plan_Effective__c' => 'Catastrophic_Plan_Effective__c',
+            'Catastrophic_Plan_Term__c' => 'Catastrophic_Plan_Term__c',
+            'Catastrophic_Rate__c' => 'Catastrophic_Rate__c',
+            'Catastrophic_Tier__c' => 'Catastrophic_Tier__c',
+            'Critical_Illness__c' => 'Critical_Illness__c',
+            'Critical_Illness_Effective__c' => 'Critical_Illness_Effective__c',
+            'Critical_Illness_Rate__c' => 'Critical_Illness_Rate__c',
+            'Critical_Illness_Term__c' => 'Critical_Illness_Term__c',
+            'Dental_Effective__c' => 'Dental_Effective__c',
+            'Dental_Plan__c' => 'Dental_Plan__c',
+            'Dental_Rate__c' => 'Dental_Rate__c',
+            'Dental_Term__c' => 'Dental_Term__c',
+            'Dental_Tier__c' => 'Dental_Tier__c',
+            'Health_Plan__c' => 'Health_Plan__c',
+            'Health_Plan_Effective__c' => 'Health_Plan_Effective__c',
+            'Health_Plan_Rate__c' => 'Health_Plan_Rate__c',
+            'Health_Plan_Term__c' => 'Health_Plan_Term__c',
+            'Health_Tier__c' => 'Health_Tier__c',
+            'Legacy_Number__c' => 'Legacy_Number__c',
+            'Relationship__c' => 'Relationship__c',
+            'Sponsor__c' => 'Sponsor__c',
+            'Vision_Effective__c' => 'Vision_Effective__c',
+            'Vision_Plan__c' => 'Vision_Plan__c',
+            'Vision_Rate__c' => 'Vision_Rate__c',
+            'Vision_Term__c' => 'Vision_Term__c',
+            'Vision_Tier__c' => 'Vision_Tier__c',
+            'Migrated_To_Dependent__c' => 'Migrated_To_Dependent__c',
+            'Migrated_Enrolled_Plans__c' => 'Migrated_Enrolled_Plans__c',
+            'Migrated_Attachments__c' => 'Migrated_Attachments__c',
         ];
     }
 
@@ -174,6 +236,30 @@ class Member extends AbstractSalesForceObjectEntity
         $this->groupClient = $groupClient;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGroupSfId(): string
+    {
+        if ($this->groupClient && $groupSfId = $this->groupClient->getSfObjectId()) {
+            return $groupSfId;
+        }
+
+        return $this->groupSfId;
+    }
+
+    /**
+     * @param string $groupSfId
+     */
+    public function setGroupSfId(string $groupSfId): void
+    {
+        if($this->groupClient && !$this->groupClient->getSfObjectId()) {
+            $this->groupClient->setSfObjectId($groupSfId);
+        }
+
+        $this->groupSfId = $groupSfId;
     }
 
     /**
@@ -408,9 +494,10 @@ class Member extends AbstractSalesForceObjectEntity
         $hasChildren = false;
         /** @var MemberDependent $dependent */
         foreach($dependents as $dependent) {
-            if ($dependent->getDependentRelation() === 'Spouse') {
+            $relation = $dependent->getDependentRelation();
+            if ($relation === 'Husband' || $relation === 'Wife') {
                 $hasSpouse = true;
-            } elseif ($dependent->getDependentRelation() === 'Child') {
+            } elseif ($relation === 'Son' || $relation === 'Daughter') {
                 $hasChildren = true;
             }
         }
@@ -447,7 +534,6 @@ class Member extends AbstractSalesForceObjectEntity
         return $this->dependents;
     }
 
-
     /**
      * @param Member $dependent
      */
@@ -481,6 +567,7 @@ class Member extends AbstractSalesForceObjectEntity
     public function createSelfDependent()
     {
         if (!$this->hasSelfDependent()) {
+
             $selfDependent = new MemberDependent();
             $selfDependent->setDependentRelation('Self')
                 ->setMember($this)
@@ -527,5 +614,24 @@ class Member extends AbstractSalesForceObjectEntity
     {
         $this->enrolledPlans->removeElement($enrolledPlan);
         $enrolledPlan->setMember(null);
+    }
+
+    /**
+     * @return string
+     */
+    public function getMemberNumber():? string
+    {
+        return $this->memberNumber;
+    }
+
+    /**
+     * @param string $memberNumber
+     * @return Member
+     */
+    public function setMemberNumber(string $memberNumber)
+    {
+        $this->memberNumber = $memberNumber;
+
+        return $this;
     }
 }

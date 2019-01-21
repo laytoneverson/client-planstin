@@ -19,8 +19,14 @@ class UpdateObjectDto implements SalesForceDtoInterface
      */
     private $entity;
 
-    public function __construct(AbstractSalesForceObjectEntity $entity)
+    private $skipColumns = ['Id'];
+
+    public function __construct(AbstractSalesForceObjectEntity $entity, $skipColumns = null)
     {
+        if ($skipColumns) {
+            $this->skipColumns = $skipColumns;
+        }
+
         $this->entity = $entity;
     }
 
@@ -29,7 +35,7 @@ class UpdateObjectDto implements SalesForceDtoInterface
      */
     public function toSfObject(): array
     {
-        return $this->convertToSalesForceData($this->entity, $this->entity::getSfMapping(), true);
+        return $this->convertToSalesForceData($this->entity, $this->entity::getSfMapping(), $this->skipColumns);
     }
 
     /**

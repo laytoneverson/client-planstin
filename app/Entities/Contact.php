@@ -61,10 +61,16 @@ class Contact extends AbstractSalesForceObjectEntity
         return self::$sfFriendlyName;
     }
 
+    public static function autoPullFromSalesForce(): bool
+    {
+        return true;
+    }
+
     public static function getSfMapping(): array
     {
         return [
             //SF => Local
+            'Id' => 'sfObjectId',
             'AccountId' => 'groupClient.sfObjectId',
             'LastName' => 'firstName',
             'FirstName' => 'lastName',

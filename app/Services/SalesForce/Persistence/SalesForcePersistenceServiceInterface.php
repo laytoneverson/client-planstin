@@ -14,9 +14,17 @@ use App\Entities\AbstractSalesForceObjectEntity;
 
 interface SalesForcePersistenceServiceInterface
 {
-    public function updateObject(AbstractSalesForceObjectEntity $entity);
+    public function updateObject(AbstractSalesForceObjectEntity $entity, $skipColumns = null);
 
-    public function addObject(AbstractSalesForceObjectEntity $entity);
+    public function addObject(AbstractSalesForceObjectEntity $entity, $skipColumns = []);
 
     public function getSalesForceObjectData(AbstractSalesForceObjectEntity $entity);
+
+    public function getAllObjectRecords($entityClass);
+
+    public function syncAllObjectsOfType($entityClass);
+
+    public function syncChildrenOfObject(AbstractSalesForceObjectEntity $entity, array $childrenClasses = []);
+
+
 }

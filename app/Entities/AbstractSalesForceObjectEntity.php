@@ -111,6 +111,4 @@ abstract class AbstractSalesForceObjectEntity
     {
         $this->salesForceUpdate = new \DateTime();
     }
-
-
 }

@@ -186,6 +186,7 @@ return [
         LaravelDoctrine\ORM\DoctrineServiceProvider::class,
         LaravelDoctrine\Migrations\MigrationsServiceProvider::class,
         LaravelDoctrine\ORM\Auth\Passwords\PasswordResetServiceProvider::class,
+        MaxBrokman\SafeQueue\DoctrineQueueProvider::class,
 
         /*
          * Application Service Providers...

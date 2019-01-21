@@ -1,3 +1,5 @@
+@extends('layouts.public')
+
 @section('content')
 
     <!-- business body content -->

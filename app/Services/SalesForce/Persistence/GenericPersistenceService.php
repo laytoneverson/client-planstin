@@ -59,9 +59,9 @@ class GenericPersistenceService implements SalesForcePersistenceServiceInterface
      */
     protected $getObjectChildren;
 
-    public function updateObject(AbstractSalesForceObjectEntity $entity)
+    public function updateObject(AbstractSalesForceObjectEntity $entity, $skipColumns = [])
     {
-        $dto = new UpdateObjectDto($entity);
+        $dto = new UpdateObjectDto($entity, $skipColumns);
         $this->getUpdateObjectService()->setData($dto);
 
         try {
@@ -71,16 +71,17 @@ class GenericPersistenceService implements SalesForcePersistenceServiceInterface
         }
     }
 
-    public function addObject(AbstractSalesForceObjectEntity $entity)
+    /**
+     * @param AbstractSalesForceObjectEntity $entity
+     *
+     * @param array $skipColumns
+     * @throws \App\Exceptions\SalesForce\SalesForceApiException
+     */
+    public function addObject(AbstractSalesForceObjectEntity $entity, $skipColumns = [])
     {
-        $dto = new AddObjectDto($entity);
+        $dto = new AddObjectDto($entity, $skipColumns);
         $this->getAddObjectService()->setData($dto);
-
-        try {
-            $this->getAddObjectService()->execute();
-        } catch (\Throwable $exception) {
-            \report($exception);
-        }
+        $this->getAddObjectService()->execute();
     }
 
     public function getSalesForceObjectData(AbstractSalesForceObjectEntity $entity)

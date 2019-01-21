@@ -8,6 +8,8 @@
 namespace App\Entities;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -17,7 +19,7 @@ use Doctrine\ORM\Mapping as ORM;
 class MemberDependent extends AbstractSalesForceObjectEntity
 {
     public static $dependentRelations = [
-        'Spouse', 'Child', 'Self'
+        'Self', 'Husband', 'Wife', 'Son', 'Daughter'
     ];
 
     /**
@@ -28,11 +30,20 @@ class MemberDependent extends AbstractSalesForceObjectEntity
     private $id;
 
     /**
-     * @var Member
-     *
      * @ORM\ManyToOne(targetEntity="Member", inversedBy="dependents")
+     *
+     * @var Member
      */
     private $member;
+
+    private $memberSfId;
+
+    /**
+     * @ORM\OneToMany(targetEntity="DependentPlanEnrollment", mappedBy="memberDependent")
+     *
+     * @var DependentPlanEnrollment[]|Collection
+     */
+    private $dependentPlanEnrollments;
 
     private $dob;
 
@@ -66,16 +77,21 @@ class MemberDependent extends AbstractSalesForceObjectEntity
     {
         return [
             'Id' => 'sfObjectId',
+            'Member__c' => 'memberSfId',
             'Date_Of_Birth__c' => 'dob',
             'Name' => 'dependentNumber',
             'First_Name__c' => 'firstName',
             'Middle_Name__c' => 'middleName',
             'Last_Name__c' => 'lastName',
             'Gender__c' => 'gender',
-            'Member__c' => 'member.sfObjectId',
             'SSN_TIN__c' => 'socialSecurityNumber',
             'Dependents_Relation__c' => 'dependentsRelation',
         ];
+    }
+
+    public function __construct()
+    {
+        $this->dependentPlanEnrollments = new ArrayCollection();
     }
 
     /**
@@ -102,6 +118,34 @@ class MemberDependent extends AbstractSalesForceObjectEntity
     public function setMember(Member $member)
     {
         $this->member = $member;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMemberSfId()
+    {
+        //If a member is set we will return its object ID first.
+        if ($this->member && $memberId = $this->member->getSfObjectId()) {
+            return $memberId;
+        }
+
+        return $this->memberSfId;
+    }
+
+    /**
+     * @param string $memberSfId
+     * @return MemberDependent
+     */
+    public function setMemberSfId($memberSfId)
+    {
+        if ($this->member && !$this->member->getSfObjectId()) {
+            $this->member->setSfObjectId($memberSfId);
+        }
+
+        $this->memberSfId = $memberSfId;
 
         return $this;
     }
@@ -273,4 +317,6 @@ class MemberDependent extends AbstractSalesForceObjectEntity
     {
         $this->prefix = $prefix;
     }
+
+
 }

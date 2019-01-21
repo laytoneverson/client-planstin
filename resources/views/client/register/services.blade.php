@@ -9,10 +9,8 @@
 
             <ul class="faq">
                 <!-- ====== Insurance Plans Start ====== -->
-                @foreach($planCategories as $familyName => $plans)
-                    @if(count($plans) >= 1)
-                        @include('client.register.part-plan-group')
-                    @endif
+                @foreach($planCategories as $planFamily)
+                    @include('client.register.part-plan-group')
                 @endforeach
                 <!-- ====== Insurance Plans End ====== -->
             </ul>

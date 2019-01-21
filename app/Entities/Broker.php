@@ -7,10 +7,12 @@
 
 namespace App\Entities;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repositories\BrokerRepository")
  * @ORM\Table(name="broker")
  */
 class Broker extends AbstractSalesForceObjectEntity
@@ -25,10 +27,17 @@ class Broker extends AbstractSalesForceObjectEntity
     private $id;
 
     /**
-     * @var GroupClient
-     * @ORM\OneToOne(targetEntity="GroupClient", mappedBy="broker")
+     * @var GroupClient[]|Collection
+     * @ORM\OneToMany(targetEntity="GroupClient", mappedBy="broker")
      */
-    private $groupClient;
+    private $groupClients;
+
+    /**
+     * @ORM\OneToMany(targetEntity="User", mappedBy="broker")
+     *
+     * @var User[]|ArrayCollection
+     */
+    private $users;
 
     /**
      * @var string
@@ -89,6 +98,12 @@ class Broker extends AbstractSalesForceObjectEntity
         ];
     }
 
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
+        $this->groupClients = new ArrayCollection();
+    }
+
     /**
      * @return int
      */
@@ -109,23 +124,48 @@ class Broker extends AbstractSalesForceObjectEntity
     }
 
     /**
-     * @return GroupClient
+     * @return GroupClient[]|Collection
      */
-    public function getGroupClient(): GroupClient
+    public function getGroupClient(): Collection
     {
-        return $this->groupClient;
+        return $this->groupClients;
+    }
+
+    /**
+     * @return GroupClient[]|Collection
+     */
+    public function getGroupClients()
+    {
+        return $this->groupClients;
+    }
+
+    /**
+     * @param GroupClient[]|Collection $groupClients
+     * @return Broker
+     */
+    public function setGroupClients($groupClients)
+    {
+        $this->groupClients = $groupClients;
+
+        return $this;
     }
 
     /**
      * @param GroupClient $groupClient
-     * @return Broker
      */
-    public function setGroupClient(GroupClient $groupClient)
+    public function addGroupClient(GroupClient $groupClient)
     {
-        $this->groupClient = $groupClient;
-
-        return $this;
+        $this->groupClients->add($groupClient);
     }
+
+    /**
+     * @param GroupClient $groupClient
+     */
+    public function removeGroupClient(GroupClient $groupClient)
+    {
+        $this->groupClients->removeElement($groupClient);
+    }
+
 
     /**
      * @return string
@@ -220,5 +260,116 @@ class Broker extends AbstractSalesForceObjectEntity
         $this->notes = $notes;
 
         return $this;
+    }
+
+    /**
+     * @return User[]|ArrayCollection
+     */
+    public function getUsers()
+    {
+        return $this->users;
+    }
+
+    /**
+     * @param User[]|ArrayCollection $users
+     * @return Broker
+     */
+    public function setUsers($users)
+    {
+        $this->users = $users;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBankName()
+    {
+        return $this->bankName;
+    }
+
+    /**
+     * @param string $bankName
+     * @return Broker
+     */
+    public function setBankName($bankName)
+    {
+        $this->bankName = $bankName;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRoutingNumber()
+    {
+        return $this->routingNumber;
+    }
+
+    /**
+     * @param string $routingNumber
+     * @return Broker
+     */
+    public function setRoutingNumber($routingNumber)
+    {
+        $this->routingNumber = $routingNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAccountNumber()
+    {
+        return $this->accountNumber;
+    }
+
+    /**
+     * @param string $accountNumber
+     * @return Broker
+     */
+    public function setAccountNumber($accountNumber)
+    {
+        $this->accountNumber = $accountNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAccountType()
+    {
+        return $this->accountType;
+    }
+
+    /**
+     * @param string $accountType
+     * @return Broker
+     */
+    public function setAccountType($accountType)
+    {
+        $this->accountType = $accountType;
+
+        return $this;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function addUser(User $user)
+    {
+        $this->users->add($user);
+    }
+
+    /**
+     * @param User $user
+     */
+    public function removeUser(User $user)
+    {
+        $this->users->removeElement($user);
     }
 }

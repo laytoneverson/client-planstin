@@ -3,13 +3,16 @@
 namespace App\Http\Controllers\Register;
 
 use App\Entities\BenefitPlan;
+use App\Entities\GroupClient;
 use App\Exceptions\InvalidPasswordException;
+use App\Exceptions\SalesForce\SalesForceApiException;
 use App\Exceptions\UserAlreadyExistsException;
 use App\Form\GroupClientAgreementFormType;
 use App\Form\GroupClientFormType;
 use App\Form\GroupClientServicesOfferedFormType;
 use App\Form\Handler\GroupClientServicesOfferedFormHandler;
 use App\Services\ClientRegistrationService;
+use App\Services\SalesForce\Persistence\GroupClientPersistenceService;
 use App\Services\UserAccountService;
 use App\Utils\UsesEntityManagerTrait;
 use Barryvdh\Form\CreatesForms;
@@ -58,32 +61,20 @@ class ClientRegisterController extends Controller
         $form = $this->createForm(NewUserType::class, $newUser);
         $form->handleRequest($request);
 
-        $moveOn = false;
         if ($form->isValid()) {
 
             try {
 
                 $this->accountService->createNewUserAccount($newUser);
-                $moveOn = true;
 
             } catch (UserAlreadyExistsException $exception) {
 
-                try {
+                $request->session()->flash(
+                    'A user with this account already exists... please login to continue.'
+                );
 
-                    $this->accountService->authenticateUser($newUser);
-                    $moveOn = true;
-
-                } catch (InvalidPasswordException $exception) {
-
-                    $request->session()->flash(
-                        'A user with this account already exists but the password does not match.'
-                    );
-                }
+                return \redirect()->route('login.client');
             }
-        }
-
-        if($moveOn) {
-            return \redirect()->route('register.client.profile');
         }
 
         return $this->view(
@@ -98,8 +89,13 @@ class ClientRegisterController extends Controller
     public function profile(Request $request)
     {
         $user = $this->accountService->getCurrentUser();
+
         if (!$groupClient = $user->getGroupClient()) {
-            $groupClient = $this->clientRegistration->prepareNewClient();
+            $groupClient = new GroupClient();
+            $groupClient->setSignupStep(GroupClient::ENROLL_STEP_PROFILE);
+            $user
+                ->setAdminOf($groupClient)
+                ->setGroupClient($groupClient);
         }
 
         $form = $this
@@ -107,13 +103,34 @@ class ClientRegisterController extends Controller
             ->handleRequest($request);
 
         if ($form->isValid()) {
+            
+            /** @var GroupClientPersistenceService $persistenceService */
+            $persistenceService = GroupClient::getSalesForcePersistenceService();
 
-            if ($success = $this->clientRegistration->insertSalesForceClient($groupClient)) {
+            try {
+                
+                if ($groupClient->getSfObjectId()) {
+                    $persistenceService->updateObject($groupClient);
+                } else {
+                    $persistenceService->addObject($groupClient);
+                    $this->getEntityManager()->persist($groupClient);
+                    $this->getEntityManager()->persist($groupClient->getPrimaryContact());
+                }
+                $groupClient->setSignupStep(GroupClient::ENROLL_STEP_SERVICES);
+
+                $this->getEntityManager()->flush();
                 return \redirect()->route('register.client.services');
+            
+            } catch (SalesForceApiException $apiException) {
+
+                $request->session()->flash('error', $apiException->getMessage());
+                \report($apiException);
+                throw $apiException;
+
+            } catch (\Throwable $throwable) {
+
+                throw $throwable;
             }
-
-            $request->session()->flash('error', $this->clientRegistration->getError());
-
         }
 
         return $this->view(
@@ -127,19 +144,8 @@ class ClientRegisterController extends Controller
     public function services(Request $request)
     {
         /** @var BenefitPlan[] $plans */
-        $plans = $this->getBenefitPlanRepository()->getActiveBenefitPlans();
+        $plans = $this->getBenefitPlanFamilyRepository()->findAllPlanFamilies();
         $client = $this->accountService->getCurrentUser()->getGroupClient();
-
-        $planFamilies = BenefitPlan::getPlanFamilies();
-
-        $viewPlans = [];
-        foreach ($planFamilies as $k => $planFamily) {
-            $viewPlans[$planFamily] = [];
-        }
-
-        foreach ($plans as $plan) {
-            $viewPlans[$plan->getPlanFamily()][] = $plan;
-        }
 
         /**
          * @var GroupClientServicesOfferedFormHandler $formHandler
@@ -155,10 +161,15 @@ class ClientRegisterController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid() && $form->isSubmitted()) {
+
             $formHandler->updateSelectedPlans();
+
             try {
+                //plans are automatically added to sales force on flush using an event subscriber.
+                $client->setSignupStep(GroupClient::ENROLL_STEP_AGREEMENT);
                 $this->entityManager->flush();
                 return \redirect()->route('register.client.agreements');
+
             } catch (\Throwable $exception) {
 
                 $request->session()->flash('error', $exception->getMessage());
@@ -170,7 +181,8 @@ class ClientRegisterController extends Controller
 
         return $this->view(
             'client.register.services', [
-                'planCategories' => $viewPlans,
+                'currentGroupClientPlans' => $client->getPlansOffered(),
+                'planCategories' => $plans,
                 'form' => $form->createView(),
             ]
         );
@@ -187,12 +199,16 @@ class ClientRegisterController extends Controller
 
         if ($form->isValid() && $form->isSubmitted()) {
 
-            $groupClient->setForUpdate();
             try {
+
+                $persistenceService = GroupClient::getSalesForcePersistenceService();
+                $persistenceService->updateObject($groupClient);
+                $groupClient->setSignupStep(GroupClient::ENROLL_STEP_BILLING);
 
                 $this->entityManager->flush();
 
                 return \redirect()->route('register.client.billing');
+
             } catch (\Throwable $exception) {
 
                 $request->session()->flash('error', $exception->getMessage());
