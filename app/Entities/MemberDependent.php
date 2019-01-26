@@ -85,7 +85,8 @@ class MemberDependent extends AbstractSalesForceObjectEntity
             'Last_Name__c' => 'lastName',
             'Gender__c' => 'gender',
             'SSN_TIN__c' => 'socialSecurityNumber',
-            'Dependents_Relation__c' => 'dependentsRelation',
+            'Dependents_Relation__c' => 'dependentRelation',
+            'Migrated_From_Member__c' => 'Migrated_From_Member__c',
         ];
     }
 
@@ -317,6 +318,5 @@ class MemberDependent extends AbstractSalesForceObjectEntity
     {
         $this->prefix = $prefix;
     }
-
 
 }

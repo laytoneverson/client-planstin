@@ -7,6 +7,7 @@
 
 namespace App\Repositories;
 
+use App\Entities\BenefitPlan;
 use Doctrine\ORM\EntityRepository;
 
 class BenefitPlanRepository extends EntityRepository
@@ -29,5 +30,19 @@ class BenefitPlanRepository extends EntityRepository
             ->getQuery();
 
         return $query->getResult();
+    }
+
+    /**
+     * @param $planName
+     * @return BenefitPlan
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findByPlanName($planName)
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.benefitPlanName = :planName')
+            ->setParameter('planName', trim($planName))
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

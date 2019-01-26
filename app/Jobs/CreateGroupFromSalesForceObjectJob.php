@@ -55,20 +55,25 @@ class CreateGroupFromSalesForceObjectJob implements ShouldQueue
         $this->entityManager = $entityManager;
 
         $contacts = $this->getContacts();
-        if(0 === count($contacts)) {
-            //If there is no contact associated with the group we don't create it.
-            return;
-        }
-
-        $primaryContact = $contacts[0];
         $contact = new Contact();
-        $contact->setSfObjectId($primaryContact->Id);
-
         $group = new GroupClient();
         $group
             ->setSignupStep(GroupClient::ENROLL_STEP_PROFILE)
             ->setPrimaryContact($contact)
             ->setSfObjectId($this->sfGroupObject->Id);
+
+        if(0 !== count($contacts)) {
+            $primaryContact = $contacts[0];
+            $contact->setSfObjectId($primaryContact->Id);
+        } else {
+            $emailAddress = \sprintf("%s-%s-noemail@planstin.com", 'group', $this->sfGroupObject->Id);
+            $contact->setLastName('No Group')
+                ->setFirstName('Contact')
+                ->setEmail($emailAddress);
+
+            $contactPersistenceService = Contact::getSalesForcePersistenceService();
+            $contactPersistenceService->addObject($contact);
+        }
 
         $broker = $this->getBrokerRepository()
             ->findBySalesForceObjectId($this->sfGroupObject->Affiliate_Assigned__c);

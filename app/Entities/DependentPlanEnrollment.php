@@ -29,11 +29,15 @@ class DependentPlanEnrollment extends AbstractSalesForceObjectEntity
      */
     private $memberDependent;
 
+    private $memberDependentSfId;
+
     /**
      * @var MemberPlanEnrollment
      * @ORM\ManyToOne(targetEntity="MemberPlanEnrollment", inversedBy="dependentPlanEnrollments")
      */
     private $memberPlanEnrollment;
+
+    private $memberPlanEnrollmentSfId;
 
     /**
      * @inheritDoc
@@ -58,6 +62,8 @@ class DependentPlanEnrollment extends AbstractSalesForceObjectEntity
     {
         return [
             'Id' => 'sfObjectId',
+            'Member_Dependent__c' => 'memberDependentSfId',
+            'Member_Plan__c' => 'memberPlanEnrollmentSfId',
         ];
     }
 
@@ -89,6 +95,26 @@ class DependentPlanEnrollment extends AbstractSalesForceObjectEntity
     }
 
     /**
+     * @return string
+     */
+    public function getMemberDependentSfId()
+    {
+        if ($this->memberDependent) {
+            return $this->memberDependent->getSfObjectId();
+        }
+
+        return $this->memberDependentSfId;
+    }
+
+    /**
+     * @param mixed $memberDependentSfId
+     */
+    public function setMemberDependentSfId($memberDependentSfId): void
+    {
+        $this->memberDependentSfId = $memberDependentSfId;
+    }
+
+    /**
      * @return MemberPlanEnrollment
      */
     public function getMemberPlanEnrollment()
@@ -105,5 +131,25 @@ class DependentPlanEnrollment extends AbstractSalesForceObjectEntity
         $this->memberPlanEnrollment = $memberPlanEnrollment;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMemberPlanEnrollmentSfId()
+    {
+        if ($this->memberPlanEnrollment) {
+            return $this->memberPlanEnrollment->getSfObjectId();
+        }
+
+        return $this->memberPlanEnrollmentSfId;
+    }
+
+    /**
+     * @param string $memberPlanEnrollmentSfId
+     */
+    public function setMemberPlanEnrollmentSfId($memberPlanEnrollmentSfId)
+    {
+        $this->memberPlanEnrollmentSfId = $memberPlanEnrollmentSfId;
     }
 }

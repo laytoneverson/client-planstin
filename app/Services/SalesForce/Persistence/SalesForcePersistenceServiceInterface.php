@@ -26,5 +26,5 @@ interface SalesForcePersistenceServiceInterface
 
     public function syncChildrenOfObject(AbstractSalesForceObjectEntity $entity, array $childrenClasses = []);
 
-
+    public function getObjectDataBySalesfoceId($entityClass, $sfObjectId);
 }

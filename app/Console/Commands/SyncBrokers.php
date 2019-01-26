@@ -47,7 +47,8 @@ class SyncBrokers extends Command
      */
     public function handle()
     {
-        $records = $this->fetchAffiliates();
+        $persistenceService = Broker::getSalesForcePersistenceService();
+        $records = $persistenceService->getAllObjectRecords(Broker::class);
 
         foreach($records as $record) {
             $group = $this->getBrokerRepository()->findBySalesForceObjectId($record->Id);
@@ -56,17 +57,5 @@ class SyncBrokers extends Command
                 CreateBrokerFromSalesForceJob::dispatch($record);
             }
         }
-    }
-
-    private function fetchAffiliates()
-    {
-        $dto = new SOQLQuerySelectObjectRowsDto(Broker::class);
-
-        /** @var SOQLQuery $SOQLQuery */
-        $SOQLQuery = app(SOQLQuery::class);
-        $SOQLQuery->setData($dto);
-        $SOQLQuery->execute();
-
-        return $dto->getReturnData()->records;
     }
 }

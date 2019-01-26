@@ -53,7 +53,7 @@ class CreateMemberFromSalesforceObject implements ShouldQueue
 
         $group = $groupRepository->findBySalesForceObjectId($this->memberRecord->Group__c);
         if (!$group) {
-            throw new \RuntimeException("Group not found: " . $this->memberRecord->Group__c);
+            throw new \RuntimeException('Group not found: '. $this->memberRecord->Group__c);
         }
 
         $emailAddress = !empty($this->memberRecord->Email)

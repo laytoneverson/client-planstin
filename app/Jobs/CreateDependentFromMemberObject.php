@@ -58,15 +58,19 @@ class CreateDependentFromMemberObject implements ShouldQueue
             ->setGender($this->sfMemberObject->Gender__c)
             ->setMember($member)
             ->setSocialSecurityNumber($this->sfMemberObject->SSN_TIN__c)
-            ->setDependentRelation($this->sfMemberObject->Relationship__c);
+            ->setDependentRelation($this->sfMemberObject->Relationship__c)
+            ->Migrated_From_Member__c = $this->sfMemberObject->Id;
 
         $persistenceService = MemberDependent::getSalesForcePersistenceService();
         $persistenceService->addObject($dependentRecord, ['Id', 'Name']);
         $entityManager->persist($dependentRecord);
         $entityManager->flush();
 
-        $persistenceService->getSalesForceObjectData($member);
-        $member->Migrated_To_Dependent__c = true;
-        $persistenceService->updateObject($member, ['Id', 'Name']);
+        $tmpMemberObject = new Member();
+        $tmpMemberObject->setSfObjectId($this->sfMemberObject->Id);
+        $persistenceService->getSalesForceObjectData($tmpMemberObject);
+        $tmpMemberObject->Migrated_To_Dependent__c = true;
+
+        $persistenceService->updateObject($tmpMemberObject, ['Id', 'Name']);
     }
 }

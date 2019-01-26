@@ -31,7 +31,18 @@ class SalesForceApiError
 
     public function getError()
     {
-        return $this->responseBody->message;
+        $message = '';
+        if (\is_array($this->responseBody)) {
+            foreach ($this->responseBody as $responseItem) {
+                $message .= $responseItem->message . "\n";
+            }
+        } else {
+            if (isset($this->responseBody->message)) {
+                $message = $this->responseBody->message;
+            }
+        }
+
+        return $message;
     }
 
     public function getErrorCode()

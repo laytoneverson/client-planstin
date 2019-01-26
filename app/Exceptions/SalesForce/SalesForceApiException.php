@@ -8,13 +8,10 @@
 
 namespace App\Exceptions\SalesForce;
 
-use AbstractSalesForceApiCall;
 use App\Services\SalesForce\ApiCall\AbstractRestApiCall;
 use App\Services\SalesForce\SalesForceApiError;
-use Exception;
-use GuzzleHttp\Psr7\Response;
 
-class SalesForceApiException extends Exception
+class SalesForceApiException extends \Exception
 {
     protected $format = 'The api call %s returned an error: %s';
 
@@ -32,6 +29,7 @@ class SalesForceApiException extends Exception
         SalesForceApiError $apiError,
         \Throwable $previous = null
     ) {
+
         $this->apiCall = $apiCall;
         $this->apiError = $apiError;
 

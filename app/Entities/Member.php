@@ -182,37 +182,48 @@ class Member extends AbstractSalesForceObjectEntity
             'Name' => 'memberNumber',
 
             //Unmapped
+
+            'Relationship__c' => 'Relationship__c',
+            'Legacy_Number__c' => 'Legacy_Number__c',
+            'Sponsor__c' => 'Sponsor__c',
+
             'Accident_Effective__c' => 'Accident_Effective__c',
             'Accident_Plan__c' => 'Accident_Plan__c',
             'Accident_Rate__c' => 'Accident_Rate__c',
             'Accident_Term__c' => 'Accident_Term__c',
+            'Policy_Number__c' => 'Policy_Number__c',
+
             'Catastrophic_Plan__c' => 'Catastrophic_Plan__c',
             'Catastrophic_Plan_Effective__c' => 'Catastrophic_Plan_Effective__c',
             'Catastrophic_Plan_Term__c' => 'Catastrophic_Plan_Term__c',
             'Catastrophic_Rate__c' => 'Catastrophic_Rate__c',
             'Catastrophic_Tier__c' => 'Catastrophic_Tier__c',
+
             'Critical_Illness__c' => 'Critical_Illness__c',
             'Critical_Illness_Effective__c' => 'Critical_Illness_Effective__c',
             'Critical_Illness_Rate__c' => 'Critical_Illness_Rate__c',
             'Critical_Illness_Term__c' => 'Critical_Illness_Term__c',
+            'Policy_ID__c' => 'Policy_ID__c',
+
             'Dental_Effective__c' => 'Dental_Effective__c',
             'Dental_Plan__c' => 'Dental_Plan__c',
             'Dental_Rate__c' => 'Dental_Rate__c',
             'Dental_Term__c' => 'Dental_Term__c',
             'Dental_Tier__c' => 'Dental_Tier__c',
+
             'Health_Plan__c' => 'Health_Plan__c',
             'Health_Plan_Effective__c' => 'Health_Plan_Effective__c',
             'Health_Plan_Rate__c' => 'Health_Plan_Rate__c',
             'Health_Plan_Term__c' => 'Health_Plan_Term__c',
             'Health_Tier__c' => 'Health_Tier__c',
-            'Legacy_Number__c' => 'Legacy_Number__c',
-            'Relationship__c' => 'Relationship__c',
-            'Sponsor__c' => 'Sponsor__c',
+
             'Vision_Effective__c' => 'Vision_Effective__c',
             'Vision_Plan__c' => 'Vision_Plan__c',
             'Vision_Rate__c' => 'Vision_Rate__c',
             'Vision_Term__c' => 'Vision_Term__c',
             'Vision_Tier__c' => 'Vision_Tier__c',
+
+
             'Migrated_To_Dependent__c' => 'Migrated_To_Dependent__c',
             'Migrated_Enrolled_Plans__c' => 'Migrated_Enrolled_Plans__c',
             'Migrated_Attachments__c' => 'Migrated_Attachments__c',

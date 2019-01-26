@@ -17,6 +17,7 @@ use App\Services\SalesForce\ApiCall\SOQLQuery;
 use App\Services\SalesForce\ApiCall\UpdateObject;
 use App\Services\SalesForce\Dto\AddObjectDto;
 use App\Services\SalesForce\Dto\GetObjectChildrenDto;
+use App\Services\SalesForce\Dto\GetSalesForceObjectByIdDto;
 use App\Services\SalesForce\Dto\GetSalesForceObjectDataDto;
 use App\Services\SalesForce\Dto\SOQLQueryDto;
 use App\Services\SalesForce\Dto\SOQLQuerySelectObjectRowsDto;
@@ -96,6 +97,16 @@ class GenericPersistenceService implements SalesForcePersistenceServiceInterface
         } catch (\Throwable $exception) {
             report($exception);
         }
+    }
+
+    public function getObjectDataBySalesfoceId($entityClass, $sfObjectId)
+    {
+        $dto = new GetSalesForceObjectByIdDto($entityClass, $sfObjectId);
+        $service = $this->getGetObjectService();
+        $service->setData($dto);
+        $service->execute();
+
+        return $dto->getData();
     }
 
     public function getAllObjectRecords($entityClass)

@@ -13,10 +13,10 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repositories\MemberDependentRepository")
+ * @ORM\Entity(repositoryClass="App\Repositories\MemberPlanEnrollmentRepository")
  * @ORM\Table(name="member_plan_entrollment")
  */
-class MemberPlanEnrollment
+class MemberPlanEnrollment extends AbstractSalesForceObjectEntity
 {
 
     /**
@@ -33,12 +33,16 @@ class MemberPlanEnrollment
      */
     private $member;
 
+    private $memberSfId;
+
     /**
      * @ORM\ManyToOne(targetEntity="BenefitPlan", inversedBy="memberEnrollments")
      *
      * @var BenefitPlan
      */
     private $benefitPlan;
+
+    private $benefitPlanSfId;
 
     /**
      * @ORM\OneToMany(targetEntity="DependentPlanEnrollment", mappedBy="memberPlanEnrollment")
@@ -54,6 +58,48 @@ class MemberPlanEnrollment
     private $planRate;
 
     private $coverageTier;
+
+    private $planstinAdmin = false;
+
+    private $contributionAmount;
+
+    private $externalPolicyNumber;
+
+    /**
+     * @inheritDoc
+     */
+    public static function getSfObjectApiName(): string
+    {
+        return 'Member_Plan_Enrollment__c';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function getSfObjectFriendlyName(): string
+    {
+        return 'Member Plan Enrollments';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function getSfMapping(): array
+    {
+        return [
+            'Id' => 'sfObjectId',
+            'Benefit_Plan__c' => 'benefitPlanSfId',
+            'Contribution_Amount__c' => 'contributionAmount',
+            'Coverage_Tier__c' => 'coverageTier',
+            'Member__c' => 'memberSfId',
+            'Plan_Effective_Date__c' => 'planEffectiveDate',
+            'Plan_Rate__c' => 'planRate',
+            'Plan_Term_End__c' => 'planeTermEnd',
+            'Planstin_Admin__c' => 'planstinAdmin',
+            'External_Policy_Number__c' => 'externalPolicyNumber',
+        ];
+    }
+
 
     public function __construct()
     {
@@ -85,6 +131,46 @@ class MemberPlanEnrollment
     public function getMember()
     {
         return $this->member;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMemberSfId()
+    {
+        if ($this->member) {
+            return $this->member->getSfObjectId();
+        }
+
+        return $this->memberSfId;
+    }
+
+    /**
+     * @param mixed $memberSfId
+     */
+    public function setMemberSfId($memberSfId): void
+    {
+        $this->memberSfId = $memberSfId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBenefitPlanSfId()
+    {
+        if ($this->benefitPlan) {
+            return $this->benefitPlan->getSfObjectId();
+        }
+
+        return $this->benefitPlanSfId;
+    }
+
+    /**
+     * @param mixed $benefitPlanSfId
+     */
+    public function setBenefitPlanSfId($benefitPlanSfId): void
+    {
+        $this->benefitPlanSfId = $benefitPlanSfId;
     }
 
     /**
@@ -207,5 +293,56 @@ class MemberPlanEnrollment
     public function removeDependentPlanEnrollment(DependentPlanEnrollment $dependentPlanEnrollment)
     {
         $this->dependentPlanEnrollments->removeElement($dependentPlanEnrollment);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPlanstinAdmin()
+    {
+        return $this->planstinAdmin;
+    }
+
+    /**
+     * @param mixed $planstinAdmin
+     */
+    public function setPlanstinAdmin($planstinAdmin): void
+    {
+        $this->planstinAdmin = $planstinAdmin;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getContributionAmount()
+    {
+        return $this->contributionAmount;
+    }
+
+    /**
+     * @param mixed $contributionAmount
+     */
+    public function setContributionAmount($contributionAmount): void
+    {
+        $this->contributionAmount = $contributionAmount;
+    }
+
+    /**
+     * @return string
+     */
+    public function getExternalPolicyNumber()
+    {
+        return $this->externalPolicyNumber;
+    }
+
+    /**
+     * @param string $externalPolicyNumber
+     * @return MemberPlanEnrollment
+     */
+    public function setExternalPolicyNumber($externalPolicyNumber)
+    {
+        $this->externalPolicyNumber = $externalPolicyNumber;
+
+        return $this;
     }
 }
