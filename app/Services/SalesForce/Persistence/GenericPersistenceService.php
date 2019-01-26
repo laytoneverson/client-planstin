@@ -109,9 +109,15 @@ class GenericPersistenceService implements SalesForcePersistenceServiceInterface
         return $dto->getData();
     }
 
-    public function getAllObjectRecords($entityClass)
+    public function getAllObjectRecords($entityClass, $whereClause = null)
     {
-        $dto = new SOQLQuerySelectObjectRowsDto($entityClass);
+
+        $dto = new SOQLQuerySelectObjectRowsDto(
+            $entityClass,
+            SOQLQuerySelectObjectRowsDto::RETURN_OBJECT,
+            $whereClause
+        );
+
         $this->getSOQLQueryService()->setData($dto);
         $this->getSOQLQueryService()->execute();
 

@@ -47,6 +47,21 @@ abstract class AbstractSalesForceObjectEntity
      */
     abstract public static function getSfMapping(): array;
 
+    public function __get($name)
+    {
+        return (isset($this->$name)) ?: $this->$name;
+    }
+
+    public function __set($name, $value)
+    {
+        $this->$name = $value;
+    }
+
+    public function __isset($name)
+    {
+        return isset($this->$name);
+    }
+
     /**
      * @return SalesForceChildRelationship[]
      */

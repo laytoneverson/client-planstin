@@ -20,7 +20,7 @@ interface SalesForcePersistenceServiceInterface
 
     public function getSalesForceObjectData(AbstractSalesForceObjectEntity $entity);
 
-    public function getAllObjectRecords($entityClass);
+    public function getAllObjectRecords($entityClass, $whereClause = null);
 
     public function syncAllObjectsOfType($entityClass);
 
