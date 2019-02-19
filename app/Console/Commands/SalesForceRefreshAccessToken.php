@@ -60,6 +60,10 @@ class SalesForceRefreshAccessToken extends Command
             if ($this->confirm('Would you like to dump the exception?')) {
                 \dump($exception);
             }
+
+            $this->error('Exception thrown!');
+
+            return;
         }
 
         $this->info('New token has been created!');

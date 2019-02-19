@@ -49,7 +49,7 @@ abstract class AbstractSalesForceObjectEntity
 
     public function __get($name)
     {
-        return (isset($this->$name)) ?: $this->$name;
+        return (isset($this->$name)) ? $this->$name : null;
     }
 
     public function __set($name, $value)

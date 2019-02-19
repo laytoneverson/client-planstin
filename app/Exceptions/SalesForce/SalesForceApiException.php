@@ -33,7 +33,9 @@ class SalesForceApiException extends \Exception
         $this->apiCall = $apiCall;
         $this->apiError = $apiError;
 
-        parent::__construct(\sprintf($this->format, \get_class($apiCall), $apiError->getError()), $apiError, $previous);
+        $code = $this->apiError->getHttpResponseCode();
+
+        parent::__construct(\sprintf($this->format, \get_class($apiCall), $apiError->getError()), $code, $previous);
     }
 
     /**

@@ -732,7 +732,7 @@ class GroupClient extends AbstractSalesForceObjectEntity
     /**
      * @return string
      */
-    public function getTerminationDate(): string
+    public function getTerminationDate(): ?string
     {
         return $this->terminationDate;
     }
@@ -740,7 +740,7 @@ class GroupClient extends AbstractSalesForceObjectEntity
     /**
      * @param string $terminationDate
      */
-    public function setTerminationDate(string $terminationDate)
+    public function setTerminationDate($terminationDate)
     {
         $this->terminationDate = $terminationDate;
 

@@ -64,6 +64,8 @@ class DependentPlanEnrollment extends AbstractSalesForceObjectEntity
             'Id' => 'sfObjectId',
             'Member_Dependent__c' => 'memberDependentSfId',
             'Member_Plan__c' => 'memberPlanEnrollmentSfId',
+            'Plan_Term_End__c' => 'Plan_Term_End__c',
+            'Plan_Effective_Date__c' => 'Plan_Effective_Date__c',
         ];
     }
 

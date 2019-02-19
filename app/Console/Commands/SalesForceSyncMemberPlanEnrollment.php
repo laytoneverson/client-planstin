@@ -5,24 +5,26 @@ namespace App\Console\Commands;
 use App\Entities\Member;
 use App\Entities\MemberDependent;
 use App\Jobs\CreateMemberPlanEnrollments;
+use App\Repositories\MemberRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Console\Command;
 
-class SyncMemberPlanEnrollments extends Command
+class SalesForceSyncMemberPlanEnrollment extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'sales-force:sync:member-plan-enrollments';
+    protected $signature = 'sales-force:test:sync-member-plan-enrollment {sfid}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Creates plan enrollments from the member record';
+    protected $description = 'Sync a specific members plan enrollment information';
+
     /**
      * @var EntityManagerInterface
      */
@@ -46,14 +48,25 @@ class SyncMemberPlanEnrollments extends Command
      */
     public function handle()
     {
-        $persistenceService = MemberDependent::getSalesForcePersistenceService();
+        /** @var MemberRepository $memberRepository */
+        $memberRepository = $this->entityManager->getRepository(Member::class);
         $memberPersistenceService = Member::getSalesForcePersistenceService();
+        $objectId = $this->input->getArgument("sfid");
 
-        $dependents = $persistenceService->getAllObjectRecords(MemberDependent::class);
+        /** @var $member Member */
+        if (!$member = $memberRepository->findBySalesForceObjectId($objectId)) {
+            throw new \RuntimeException("Member with sfid $objectId not found in database");
+        };
 
-        foreach ($dependents as $dependent) {
+        $memberPersistenceService->getSalesForceObjectData($member);
+
+        $dependents = $member->getDependents();
+
+        /** @var MemberDependent $dependent */
+        foreach($dependents as $dependent) {
 
             try {
+                MemberDependent::getSalesForcePersistenceService()->getSalesForceObjectData($dependent);
 
                 $dependentMemberRecord = $memberPersistenceService->getObjectDataBySalesfoceId(
                     Member::class, $dependent->Migrated_From_Member__c
@@ -63,14 +76,16 @@ class SyncMemberPlanEnrollments extends Command
                     Member::class, $dependent->Member__c
                 );
 
+                $sfDependent = MemberDependent::getSalesForcePersistenceService()->getObjectDataBySalesfoceId(
+                    MemberDependent::class,
+                    $dependent->getSfObjectId()
+                );
+
                 if (!$dependentMemberRecord->Migrated_Enrolled_Plans__c) {
-                    CreateMemberPlanEnrollments::dispatch($dependent, $dependentMemberRecord, $dependentSponsorRecord);
+                    CreateMemberPlanEnrollments::dispatch($sfDependent, $dependentMemberRecord, $dependentSponsorRecord);
                 }
-
-            } catch (\Throwable $exception) {
-                report($exception);
-
-                continue;
+            } catch (\Throwable $e) {
+                report($e);
             }
         }
     }

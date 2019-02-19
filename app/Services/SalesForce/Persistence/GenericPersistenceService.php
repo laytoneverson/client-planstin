@@ -69,6 +69,8 @@ class GenericPersistenceService implements SalesForcePersistenceServiceInterface
             $this->getUpdateObjectService()->execute();
         } catch (\Throwable $exception) {
             \report($exception);
+
+            throw $exception;
         }
     }
 
@@ -85,6 +87,10 @@ class GenericPersistenceService implements SalesForcePersistenceServiceInterface
         $this->getAddObjectService()->execute();
     }
 
+    /**
+     * @param AbstractSalesForceObjectEntity $entity
+     * @throws \Throwable
+     */
     public function getSalesForceObjectData(AbstractSalesForceObjectEntity $entity)
     {
         $dto = new GetSalesForceObjectDataDto($entity);
@@ -96,6 +102,8 @@ class GenericPersistenceService implements SalesForcePersistenceServiceInterface
 
         } catch (\Throwable $exception) {
             report($exception);
+
+            throw $exception;
         }
     }
 

@@ -37,8 +37,13 @@ class SalesForceApiError
                 $message .= $responseItem->message . "\n";
             }
         } else {
+
             if (isset($this->responseBody->message)) {
                 $message = $this->responseBody->message;
+            }
+
+            if (isset($this->responseBody->error_description)) {
+                $message .= $this->responseBody->error . ' ' . $this->responseBody->error_description;
             }
         }
 

@@ -63,7 +63,7 @@ class CreateMemberPlanEnrollments implements ShouldQueue
         $this->entityManager = $entityManager;
 
         $memberEnrollmentRepository = $entityManager->getRepository(MemberPlanEnrollment::class);
-        $memberDependentRepository = $entityManager->getRepository(DependentPlanEnrollment::class);
+        $memberDependentPlanEnrollmentRepository = $entityManager->getRepository(DependentPlanEnrollment::class);
 
         $dependentId = $this->dependentRecord->Id;
         $dependent = $entityManager
@@ -91,20 +91,12 @@ class CreateMemberPlanEnrollments implements ShouldQueue
                     ->findMemberPlanEnrollment($member, $recordPlan['plan']);
 
                 if (!$planEnrollment) {
-                    $planEnrollment = $this->addMemberPlanEnrollment(
-                        $member,
-                        $recordPlan['plan'],
-                        $recordPlan['tier'],
-                        $recordPlan['effective'],
-                        $recordPlan['rate'],
-                        $recordPlan['term'],
-                        $recordPlan['external_policy_number']
-                    );
 
+                    $planEnrollment = $this->addMemberPlanEnrollment($member, $recordPlan);
                     $entityManager->persist($planEnrollment);
                 }
 
-                $dependentPlanEnrollment = $memberDependentRepository->findOneBy([
+                $dependentPlanEnrollment = $memberDependentPlanEnrollmentRepository->findOneBy([
                     'memberDependent' => $dependent,
                     'memberPlanEnrollment' => $planEnrollment,
                 ]);
@@ -112,7 +104,8 @@ class CreateMemberPlanEnrollments implements ShouldQueue
                 if (!$dependentPlanEnrollment) {
 
                     $dependentPlanEnrollment = new DependentPlanEnrollment();
-                    $dependentPlanEnrollment->setMemberDependent($dependent)
+                    $dependentPlanEnrollment
+                        ->setMemberDependent($dependent)
                         ->setMemberPlanEnrollment($planEnrollment);
 
                     DependentPlanEnrollment::getSalesForcePersistenceService()
@@ -121,37 +114,35 @@ class CreateMemberPlanEnrollments implements ShouldQueue
                     $entityManager->persist($dependentPlanEnrollment);
                 }
 
+                $dependentPlanEnrollment->Plan_Term_End__c = $recordPlan['term'];
+                $dependentPlanEnrollment->Plan_Effective_Date__c = $recordPlan['effective'];
+
+                DependentPlanEnrollment::getSalesForcePersistenceService()
+                    ->updateObject($dependentPlanEnrollment, ['Id', 'Member_Plan__c', 'Member_Dependent__c']);
             }
 
-            $entityManager->flush();
-
-            $tempMember = New Member();
-            $tempMember->setSfObjectId($this->dependentMemberRecord->Id);
-            Member::getSalesForcePersistenceService()->getSalesForceObjectData($tempMember);
-            $tempMember->Migrated_Enrolled_Plans__c = true;
-            Member::getSalesForcePersistenceService()->updateObject($tempMember);
-
         }
+
+        $entityManager->flush();
+
+        $tempMember = New Member();
+        $tempMember->setSfObjectId($this->dependentMemberRecord->Id);
+        Member::getSalesForcePersistenceService()->getSalesForceObjectData($tempMember);
+        $tempMember->Migrated_Enrolled_Plans__c = true;
+        Member::getSalesForcePersistenceService()->updateObject($tempMember, ['Id', 'Name']);
     }
 
-    private function addMemberPlanEnrollment(
-        Member $member,
-        BenefitPlan $plan,
-        $tier = null,
-        $effective = null,
-        $rate = null,
-        $term = null,
-        $policyNumber = null
-    ) {
+    private function addMemberPlanEnrollment(Member $member, $recordPlan)
+    {
         $memberPlanEnrollment = new MemberPlanEnrollment();
         $memberPlanEnrollment
             ->setMember($member)
-            ->setBenefitPlan($plan)
-            ->setCoverageTier($tier)
-            ->setPlanEffectiveDate($effective)
-            ->setPlanRate($rate)
-            ->setPlaneTermEnd($term)
-            ->setExternalPolicyNumber($policyNumber);
+            ->setBenefitPlan($recordPlan['plan'])
+            ->setCoverageTier($recordPlan['tier'])
+            ->setPlanEffectiveDate($recordPlan['effective'])
+            ->setPlanRate($recordPlan['rate'])
+            ->setPlaneTermEnd($recordPlan['term'])
+            ->setExternalPolicyNumber($recordPlan['external_policy_number']);
 
         MemberPlanEnrollment::getSalesForcePersistenceService()
             ->addObject($memberPlanEnrollment);
